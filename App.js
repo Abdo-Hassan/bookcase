@@ -11,14 +11,22 @@ import Search from './screens/Search';
 
 const Tab = createBottomTabNavigator();
 
+const config = {
+  dependencies: {
+    'linear-gradient': require('expo-linear-gradient').LinearGradient,
+  },
+};
+
 export default function App() {
   return (
     <NavigationContainer>
-      <NativeBaseProvider>
-        <StatusBar style='auto' />
+      <NativeBaseProvider config={config}>
+        <StatusBar style='light' />
         <Tab.Navigator
           screenOptions={{
             tabBarActiveTintColor: '#6C63FF',
+            headerShown: false,
+            tabBarStyle: { backgroundColor: '#212121', borderTopWidth: 0 },
           }}
         >
           <Tab.Screen

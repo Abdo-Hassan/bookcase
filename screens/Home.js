@@ -1,12 +1,28 @@
 import React from 'react';
-import { Button, Center } from 'native-base';
+import { Box, Center, Heading, HStack, Text } from 'native-base';
+import { Ionicons } from '@expo/vector-icons';
+import { TouchableOpacity } from 'react-native';
 
 export default function Home({ navigation }) {
   return (
-    <Center flex={1} px={3}>
-      <Button onPress={() => navigation.navigate('Search')}>
-        Go to Search
-      </Button>
-    </Center>
+    <Box
+      flex={1}
+      bg={{
+        linearGradient: {
+          colors: ['#6C63FF', '#000'],
+          start: [0, 0],
+          end: [0, 0.2],
+        },
+      }}
+    >
+      <HStack my='20' alignItems='center'>
+        <Text bold fontSize='28' ml='3' color='#fff' flex={0.92}>
+          Good afternoon!
+        </Text>
+        <TouchableOpacity>
+          <Ionicons name='notifications-outline' size={25} color='#fff' />
+        </TouchableOpacity>
+      </HStack>
+    </Box>
   );
 }
