@@ -1,9 +1,9 @@
 import React from 'react';
-import { Box, Center, Heading, HStack, Text } from 'native-base';
+import { Box, HStack, Text } from 'native-base';
 import { Ionicons } from '@expo/vector-icons';
 import { TouchableOpacity } from 'react-native';
 
-export default function Home({ navigation }) {
+export default function Home() {
   return (
     <Box
       flex={1}
