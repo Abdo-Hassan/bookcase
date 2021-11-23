@@ -7,11 +7,11 @@ import { AntDesign, MaterialIcons, Ionicons } from '@expo/vector-icons';
 import { onAuthStateChanged } from 'firebase/auth';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { auth } from './firebase';
-import Home from './screens/Home';
-import Profile from './screens/auth/Profile';
+import Home from './screens/home/Home';
+import Profile from './screens/profile/Profile';
 import Guest from './screens/auth/Guest';
-import Bookshelf from './screens/Bookshelf';
-import Search from './screens/Search';
+import Bookshelf from './screens/home/Bookshelf';
+import Search from './screens/home/Search';
 
 LogBox.ignoreLogs([
   'AsyncStorage has been extracted from react-native core and will be removed in a future release.',
