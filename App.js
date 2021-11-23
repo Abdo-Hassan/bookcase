@@ -26,18 +26,18 @@ const configGradient = {
 };
 
 export default function App() {
-  const [currentUser, setCurrentUser] = useState(false);
+  const [currentUser, setCurrentUser] = useState(true);
   const [currentUserInfo, setCurrentUserInfo] = useState('');
 
   // firebase listen to user
-  onAuthStateChanged(auth, (user) => {
-    if (user != null) {
-      setCurrentUser(true);
-      setCurrentUserInfo(user);
-    } else {
-      setCurrentUser(false);
-    }
-  });
+  // onAuthStateChanged(auth, (user) => {
+  //   if (user != null) {
+  //     setCurrentUser(true);
+  //     setCurrentUserInfo(user);
+  //   } else {
+  //     setCurrentUser(false);
+  //   }
+  // });
 
   return (
     <NavigationContainer>
