@@ -29,6 +29,7 @@ export default function App() {
   const [currentUser, setCurrentUser] = useState(false);
   const [currentUserInfo, setCurrentUserInfo] = useState('');
 
+  // firebase listen to user
   onAuthStateChanged(auth, (user) => {
     if (user != null) {
       setCurrentUser(true);
