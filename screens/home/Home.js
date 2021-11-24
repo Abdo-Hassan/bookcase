@@ -13,9 +13,16 @@ import {
   AspectRatio,
   Stack,
 } from 'native-base';
-import { TouchableOpacity, Dimensions } from 'react-native';
+import { TouchableOpacity } from 'react-native';
+import BookList from '../../components/BookList';
 
-const width = Dimensions.get('screen').width;
+let DummyBooks = [
+  { id: 1, image: require('../../assets/elda7e7.png') },
+  { id: 2, image: require('../../assets/bookListCover.jpg') },
+  { id: 3, image: require('../../assets/bookListCover1.jpg') },
+  { id: 4, image: require('../../assets/bookListCover2.jpg') },
+  { id: 5, image: require('../../assets/bookCover.jpg') },
+];
 
 export default function Home() {
   return (
@@ -40,7 +47,7 @@ export default function Home() {
       </HStack>
 
       {/* list of books */}
-      <VStack>
+      <VStack h='xl'>
         <ScrollView>
           <TouchableOpacity activeOpacity={0.6}>
             <Box mx='4' my='1'>
@@ -89,6 +96,8 @@ export default function Home() {
               />
             </Box>
           </TouchableOpacity>
+
+          <BookList DummyBooks={DummyBooks} title=' الأكثر استماعا اليوم' />
 
           {/* book of the month */}
           <Box ml='5' mt='5'>
@@ -169,6 +178,9 @@ export default function Home() {
               </Box>
             </Box>
           </TouchableOpacity>
+
+          <BookList DummyBooks={DummyBooks} title='جديد الاسبوع' />
+          <BookList DummyBooks={DummyBooks} title='قريبا على بوكيس' />
 
           <TouchableOpacity activeOpacity={0.6}>
             <Box mx='4' my='1'>
