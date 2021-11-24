@@ -12,8 +12,8 @@ export default function Home() {
         headerShown: false,
       }}
     >
-      <Stack.Screen name='Welcome' component={BooksOverview} />
-      <Stack.Screen name='Register' component={BookListDetails} />
+      <Stack.Screen name='BooksOverview' component={BooksOverview} />
+      <Stack.Screen name='BookListDetails' component={BookListDetails} />
     </Stack.Navigator>
   );
 }

@@ -3,7 +3,7 @@ import React from 'react';
 import { Feather } from '@expo/vector-icons';
 import { FlatList, TouchableOpacity } from 'react-native';
 
-export default function BookList({ DummyBooks, title }) {
+export default function BookList({ DummyBooks, title, navigation }) {
   const renderBookList = ({ item }) => {
     return (
       <TouchableOpacity activeOpacity={0.6}>
@@ -21,7 +21,7 @@ export default function BookList({ DummyBooks, title }) {
         <Image
           source={item.image}
           alt='book image'
-          size={'140'}
+          size={'130'}
           rounded='lg'
           resizeMode='cover'
           my={4}
@@ -37,9 +37,23 @@ export default function BookList({ DummyBooks, title }) {
         <Heading fontSize='18' flex={1} textAlign='left' color='#fff'>
           {title}
         </Heading>
-        <Heading fontSize='17' color='#6d6c6c'>
-          See all
-        </Heading>
+        <TouchableOpacity activeOpacity={0.6}>
+          <Heading
+            fontSize='17'
+            color='#6d6c6c'
+            onPress={() =>
+              navigation.navigate('BookListDetails', {
+                books: DummyBooks,
+                image1: DummyBooks[0].image,
+                image2: DummyBooks[1].image,
+                image3: DummyBooks[2].image,
+                title,
+              })
+            }
+          >
+            See all
+          </Heading>
+        </TouchableOpacity>
       </HStack>
 
       <FlatList

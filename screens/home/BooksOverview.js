@@ -28,12 +28,12 @@ let DummyBooks1 = [
 ];
 
 let DummyBooks2 = [
-  { id: 10, image: require('../../assets/bookCover.jpg') },
   { id: 11, image: require('../../assets/bookCover9.jpg') },
   { id: 12, image: require('../../assets/bookCover8.jpg') },
   { id: 13, image: require('../../assets/bookCover4.jpg') },
   { id: 9, image: require('../../assets/elda7e7.png') },
   { id: 14, image: require('../../assets/bookCover5.jpg') },
+  { id: 10, image: require('../../assets/bookCover.jpg') },
   { id: 15, image: require('../../assets/bookCover8.jpg') },
   { id: 16, image: require('../../assets/bookCover9.jpg') },
 ];
@@ -49,7 +49,7 @@ let DummyBooks3 = [
   { id: 24, image: require('../../assets/bookCover4.jpg') },
 ];
 
-export default function BooksOverview() {
+export default function BooksOverview({ navigation }) {
   return (
     <Box
       flex={1}
@@ -63,7 +63,7 @@ export default function BooksOverview() {
       pb={4}
     >
       <HStack mt='20' mb='5' alignItems='center'>
-        <Text bold fontSize='28' ml='3' color='#fff' flex={0.92}>
+        <Text bold fontSize='26' ml='3' color='#fff' flex={0.92}>
           Good afternoon!
         </Text>
         <TouchableOpacity>
@@ -77,10 +77,11 @@ export default function BooksOverview() {
           <TouchableOpacity activeOpacity={0.6}>
             <Box mx='4' my='1'>
               <Image
-                source={require('../../assets/bookCover.jpg')}
+                source={require('../../assets/bookCover6.jpg')}
                 alt='image'
                 rounded='lg'
-                height={130}
+                height={120}
+                mb={1}
                 resizeMode='cover'
               />
               <Center
@@ -104,7 +105,8 @@ export default function BooksOverview() {
                 source={require('../../assets/bookCover4.jpg')}
                 alt='image'
                 rounded='lg'
-                height={130}
+                height={120}
+                mb={1}
                 resizeMode='cover'
               />
             </Box>
@@ -116,13 +118,18 @@ export default function BooksOverview() {
                 source={require('../../assets/bookCover5.jpg')}
                 alt='image'
                 rounded='lg'
-                height={130}
+                height={120}
+                mb={1}
                 resizeMode='cover'
               />
             </Box>
           </TouchableOpacity>
 
-          <BookList DummyBooks={DummyBooks3} title=' الأكثر استماعا اليوم' />
+          <BookList
+            navigation={navigation}
+            DummyBooks={DummyBooks3}
+            title=' الأكثر استماعا اليوم'
+          />
 
           {/* book of the month */}
           <Box ml='5' mt='5'>
@@ -204,16 +211,25 @@ export default function BooksOverview() {
             </Box>
           </TouchableOpacity>
 
-          <BookList DummyBooks={DummyBooks1} title='جديد الاسبوع' />
-          <BookList DummyBooks={DummyBooks2} title='قريبا على بوكيس' />
+          <BookList
+            navigation={navigation}
+            DummyBooks={DummyBooks1}
+            title='جديد الاسبوع'
+          />
+          <BookList
+            navigation={navigation}
+            DummyBooks={DummyBooks2}
+            title='قريبا على بوكيس'
+          />
 
           <TouchableOpacity activeOpacity={0.6}>
             <Box mx='4' my='1'>
               <Image
-                source={require('../../assets/bookCover9.jpg')}
+                source={require('../../assets/bookCover7.jpg')}
                 alt='image'
                 rounded='lg'
-                height={130}
+                height={120}
+                mb={1}
                 resizeMode='cover'
               />
             </Box>

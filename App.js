@@ -10,8 +10,8 @@ import { auth } from './firebase';
 import Home from './screens/home/Home';
 import Profile from './screens/profile/Profile';
 import Guest from './screens/auth/Guest';
-import Bookshelf from './screens/home/Bookshelf';
-import Search from './screens/home/Search';
+import Bookshelf from './screens/Bookshelf';
+import Search from './screens/Search';
 
 LogBox.ignoreLogs([
   'AsyncStorage has been extracted from react-native core and will be removed in a future release.',
