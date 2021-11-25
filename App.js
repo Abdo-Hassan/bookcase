@@ -10,8 +10,8 @@ import { auth } from './firebase';
 import Home from './screens/home/Home';
 import Profile from './screens/profile/Profile';
 import Guest from './screens/auth/Guest';
-import Bookshelf from './screens/home/Bookshelf';
-import Search from './screens/home/Search';
+import Bookshelf from './screens/Bookshelf';
+import Search from './screens/Search';
 
 LogBox.ignoreLogs([
   'AsyncStorage has been extracted from react-native core and will be removed in a future release.',
@@ -26,18 +26,18 @@ const configGradient = {
 };
 
 export default function App() {
-  const [currentUser, setCurrentUser] = useState(false);
+  const [currentUser, setCurrentUser] = useState(true);
   const [currentUserInfo, setCurrentUserInfo] = useState('');
 
   // firebase listen to user
-  onAuthStateChanged(auth, (user) => {
-    if (user != null) {
-      setCurrentUser(true);
-      setCurrentUserInfo(user);
-    } else {
-      setCurrentUser(false);
-    }
-  });
+  // onAuthStateChanged(auth, (user) => {
+  //   if (user != null) {
+  //     setCurrentUser(true);
+  //     setCurrentUserInfo(user);
+  //   } else {
+  //     setCurrentUser(false);
+  //   }
+  // });
 
   return (
     <NavigationContainer>
@@ -51,9 +51,9 @@ export default function App() {
               tabBarActiveTintColor: '#6C63FF',
               headerShown: false,
               tabBarStyle: {
-                backgroundColor: '#212121',
+                backgroundColor: '#1f1f1f',
                 borderTopWidth: 0,
-                height: 60,
+                height: 55,
                 paddingBottom: 8,
               },
             }}
@@ -64,7 +64,7 @@ export default function App() {
               options={{
                 tabBarLabel: 'Home',
                 tabBarIcon: ({ color, size }) => (
-                  <AntDesign name='book' color={color} size={size} />
+                  <AntDesign name='book' color={color} size={24} />
                 ),
               }}
             />
@@ -74,7 +74,7 @@ export default function App() {
               options={{
                 tabBarLabel: 'Search',
                 tabBarIcon: ({ color, size }) => (
-                  <AntDesign name='search1' color={color} size={size} />
+                  <AntDesign name='search1' color={color} size={24} />
                 ),
               }}
             />
@@ -87,7 +87,7 @@ export default function App() {
                   <MaterialIcons
                     name='favorite-border'
                     color={color}
-                    size={size}
+                    size={24}
                   />
                 ),
               }}
@@ -98,7 +98,7 @@ export default function App() {
               options={{
                 tabBarLabel: 'Profile',
                 tabBarIcon: ({ color, size }) => (
-                  <Ionicons name='person-outline' size={size} color={color} />
+                  <Ionicons name='person-outline' size={24} color={color} />
                 ),
               }}
             />
