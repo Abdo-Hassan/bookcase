@@ -6,17 +6,39 @@ import {
   HStack,
   Image,
   VStack,
+  Actionsheet,
+  useDisclose,
+  Icon,
   Text,
-  ScrollView,
 } from 'native-base';
 import { AntDesign } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { Feather } from '@expo/vector-icons';
-import { Entypo } from '@expo/vector-icons';
-import { TouchableOpacity } from 'react-native';
+import { Feather, MaterialIcons, Entypo } from '@expo/vector-icons';
+import { TouchableOpacity, Share } from 'react-native';
 
 export default function BookListDetails({ route, navigation }) {
   const { books, image1, image2, image3, title } = route.params;
+  const { isOpen, onOpen, onClose } = useDisclose();
+
+  const onShare = async () => {
+    try {
+      const result = await Share.share({
+        message: 'https://abdohassan.info/',
+      });
+      if (result.action === Share.sharedAction) {
+        if (result.activityType) {
+          // shared with activity type of result.activityType
+        } else {
+          // shared
+        }
+      } else if (result.action === Share.dismissedAction) {
+        // dismissed
+      }
+    } catch (error) {
+      alert(error.message);
+    }
+  };
+
   return (
     <Box
       flex={1}
@@ -69,17 +91,17 @@ export default function BookListDetails({ route, navigation }) {
           top={6}
         />
 
-        <Heading fontSize={20} textAlign='center' color='#fff' mt={20}>
+        <Heading fontSize={20} textAlign='center' color='#fff' mt={20} mb={5}>
           {title}
         </Heading>
 
-        <HStack space={8} mx={3} mb={5}>
+        <HStack space={10} mx={3} mb={5}>
           <Heading fontSize='19' color='#fff' flex={1}>
             All titles
           </Heading>
 
           <TouchableOpacity activeOpacity={0.4}>
-            <Feather name='send' size={24} color='#ccc' />
+            <Feather name='send' size={24} color='#ccc' onPress={onShare} />
           </TouchableOpacity>
 
           <TouchableOpacity activeOpacity={0.4}>
@@ -99,7 +121,7 @@ export default function BookListDetails({ route, navigation }) {
                     source={item.image}
                     alt='bookDetails'
                   />
-                  <VStack space={3} mt={2}>
+                  <VStack space={2} alignSelf='center'>
                     <Heading fontSize='15' color='#9692e6' textAlign='left'>
                       كتاب الدحيح
                     </Heading>
