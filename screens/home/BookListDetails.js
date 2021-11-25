@@ -6,19 +6,19 @@ import {
   HStack,
   Image,
   VStack,
-  Actionsheet,
-  useDisclose,
-  Icon,
   Text,
+  useDisclose,
 } from 'native-base';
 import { AntDesign } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Feather, MaterialIcons, Entypo } from '@expo/vector-icons';
 import { TouchableOpacity, Share } from 'react-native';
+import ActionSheetDetails from '../../components/ActionSheetDetails';
 
 export default function BookListDetails({ route, navigation }) {
+  const { isOpen, onClose, onOpen } = useDisclose();
+
   const { books, image1, image2, image3, title } = route.params;
-  const { isOpen, onOpen, onClose } = useDisclose();
 
   const onShare = async () => {
     try {
@@ -134,11 +134,14 @@ export default function BookListDetails({ route, navigation }) {
                   </VStack>
                 </HStack>
 
-                <TouchableOpacity activeOpacity={0.4}>
+                <TouchableOpacity activeOpacity={0.4} onPress={onOpen}>
                   <Box mt={7}>
                     <Entypo name='dots-three-vertical' size={17} color='#ccc' />
                   </Box>
                 </TouchableOpacity>
+                {/* options */}
+                <ActionSheetDetails isOpen={isOpen} onClose={onClose} />
+                {/* options */}
               </HStack>
             </Box>
           )}
