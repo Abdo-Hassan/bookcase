@@ -8,7 +8,7 @@ export default function AuthButton({ title, color }) {
       <Button
         size='lg'
         borderRadius='full'
-        style={{ backgroundColor: color }}
+        bgColor={color}
         width={320}
         p='4'
         mb='6'

@@ -1,28 +1,19 @@
 import React from 'react';
-import { Box, HStack, Text } from 'native-base';
-import { Ionicons } from '@expo/vector-icons';
-import { TouchableOpacity } from 'react-native';
+import { createStackNavigator } from '@react-navigation/stack';
+import BookListDetails from './BookListDetails';
+import BooksOverview from './BooksOverview';
+
+const Stack = createStackNavigator();
 
 export default function Home() {
   return (
-    <Box
-      flex={1}
-      bg={{
-        linearGradient: {
-          colors: ['#6C63FF', '#000'],
-          start: [0, 0],
-          end: [0, 0.2],
-        },
+    <Stack.Navigator
+      screenOptions={{
+        headerShown: false,
       }}
     >
-      <HStack my='20' alignItems='center'>
-        <Text bold fontSize='28' ml='3' color='#fff' flex={0.92}>
-          Good afternoon!
-        </Text>
-        <TouchableOpacity>
-          <Ionicons name='notifications-outline' size={25} color='#fff' />
-        </TouchableOpacity>
-      </HStack>
-    </Box>
+      <Stack.Screen name='BooksOverview' component={BooksOverview} />
+      <Stack.Screen name='BookListDetails' component={BookListDetails} />
+    </Stack.Navigator>
   );
 }
