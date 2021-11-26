@@ -15,6 +15,7 @@ import {
 } from 'native-base';
 import { TouchableOpacity } from 'react-native';
 import BookList from '../../components/BookList';
+import { primaryColor } from '../../constants/Colors';
 
 let DummyBooks1 = [
   { id: 1, image: require('../../assets/elda7e7.png') },
@@ -55,7 +56,7 @@ export default function BooksOverview({ navigation }) {
       flex={1}
       bg={{
         linearGradient: {
-          colors: ['#6C63FF', '#000'],
+          colors: [primaryColor, '#000'],
           start: [0, 0],
           end: [0, 0.2],
         },
@@ -141,7 +142,14 @@ export default function BooksOverview({ navigation }) {
             </Heading>
           </Box>
 
-          <TouchableOpacity activeOpacity={0.6}>
+          <TouchableOpacity
+            activeOpacity={0.6}
+            onPress={() =>
+              navigation.navigate('bookDetails', {
+                bookImage: require('../../assets/elda7e7.png'),
+              })
+            }
+          >
             <Box
               bg={{
                 linearGradient: {
@@ -166,7 +174,7 @@ export default function BooksOverview({ navigation }) {
                   fontWeight: 'bold',
                   color: '#fff',
                 }}
-                bgColor='#6C63FF'
+                bgColor={primaryColor}
                 right='0'
               >
                 4.7

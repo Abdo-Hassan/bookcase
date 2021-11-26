@@ -10,7 +10,7 @@ import {
 } from '@expo/vector-icons';
 import { TouchableOpacity } from 'react-native';
 
-export default function ActionSheetDetails({ isOpen, onClose, share }) {
+export default function ActionSheetDetails({ isOpen, onClose }) {
   const options = [
     {
       id: 1,
@@ -51,18 +51,6 @@ export default function ActionSheetDetails({ isOpen, onClose, share }) {
     },
     { id: 8, title: 'Share', iconName: 'send', iconType: <Feather /> },
   ];
-  // const shareBookList = share();
-
-  // const handlePress = (option) => {
-  //   const { title } = option;
-  //   console.log('handlePress - title', title);
-  //   switch (title) {
-  //     case title === 'Share':
-  //       return shareBookList;
-  //     default:
-  //       break;
-  //   }
-  // };
 
   return (
     <Actionsheet
@@ -99,7 +87,6 @@ export default function ActionSheetDetails({ isOpen, onClose, share }) {
                 name={option?.iconName}
               />
             }
-            // onPress={() => handlePress(option)}
           >
             <Text color='#fff' fontSize='16'>
               {option?.title}

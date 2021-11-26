@@ -8,15 +8,18 @@ import {
   VStack,
   useDisclose,
 } from 'native-base';
-import { AntDesign } from '@expo/vector-icons';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { Feather, MaterialIcons, Entypo } from '@expo/vector-icons';
+import {
+  MaterialCommunityIcons,
+  AntDesign,
+  Feather,
+  Entypo,
+} from '@expo/vector-icons';
 import { TouchableOpacity, Share } from 'react-native';
 import ActionSheetDetails from '../../components/ActionSheetDetails';
+import { secondaryColor, textColor } from '../../constants/Colors';
 
 export default function BookListDetails({ route, navigation }) {
   const { isOpen, onClose, onOpen } = useDisclose();
-
   const { books, image1, image2, image3, title } = route.params;
 
   const onShare = async () => {
@@ -41,9 +44,10 @@ export default function BookListDetails({ route, navigation }) {
   return (
     <Box
       flex={1}
+      pt={3}
       bg={{
         linearGradient: {
-          colors: ['#0F2C67', '#000'],
+          colors: [secondaryColor, '#000'],
           start: [0, 0],
           end: [0, 0.4],
         },
@@ -58,7 +62,7 @@ export default function BookListDetails({ route, navigation }) {
         />
       </Box>
 
-      <Box my={5}>
+      <Box mb={5}>
         <Image
           size={'120'}
           source={image1}
@@ -113,37 +117,44 @@ export default function BookListDetails({ route, navigation }) {
           data={books}
           renderItem={({ item }) => (
             <Box pl='4' pr='5' py='2'>
-              <HStack space={3}>
-                <HStack flex={1} space={4}>
-                  <Image
-                    size='100'
-                    rounded='lg'
-                    source={item.image}
-                    alt='bookDetails'
-                  />
-                  <VStack space={2} alignSelf='center'>
-                    <Heading fontSize='15' color='#9692e6' textAlign='left'>
-                      كتاب الدحيح
-                    </Heading>
-                    <Heading fontSize='15' color='#9692e6'>
-                      Audio Book
-                    </Heading>
-                    <Heading fontSize='15' color='#9692e6'>
-                      By: طاهر المعتز بالله
-                    </Heading>
-                  </VStack>
-                </HStack>
+              <HStack space={10}>
+                <TouchableOpacity
+                  activeOpacity={0.6}
+                  onPress={() =>
+                    navigation.navigate('bookDetails', {
+                      bookImage: item.image,
+                    })
+                  }
+                  flex={1}
+                >
+                  <HStack space={4}>
+                    <Image
+                      size='100'
+                      rounded='lg'
+                      source={item.image}
+                      alt='bookDetails'
+                    />
+                    <VStack space={2} alignSelf='center'>
+                      <Heading fontSize='15' color={textColor} textAlign='left'>
+                        كتاب الدحيح
+                      </Heading>
+                      <Heading fontSize='15' color={textColor}>
+                        Audio Book
+                      </Heading>
+                      <Heading fontSize='15' color={textColor}>
+                        By: طاهر المعتز بالله
+                      </Heading>
+                    </VStack>
+                  </HStack>
+                </TouchableOpacity>
 
                 <TouchableOpacity activeOpacity={0.4} onPress={onOpen}>
-                  <Box mt={7}>
+                  <Box mt={7} ml={7}>
                     <Entypo name='dots-three-vertical' size={17} color='#ccc' />
                   </Box>
                 </TouchableOpacity>
-                <ActionSheetDetails
-                  isOpen={isOpen}
-                  onClose={onClose}
-                  share={onShare}
-                />
+
+                <ActionSheetDetails isOpen={isOpen} onClose={onClose} />
               </HStack>
             </Box>
           )}

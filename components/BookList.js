@@ -2,6 +2,7 @@ import React from 'react';
 import { HStack, Heading, Badge, Image } from 'native-base';
 import { Feather, Ionicons } from '@expo/vector-icons';
 import { FlatList, TouchableOpacity } from 'react-native';
+import { primaryColor } from '../constants/Colors';
 
 export default function BookList({ DummyBooks, title, navigation }) {
   const renderBookList = ({ item }) => {
@@ -22,7 +23,7 @@ export default function BookList({ DummyBooks, title, navigation }) {
           zIndex={1}
           variant='solid'
           alignSelf='flex-end'
-          bg='#6C63FF'
+          bg={primaryColor}
         >
           <Feather name='headphones' size={14} color='#fff' />
         </Badge>

@@ -5,6 +5,7 @@ import Bookshelf from '../screens/Bookshelf';
 import Home from '../screens/books/Home';
 import Profile from '../screens/profile/Profile';
 import { AntDesign, MaterialIcons, Ionicons } from '@expo/vector-icons';
+import { primaryColor } from '../constants/Colors';
 
 const Tab = createBottomTabNavigator();
 
@@ -12,7 +13,7 @@ export default function BottomNavigation() {
   return (
     <Tab.Navigator
       screenOptions={{
-        tabBarActiveTintColor: '#6C63FF',
+        tabBarActiveTintColor: primaryColor,
         headerShown: false,
         tabBarStyle: {
           backgroundColor: '#1f1f1f',
