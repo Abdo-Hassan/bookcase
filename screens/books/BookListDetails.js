@@ -6,7 +6,6 @@ import {
   HStack,
   Image,
   VStack,
-  Text,
   useDisclose,
 } from 'native-base';
 import { AntDesign } from '@expo/vector-icons';
@@ -108,6 +107,7 @@ export default function BookListDetails({ route, navigation }) {
             <MaterialCommunityIcons name='sort' size={24} color='#ccc' />
           </TouchableOpacity>
         </HStack>
+
         <FlatList
           h='400'
           data={books}
@@ -139,9 +139,11 @@ export default function BookListDetails({ route, navigation }) {
                     <Entypo name='dots-three-vertical' size={17} color='#ccc' />
                   </Box>
                 </TouchableOpacity>
-                {/* options */}
-                <ActionSheetDetails isOpen={isOpen} onClose={onClose} />
-                {/* options */}
+                <ActionSheetDetails
+                  isOpen={isOpen}
+                  onClose={onClose}
+                  share={onShare}
+                />
               </HStack>
             </Box>
           )}

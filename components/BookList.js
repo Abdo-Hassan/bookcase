@@ -1,13 +1,19 @@
-import { HStack, Heading, Badge, Image } from 'native-base';
 import React from 'react';
+import { HStack, Heading, Badge, Image } from 'native-base';
 import { Feather, Ionicons } from '@expo/vector-icons';
-
 import { FlatList, TouchableOpacity } from 'react-native';
 
 export default function BookList({ DummyBooks, title, navigation }) {
   const renderBookList = ({ item }) => {
     return (
-      <TouchableOpacity activeOpacity={0.6}>
+      <TouchableOpacity
+        activeOpacity={0.6}
+        onPress={() =>
+          navigation.navigate('bookDetails', {
+            bookImage: item.image,
+          })
+        }
+      >
         <Badge
           rounded='full'
           mb={-9}
@@ -16,6 +22,7 @@ export default function BookList({ DummyBooks, title, navigation }) {
           zIndex={1}
           variant='solid'
           alignSelf='flex-end'
+          bg='#6C63FF'
         >
           <Feather name='headphones' size={14} color='#fff' />
         </Badge>
@@ -37,7 +44,7 @@ export default function BookList({ DummyBooks, title, navigation }) {
       <TouchableOpacity
         activeOpacity={0.6}
         onPress={() =>
-          navigation.navigate('BookListDetails', {
+          navigation.navigate('bookListDetails', {
             books: DummyBooks,
             image1: DummyBooks[0].image,
             image2: DummyBooks[1].image,

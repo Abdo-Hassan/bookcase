@@ -164,8 +164,9 @@ export default function BooksOverview({ navigation }) {
                 _text={{
                   fontSize: 18,
                   fontWeight: 'bold',
+                  color: '#fff',
                 }}
-                bgColor='#FF5403'
+                bgColor='#6C63FF'
                 right='0'
               >
                 4.7

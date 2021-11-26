@@ -10,7 +10,7 @@ import {
 } from '@expo/vector-icons';
 import { TouchableOpacity } from 'react-native';
 
-export default function ActionSheetDetails({ isOpen, onClose }) {
+export default function ActionSheetDetails({ isOpen, onClose, share }) {
   const options = [
     {
       id: 1,
@@ -51,6 +51,19 @@ export default function ActionSheetDetails({ isOpen, onClose }) {
     },
     { id: 8, title: 'Share', iconName: 'send', iconType: <Feather /> },
   ];
+  // const shareBookList = share();
+
+  // const handlePress = (option) => {
+  //   const { title } = option;
+  //   console.log('handlePress - title', title);
+  //   switch (title) {
+  //     case title === 'Share':
+  //       return shareBookList;
+  //     default:
+  //       break;
+  //   }
+  // };
+
   return (
     <Actionsheet
       isOpen={isOpen}
@@ -58,7 +71,7 @@ export default function ActionSheetDetails({ isOpen, onClose }) {
       size='full'
       hideDragIndicator
     >
-      <Actionsheet.Content bgColor='#1d1d1d'>
+      <Actionsheet.Content>
         <HStack py={3} alignItems='center' justifyContent='center'>
           <Text
             fontSize='18'
@@ -76,6 +89,7 @@ export default function ActionSheetDetails({ isOpen, onClose }) {
         <Divider mb={2} bg='#666' />
         {options.map((option) => (
           <Actionsheet.Item
+            key={option.id}
             startIcon={
               <Icon
                 as={option?.iconType}
@@ -85,6 +99,7 @@ export default function ActionSheetDetails({ isOpen, onClose }) {
                 name={option?.iconName}
               />
             }
+            // onPress={() => handlePress(option)}
           >
             <Text color='#fff' fontSize='16'>
               {option?.title}
