@@ -12,8 +12,8 @@ export default function Guest() {
         headerShown: false,
       }}
     >
-      <Stack.Screen name='Welcome' component={Welcome} />
-      <Stack.Screen name='Register' component={Register} />
+      <Stack.Screen name='welcome' component={Welcome} />
+      <Stack.Screen name='register' component={Register} />
     </Stack.Navigator>
   );
 }

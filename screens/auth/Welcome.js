@@ -7,7 +7,7 @@ import {
   Heading,
   Button,
 } from 'native-base';
-import AuthButton from '../../components/AuthButton';
+import ActionButton from '../../components/ActionButton';
 import { SwiperFlatList } from 'react-native-swiper-flatlist';
 import { Dimensions, TouchableOpacity } from 'react-native';
 const { width } = Dimensions.get('window');
@@ -73,9 +73,9 @@ export default function Welcome() {
           )}
         />
         {/* try */}
-        <AuthButton title='Register' color='#6C63FF' />
+        <ActionButton title='Register' color='#6C63FF' />
         {/* login */}
-        <AuthButton title='Log in' color='#fff' />
+        <ActionButton title='Log in' color='#fff' />
       </VStack>
     </Box>
   );
