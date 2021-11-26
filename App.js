@@ -8,6 +8,7 @@ import { auth } from './firebase';
 import Guest from './screens/auth/Guest';
 import BottomNavigation from './views/BottomNavigation';
 import { createStackNavigator } from '@react-navigation/stack';
+import ReviewDetails from './screens/ReviewDetails';
 
 const Stack = createStackNavigator();
 
@@ -50,7 +51,10 @@ export default function App() {
           {!currentUser ? (
             <Stack.Screen name='guest' component={Guest} />
           ) : (
-            <Stack.Screen name='home' component={BottomNavigation} />
+            <>
+              <Stack.Screen name='home' component={BottomNavigation} />
+              <Stack.Screen name='reviews' component={ReviewDetails} />
+            </>
           )}
         </Stack.Navigator>
       </NativeBaseProvider>
