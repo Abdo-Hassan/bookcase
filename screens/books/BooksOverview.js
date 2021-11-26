@@ -10,11 +10,11 @@ import {
   ScrollView,
   Heading,
   Badge,
-  AspectRatio,
   Stack,
 } from 'native-base';
 import { TouchableOpacity } from 'react-native';
 import BookList from '../../components/BookList';
+import { primaryColor } from '../../constants/Colors';
 
 let DummyBooks1 = [
   { id: 1, image: require('../../assets/elda7e7.png') },
@@ -55,7 +55,7 @@ export default function BooksOverview({ navigation }) {
       flex={1}
       bg={{
         linearGradient: {
-          colors: ['#6C63FF', '#000'],
+          colors: [primaryColor, '#000'],
           start: [0, 0],
           end: [0, 0.2],
         },
@@ -74,7 +74,17 @@ export default function BooksOverview({ navigation }) {
       {/* list of books */}
       <VStack h='xl'>
         <ScrollView>
-          <TouchableOpacity activeOpacity={0.6}>
+          <TouchableOpacity
+            activeOpacity={0.6}
+            onPress={() =>
+              navigation.navigate('bookListDetails', {
+                books: DummyBooks1,
+                image1: DummyBooks1[0].image,
+                image2: DummyBooks1[1].image,
+                image3: DummyBooks1[2].image,
+              })
+            }
+          >
             <Box mx='4' my='1'>
               <Image
                 source={require('../../assets/bookCover6.jpg')}
@@ -99,7 +109,17 @@ export default function BooksOverview({ navigation }) {
             </Box>
           </TouchableOpacity>
 
-          <TouchableOpacity activeOpacity={0.6}>
+          <TouchableOpacity
+            activeOpacity={0.6}
+            onPress={() =>
+              navigation.navigate('bookListDetails', {
+                books: DummyBooks2,
+                image1: DummyBooks2[0].image,
+                image2: DummyBooks2[1].image,
+                image3: DummyBooks2[2].image,
+              })
+            }
+          >
             <Box mx='4' my='1'>
               <Image
                 source={require('../../assets/bookCover4.jpg')}
@@ -112,7 +132,17 @@ export default function BooksOverview({ navigation }) {
             </Box>
           </TouchableOpacity>
 
-          <TouchableOpacity activeOpacity={0.6}>
+          <TouchableOpacity
+            activeOpacity={0.6}
+            onPress={() =>
+              navigation.navigate('bookListDetails', {
+                books: DummyBooks3,
+                image1: DummyBooks3[0].image,
+                image2: DummyBooks3[1].image,
+                image3: DummyBooks3[2].image,
+              })
+            }
+          >
             <Box mx='4' my='1'>
               <Image
                 source={require('../../assets/bookCover5.jpg')}
@@ -141,7 +171,15 @@ export default function BooksOverview({ navigation }) {
             </Heading>
           </Box>
 
-          <TouchableOpacity activeOpacity={0.6}>
+          <TouchableOpacity
+            activeOpacity={0.6}
+            onPress={() =>
+              navigation.navigate('bookDetails', {
+                books: DummyBooks1,
+                bookImage: require('../../assets/elda7e7.png'),
+              })
+            }
+          >
             <Box
               bg={{
                 linearGradient: {
@@ -164,8 +202,9 @@ export default function BooksOverview({ navigation }) {
                 _text={{
                   fontSize: 18,
                   fontWeight: 'bold',
+                  color: '#fff',
                 }}
-                bgColor='#FF5403'
+                bgColor={primaryColor}
                 right='0'
               >
                 4.7
@@ -222,7 +261,17 @@ export default function BooksOverview({ navigation }) {
             title='قريبا على بوكيس'
           />
 
-          <TouchableOpacity activeOpacity={0.6}>
+          <TouchableOpacity
+            activeOpacity={0.6}
+            onPress={() =>
+              navigation.navigate('bookListDetails', {
+                books: DummyBooks1,
+                image1: DummyBooks1[0].image,
+                image2: DummyBooks1[1].image,
+                image3: DummyBooks1[2].image,
+              })
+            }
+          >
             <Box mx='4' my='1'>
               <Image
                 source={require('../../assets/bookCover7.jpg')}

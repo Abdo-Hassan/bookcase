@@ -1,5 +1,6 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
+import BookDetails from './BookDetails';
 import BookListDetails from './BookListDetails';
 import BooksOverview from './BooksOverview';
 
@@ -12,8 +13,9 @@ export default function Home() {
         headerShown: false,
       }}
     >
-      <Stack.Screen name='BooksOverview' component={BooksOverview} />
-      <Stack.Screen name='BookListDetails' component={BookListDetails} />
+      <Stack.Screen name='booksOverview' component={BooksOverview} />
+      <Stack.Screen name='bookDetails' component={BookDetails} />
+      <Stack.Screen name='bookListDetails' component={BookListDetails} />
     </Stack.Navigator>
   );
 }
