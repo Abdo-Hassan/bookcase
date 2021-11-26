@@ -10,7 +10,6 @@ import {
   ScrollView,
   Heading,
   Badge,
-  AspectRatio,
   Stack,
 } from 'native-base';
 import { TouchableOpacity } from 'react-native';
@@ -75,7 +74,17 @@ export default function BooksOverview({ navigation }) {
       {/* list of books */}
       <VStack h='xl'>
         <ScrollView>
-          <TouchableOpacity activeOpacity={0.6}>
+          <TouchableOpacity
+            activeOpacity={0.6}
+            onPress={() =>
+              navigation.navigate('bookListDetails', {
+                books: DummyBooks1,
+                image1: DummyBooks1[0].image,
+                image2: DummyBooks1[1].image,
+                image3: DummyBooks1[2].image,
+              })
+            }
+          >
             <Box mx='4' my='1'>
               <Image
                 source={require('../../assets/bookCover6.jpg')}
@@ -100,7 +109,17 @@ export default function BooksOverview({ navigation }) {
             </Box>
           </TouchableOpacity>
 
-          <TouchableOpacity activeOpacity={0.6}>
+          <TouchableOpacity
+            activeOpacity={0.6}
+            onPress={() =>
+              navigation.navigate('bookListDetails', {
+                books: DummyBooks2,
+                image1: DummyBooks2[0].image,
+                image2: DummyBooks2[1].image,
+                image3: DummyBooks2[2].image,
+              })
+            }
+          >
             <Box mx='4' my='1'>
               <Image
                 source={require('../../assets/bookCover4.jpg')}
@@ -113,7 +132,17 @@ export default function BooksOverview({ navigation }) {
             </Box>
           </TouchableOpacity>
 
-          <TouchableOpacity activeOpacity={0.6}>
+          <TouchableOpacity
+            activeOpacity={0.6}
+            onPress={() =>
+              navigation.navigate('bookListDetails', {
+                books: DummyBooks3,
+                image1: DummyBooks3[0].image,
+                image2: DummyBooks3[1].image,
+                image3: DummyBooks3[2].image,
+              })
+            }
+          >
             <Box mx='4' my='1'>
               <Image
                 source={require('../../assets/bookCover5.jpg')}
@@ -146,6 +175,7 @@ export default function BooksOverview({ navigation }) {
             activeOpacity={0.6}
             onPress={() =>
               navigation.navigate('bookDetails', {
+                books: DummyBooks1,
                 bookImage: require('../../assets/elda7e7.png'),
               })
             }
@@ -231,7 +261,17 @@ export default function BooksOverview({ navigation }) {
             title='قريبا على بوكيس'
           />
 
-          <TouchableOpacity activeOpacity={0.6}>
+          <TouchableOpacity
+            activeOpacity={0.6}
+            onPress={() =>
+              navigation.navigate('bookListDetails', {
+                books: DummyBooks1,
+                image1: DummyBooks1[0].image,
+                image2: DummyBooks1[1].image,
+                image3: DummyBooks1[2].image,
+              })
+            }
+          >
             <Box mx='4' my='1'>
               <Image
                 source={require('../../assets/bookCover7.jpg')}

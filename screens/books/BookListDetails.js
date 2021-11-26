@@ -7,20 +7,25 @@ import {
   Image,
   VStack,
   useDisclose,
+  Avatar,
+  Text,
 } from 'native-base';
 import {
   MaterialCommunityIcons,
   AntDesign,
   Feather,
   Entypo,
+  Ionicons,
 } from '@expo/vector-icons';
 import { TouchableOpacity, Share } from 'react-native';
 import ActionSheetDetails from '../../components/ActionSheetDetails';
 import { secondaryColor, textColor } from '../../constants/Colors';
+import ActionButton from '../../components/ActionButton';
 
 export default function BookListDetails({ route, navigation }) {
   const { isOpen, onClose, onOpen } = useDisclose();
-  const { books, image1, image2, image3, title } = route.params;
+  const { books, image1, image2, image3, title, author, authorName } =
+    route.params;
 
   const onShare = async () => {
     try {
@@ -63,42 +68,82 @@ export default function BookListDetails({ route, navigation }) {
       </Box>
 
       <Box mb={5}>
-        <Image
-          size={'120'}
-          source={image1}
-          rounded='md'
-          resizeMode='cover'
-          alt='bookListImage'
-          alignSelf='center'
-        />
-        <Image
-          size={'140'}
-          source={image2}
-          rounded='md'
-          resizeMode='cover'
-          alt='bookListImage'
-          alignSelf='center'
-          position='absolute'
-          top={2}
-          zIndex={1}
-        />
-        <Image
-          size={'160'}
-          source={image3}
-          rounded='md'
-          resizeMode='cover'
-          alt='bookListImage'
-          alignSelf='center'
-          position='absolute'
-          zIndex={2}
-          top={6}
-        />
+        {!author ? (
+          <>
+            <Image
+              size={'120'}
+              source={image1}
+              rounded='md'
+              resizeMode='cover'
+              alt='bookListImage'
+              alignSelf='center'
+            />
+            <Image
+              size={'140'}
+              source={image2}
+              rounded='md'
+              resizeMode='cover'
+              alt='bookListImage'
+              alignSelf='center'
+              position='absolute'
+              top={2}
+              zIndex={1}
+            />
+            <Image
+              size={'160'}
+              source={image3}
+              rounded='md'
+              resizeMode='cover'
+              alt='bookListImage'
+              alignSelf='center'
+              position='absolute'
+              zIndex={2}
+              top={6}
+            />
+          </>
+        ) : (
+          <Avatar bg='amber.900' size='2xl' alignSelf='center'>
+            <HStack alignItems='center' justifyContent='center'>
+              <Text fontSize='40'>
+                {authorName.split('')[0]}
+                {authorName.split('')[1]}
+              </Text>
+            </HStack>
+          </Avatar>
+        )}
 
-        <Heading fontSize={20} textAlign='center' color='#fff' mt={20} mb={5}>
-          {title}
+        <Heading fontSize={20} textAlign='center' color='#fff' mt={7}>
+          {author ? authorName : title}
         </Heading>
 
-        <HStack space={10} mx={3} mb={5}>
+        {author && (
+          <Heading fontSize={14} textAlign='center' color='#ccc' mt={3}>
+            Author
+          </Heading>
+        )}
+
+        {author && (
+          <>
+            <Box alignSelf='center' my={3}>
+              <ActionButton
+                title='Follow'
+                color={secondaryColor}
+                author={true}
+              />
+            </Box>
+            <HStack
+              space={1}
+              alignItems='center'
+              justifyContent='center'
+              mb={1}
+            >
+              <Ionicons name='people-sharp' size={15} color='#ccc' />
+              <Text color='#ccc'>131 Followers</Text>
+            </HStack>
+          </>
+        )}
+
+        <HStack space={10} mx={3} my={5}>
           <Heading fontSize='19' color='#fff' flex={1}>
             All titles
           </Heading>
@@ -122,6 +167,7 @@ export default function BookListDetails({ route, navigation }) {
                   activeOpacity={0.6}
                   onPress={() =>
                     navigation.navigate('bookDetails', {
+                      books,
                       bookImage: item.image,
                     })
                   }

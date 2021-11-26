@@ -5,12 +5,14 @@ import { FlatList, TouchableOpacity } from 'react-native';
 import { primaryColor } from '../constants/Colors';
 
 export default function BookList({ DummyBooks, title, navigation }) {
+  console.log('BookList - navigation', navigation);
   const renderBookList = ({ item }) => {
     return (
       <TouchableOpacity
         activeOpacity={0.6}
         onPress={() =>
           navigation.navigate('bookDetails', {
+            books: DummyBooks,
             bookImage: item.image,
           })
         }
