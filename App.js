@@ -9,6 +9,7 @@ import Guest from './screens/auth/Guest';
 import BottomNavigation from './views/BottomNavigation';
 import { createStackNavigator } from '@react-navigation/stack';
 import ReviewDetails from './screens/ReviewDetails';
+import { secondaryColor, textColor } from './constants/Colors';
 
 const Stack = createStackNavigator();
 
@@ -53,7 +54,18 @@ export default function App() {
           ) : (
             <>
               <Stack.Screen name='home' component={BottomNavigation} />
-              <Stack.Screen name='reviews' component={ReviewDetails} />
+              <Stack.Screen
+                name='reviews'
+                options={{
+                  headerTintColor: '#fff',
+                  title: 'Reviews',
+                  headerShown: true,
+                  headerStyle: {
+                    backgroundColor: secondaryColor,
+                  },
+                }}
+                component={ReviewDetails}
+              />
             </>
           )}
         </Stack.Navigator>

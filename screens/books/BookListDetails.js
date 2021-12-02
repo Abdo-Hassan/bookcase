@@ -112,7 +112,12 @@ export default function BookListDetails({ route, navigation }) {
           </Avatar>
         )}
 
-        <Heading fontSize={20} textAlign='center' color='#fff' mt={7}>
+        <Heading
+          fontSize={20}
+          textAlign='center'
+          color='#fff'
+          mt={title ? 20 : author ? 5 : 10}
+        >
           {author ? authorName : title}
         </Heading>
 
@@ -143,7 +148,7 @@ export default function BookListDetails({ route, navigation }) {
           </>
         )}
 
-        <HStack space={10} mx={3} my={5}>
+        <HStack space={10} mx={3} my={4}>
           <Heading fontSize='19' color='#fff' flex={1}>
             All titles
           </Heading>
@@ -181,13 +186,17 @@ export default function BookListDetails({ route, navigation }) {
                       alt='bookDetails'
                     />
                     <VStack space={2} alignSelf='center'>
-                      <Heading fontSize='15' color={textColor} textAlign='left'>
+                      <Heading
+                        fontSize='15'
+                        color={secondaryColor}
+                        textAlign='left'
+                      >
                         كتاب الدحيح
                       </Heading>
-                      <Heading fontSize='15' color={textColor}>
+                      <Heading fontSize='15' color={secondaryColor}>
                         Audio Book
                       </Heading>
-                      <Heading fontSize='15' color={textColor}>
+                      <Heading fontSize='15' color={secondaryColor}>
                         By: طاهر المعتز بالله
                       </Heading>
                     </VStack>

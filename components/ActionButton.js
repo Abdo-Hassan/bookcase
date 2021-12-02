@@ -4,10 +4,12 @@ import { TouchableOpacity } from 'react-native';
 import { Entypo, Ionicons } from '@expo/vector-icons';
 import { secondaryColor } from '../constants/Colors';
 
-export default function ActionButton({ title, color, author }) {
+export default function ActionButton({ title, color, author, review }) {
   return (
     <TouchableOpacity activeOpacity={0.4}>
       <Button
+        position={review ? 'absolute' : 'relative'}
+        bottom={review ? 2 : 0}
         alignSelf='center'
         bg={color}
         borderRadius='full'

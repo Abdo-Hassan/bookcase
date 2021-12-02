@@ -1,3 +1,3 @@
 export const primaryColor = '#FF5200';
-export const secondaryColor = '#E5890A';
-export const textColor = '#F5A962';
+export const secondaryColor = '#D06224';
+export const textColor = '#FF5403';

@@ -29,6 +29,13 @@ export default function BookDetails({ route, navigation }) {
   const { books, bookImage } = route.params;
   const { isOpen, onClose, onOpen } = useDisclose();
 
+  const handleNavigate = (item) => {
+    if (item.withIcon && item.title === '1.3 Ratings') {
+      console.log('handleNavigate - item', item);
+      navigation.navigate('reviews');
+    }
+  };
+
   const bookInfo = [
     {
       id: 1,
@@ -70,30 +77,41 @@ export default function BookDetails({ route, navigation }) {
   const renderBookInfo = ({ item }) => {
     return (
       <HStack mx={4} my={3} alignItems='center' justifyContent='center'>
-        <VStack space={1}>
-          <Heading fontSize='12' color='#ccc' textAlign='center' color='#ccc'>
-            {item.title}
-          </Heading>
-
-          <HStack alignItems='center' space={1} justifyContent='center'>
-            {item.withIcon && item.title === '1.3 Ratings' ? (
-              <AntDesign name='star' size={20} color='gold' />
-            ) : (
-              item.withIcon &&
-              item.title === 'Duration' && (
-                <Ionicons name='time-outline' size={20} color='#ccc' />
-              )
-            )}
-
-            <Heading fontSize='15' color='#fff' textAlign='center'>
-              {item.value}
+        <TouchableOpacity
+          activeOpacity={
+            item.withIcon && item.title === '1.3 Ratings' ? 0.4 : 1
+          }
+        >
+          <VStack space={1}>
+            <Heading fontSize='12' color='#ccc' textAlign='center' color='#ccc'>
+              {item.title}
             </Heading>
 
-            {item.withIcon && item.title === '1.3 Ratings' && (
-              <Ionicons name='chevron-forward' size={20} color='#ccc' />
-            )}
-          </HStack>
-        </VStack>
+            <HStack
+              alignItems='center'
+              space={1}
+              justifyContent='center'
+              onPress={() => handleNavigate(item)}
+            >
+              {item.withIcon && item.title === '1.3 Ratings' ? (
+                <AntDesign name='star' size={20} color='gold' />
+              ) : (
+                item.withIcon &&
+                item.title === 'Duration' && (
+                  <Ionicons name='time-outline' size={20} color='#ccc' />
+                )
+              )}
+
+              <Heading fontSize='15' color='#fff' textAlign='center'>
+                {item.value}
+              </Heading>
+
+              {item.withIcon && item.title === '1.3 Ratings' && (
+                <Ionicons name='chevron-forward' size={20} color='#ccc' />
+              )}
+            </HStack>
+          </VStack>
+        </TouchableOpacity>
       </HStack>
     );
   };
@@ -227,7 +245,7 @@ export default function BookDetails({ route, navigation }) {
         <Divider orientation='horizontal' mt='1' bgColor='#222' />
 
         {/* book description */}
-        <Box mx={3} my={5}>
+        <Box mx={3} my={6}>
           <Heading fontSize='16' color='#ccc' textAlign='right' mb={3}>
             الدحيح : ما وراء الكواليس
           </Heading>
@@ -238,10 +256,24 @@ export default function BookDetails({ route, navigation }) {
             هنسمع كواليس انطلاق برنامج الدحيح من بدايته فى قناة أحمد الغندور على
             . اليوتيوب وقتا كان برنامج فردى
           </Heading>
+
+          <Heading fontSize='14' color='#ccc'>
+            Audio Book
+          </Heading>
+          <Heading fontSize='14' color='#ccc'>
+            Release Date: Nov 26, 2021
+          </Heading>
+          <Heading fontSize='14' color='#ccc'>
+            Publisher &copy; Bookcase
+          </Heading>
         </Box>
 
         {/* Play Sample of the book */}
-        <ActionButton title='Play Sample' color={textColor} author={false} />
+        <ActionButton
+          title='Play Sample'
+          color={secondaryColor}
+          author={false}
+        />
 
         {/* Book reviews */}
         <Reviews navigation={navigation} />
