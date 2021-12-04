@@ -1,24 +1,8 @@
-import {
-  AntDesign,
-  EvilIcons,
-  Feather,
-  FontAwesome,
-  Ionicons,
-  MaterialIcons,
-} from '@expo/vector-icons';
-import {
-  Avatar,
-  Box,
-  FlatList,
-  Heading,
-  HStack,
-  VStack,
-  Text,
-} from 'native-base';
 import React from 'react';
-import { TouchableOpacity } from 'react-native';
+import { FlatList } from 'native-base';
 import ActionButton from '../components/ActionButton';
 import { secondaryColor } from '../constants/Colors';
+import UserReview from './UserReview';
 
 export default function ReviewsList({ allReviews, navigation }) {
   const reviews = [
@@ -58,88 +42,14 @@ export default function ReviewsList({ allReviews, navigation }) {
     },
   ];
 
-  const handleNavigate = () => {
-    if (!allReviews) {
-      navigation.navigate('reviews');
-    }
-  };
-
   const renderReviews = ({ item }) => (
-    <TouchableOpacity
-      activeOpacity={allReviews ? 1 : 0.4}
-      onPress={() => handleNavigate()}
-    >
-      <Box
-        px={4}
-        py={3}
-        mx={2}
-        my={allReviews ? 1 : 0}
-        bgColor='#222'
-        rounded='md'
-      >
-        <HStack space={3}>
-          <Avatar bg='#ccc' size='md'>
-            <Ionicons name='person' size={30} color='#888' />
-          </Avatar>
-
-          <VStack space={2}>
-            <Heading fontSize='16'>{item.commenter}</Heading>
-            <HStack
-              space={1}
-              mr={3}
-              alignItems='center'
-              justifyContent='center'
-            >
-              <AntDesign name='star' size={14} color='gold' />
-              <AntDesign name='star' size={14} color='gold' />
-              <AntDesign name='star' size={14} color='gold' />
-              <AntDesign name='star' size={14} color='gold' />
-              <AntDesign name='star' size={14} color='gold' />
-              <Heading fontSize='12' color='#ccc' ml={2}>
-                {item.date}
-              </Heading>
-            </HStack>
-          </VStack>
-
-          {allReviews && (
-            <TouchableOpacity activeOpacity={0.4}>
-              <Box ml={10}>
-                <Feather name='flag' size={26} color='#fa8484' />
-              </Box>
-            </TouchableOpacity>
-          )}
-        </HStack>
-
-        <Text
-          lineHeight='xl'
-          fontSize='15'
-          fontWeight='bold'
-          color='#fff'
-          w={allReviews ? 'auto' : 240}
-          my={4}
-        >
-          {item.comment}
-        </Text>
-
-        {allReviews && (
-          <HStack space={6} mt={2}>
-            <HStack space={3} alignItems='center' justifyContent='center'>
-              <MaterialIcons name='favorite-border' color='#ccc' size={20} />
-              <Heading fontSize='15' color='#ccc'>
-                210 Likes
-              </Heading>
-            </HStack>
-
-            <HStack space={3} alignItems='center' justifyContent='center'>
-              <EvilIcons name='comment' size={26} color='#ccc' />
-              <Heading fontSize='15' color='#ccc'>
-                18 Comment
-              </Heading>
-            </HStack>
-          </HStack>
-        )}
-      </Box>
-    </TouchableOpacity>
+    <UserReview
+      review={item}
+      allReviews={allReviews}
+      navigation={navigation}
+      addComment={false}
+      actionButtons={allReviews ? true : false}
+    />
   );
   return (
     <>

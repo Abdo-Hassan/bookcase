@@ -8,8 +8,9 @@ import { auth } from './firebase';
 import Guest from './screens/auth/Guest';
 import BottomNavigation from './views/BottomNavigation';
 import { createStackNavigator } from '@react-navigation/stack';
-import ReviewDetails from './screens/ReviewDetails';
+import ReviewDetails from './screens/reviews/ReviewDetails';
 import { secondaryColor, textColor } from './constants/Colors';
+import CommentSection from './screens/reviews/CommentSection';
 
 const Stack = createStackNavigator();
 
@@ -65,6 +66,18 @@ export default function App() {
                   },
                 }}
                 component={ReviewDetails}
+              />
+              <Stack.Screen
+                name='comment'
+                options={{
+                  headerTintColor: '#fff',
+                  title: 'Comments',
+                  headerShown: true,
+                  headerStyle: {
+                    backgroundColor: secondaryColor,
+                  },
+                }}
+                component={CommentSection}
               />
             </>
           )}

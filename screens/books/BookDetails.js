@@ -31,7 +31,6 @@ export default function BookDetails({ route, navigation }) {
 
   const handleNavigate = (item) => {
     if (item.withIcon && item.title === '1.3 Ratings') {
-      console.log('handleNavigate - item', item);
       navigation.navigate('reviews');
     }
   };
