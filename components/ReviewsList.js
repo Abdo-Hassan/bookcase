@@ -62,7 +62,12 @@ export default function ReviewsList({ allReviews, navigation }) {
         keyExtractor={(item) => item.id}
       />
       {allReviews && (
-        <ActionButton title='Write Review' color={secondaryColor} review />
+        <ActionButton
+          title='Write Review'
+          color={secondaryColor}
+          review
+          auth={false}
+        />
       )}
     </>
   );

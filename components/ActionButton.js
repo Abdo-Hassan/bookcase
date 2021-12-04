@@ -4,10 +4,18 @@ import { TouchableOpacity } from 'react-native';
 import { Entypo, Ionicons } from '@expo/vector-icons';
 import { secondaryColor } from '../constants/Colors';
 
-export default function ActionButton({ title, color, author, review }) {
+export default function ActionButton({
+  title,
+  color,
+  author,
+  review,
+  onClick,
+  auth,
+}) {
   return (
     <TouchableOpacity activeOpacity={0.4}>
       <Button
+        onPress={onClick}
         position={review ? 'absolute' : 'relative'}
         bottom={review ? 2 : 0}
         alignSelf='center'
@@ -17,11 +25,11 @@ export default function ActionButton({ title, color, author, review }) {
         p={author ? 3 : 4}
         mb={author ? 1 : 6}
         leftIcon={
-          author ? (
-            <Icon as={Entypo} name='plus' size='sm' />
-          ) : (
+          author && !auth ? (
+            <Icon as={Entypo} name='plus' size='sm' color='#fff' />
+          ) : !author && !auth ? (
             <Ionicons name='play' size={24} color='#fff' />
-          )
+          ) : null
         }
       >
         <Heading

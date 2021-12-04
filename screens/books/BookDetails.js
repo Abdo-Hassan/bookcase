@@ -272,6 +272,7 @@ export default function BookDetails({ route, navigation }) {
           title='Play Sample'
           color={secondaryColor}
           author={false}
+          auth={false}
         />
 
         {/* Book reviews */}

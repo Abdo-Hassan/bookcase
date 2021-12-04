@@ -134,6 +134,7 @@ export default function BookListDetails({ route, navigation }) {
                 title='Follow'
                 color={secondaryColor}
                 author={true}
+                auth={false}
               />
             </Box>
             <HStack

@@ -4,7 +4,9 @@ import {
   signInWithCredential,
   signInWithPopup,
   GoogleAuthProvider,
+  createUserWithEmailAndPassword,
 } from 'firebase/auth';
+import { getFirestore, collection, getDocs, addDoc } from 'firebase/firestore';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyBIwbsh7EC7WxhQJY5Qr-CJbA6yruw15qI',
@@ -16,8 +18,37 @@ const firebaseConfig = {
 };
 
 initializeApp(firebaseConfig);
-
 export const auth = getAuth();
+
+export const db = getFirestore();
+const colRef = collection(db, 'books');
+
+export const getBooks = async () => {
+  try {
+    const snapshot = await getDocs(colRef);
+    let books = [];
+    snapshot.docs.forEach((doc) => {
+      books.push({ ...doc.data(), id: doc.id });
+    });
+    console.log('getDocs - books', books);
+  } catch (err) {
+    console.log('err', err);
+  }
+};
+
+export const register = async (email, password) => {
+  try {
+    await createUserWithEmailAndPassword(auth, email, password).then(
+      (authCredential) => {
+        const user = authCredential.user;
+        return user;
+      }
+    );
+  } catch (err) {
+    console.log('err code', err.code);
+    console.log('err message', err.message);
+  }
+};
 
 //Google sign in popup
 // signInWithPopup(auth, provider)

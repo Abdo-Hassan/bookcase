@@ -10,6 +10,7 @@ import {
 import ActionButton from '../../components/ActionButton';
 import { SwiperFlatList } from 'react-native-swiper-flatlist';
 import { Dimensions, TouchableOpacity } from 'react-native';
+import { customColor, secondaryColor } from '../../constants/Colors';
 const { width } = Dimensions.get('window');
 
 const texts = [
@@ -30,7 +31,7 @@ const texts = [
   },
 ];
 
-export default function Welcome() {
+export default function Welcome({ navigation }) {
   return (
     <Box flex={1}>
       <PresenceTransition
@@ -53,7 +54,7 @@ export default function Welcome() {
         />
       </PresenceTransition>
 
-      <VStack alignItems='center' bg='#c5c3e4' flex={1}>
+      <VStack alignItems='center' bg={customColor} flex={1}>
         {/* slider */}
         <SwiperFlatList
           index={2}
@@ -63,19 +64,24 @@ export default function Welcome() {
           data={texts}
           renderItem={({ item }) => (
             <Box width={width} justifyContent='center' px='3' height={200}>
-              <Heading fontSize='28' color='#474375' textAlign='center' mb='2'>
+              <Heading fontSize='28' color='#fff' textAlign='center' mb='2'>
                 {item.title}
               </Heading>
-              <Heading fontSize='18' color='#474375' textAlign='center'>
+              <Heading fontSize='18' color='#fff' textAlign='center'>
                 {item.subTitle}
               </Heading>
             </Box>
           )}
         />
         {/* try */}
-        <ActionButton title='Register' color='#6C63FF' />
+        <ActionButton
+          title='Register'
+          color={secondaryColor}
+          onClick={() => navigation.navigate('register')}
+          auth={true}
+        />
         {/* login */}
-        <ActionButton title='Log in' color='#fff' />
+        <ActionButton title='Log in' color='#fff' auth={true} />
       </VStack>
     </Box>
   );
