@@ -39,22 +39,23 @@ const configGradient = {
 export default App = () => {
   return (
     <Provider store={store}>
-      <AppWrapper />
+      <AppDetails />
     </Provider>
   );
 };
 
-function AppWrapper() {
+function AppDetails() {
   const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
-  let getCurrentUser = dispatch(getUser());
+  dispatch(getUser());
   const currentUser = useSelector((state) => state.currentUser);
+  const fetchCurrentUser = useSelector((state) => state.fetchCurrentUser);
 
   useEffect(() => {
-    if (getCurrentUser) {
+    if (fetchCurrentUser) {
       setLoading(false);
     }
-  }, []);
+  }, [fetchCurrentUser]);
 
   const handleScreens = () => {
     if (!loading) {

@@ -4,8 +4,14 @@ import Search from '../screens/Search';
 import Bookshelf from '../screens/Bookshelf';
 import Home from '../screens/books/Home';
 import Profile from '../screens/profile/Profile';
-import { AntDesign, MaterialIcons, Ionicons } from '@expo/vector-icons';
-import { primaryColor } from '../constants/Colors';
+import {
+  AntDesign,
+  MaterialIcons,
+  Ionicons,
+  EvilIcons,
+} from '@expo/vector-icons';
+import { customColor, primaryColor } from '../constants/Colors';
+import {} from '@expo/vector-icons';
 
 const Tab = createBottomTabNavigator();
 
@@ -57,6 +63,24 @@ export default function BottomNavigation() {
         name='profile'
         component={Profile}
         options={{
+          title: 'Profile',
+          headerShown: true,
+          headerStyle: {
+            backgroundColor: customColor,
+          },
+          headerTitleStyle: {
+            color: '#fff',
+          },
+          headerRight: () => {
+            return (
+              <EvilIcons
+                name='gear'
+                size={30}
+                color='#ccc'
+                style={{ marginRight: 15 }}
+              />
+            );
+          },
           tabBarLabel: 'Profile',
           tabBarIcon: ({ color, size }) => (
             <Ionicons name='person-outline' size={24} color={color} />

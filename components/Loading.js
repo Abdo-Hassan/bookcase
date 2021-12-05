@@ -1,15 +1,13 @@
-import { Center, Heading, HStack, Spinner } from 'native-base';
 import React from 'react';
+import { Box } from 'native-base';
+import LottieView from 'lottie-react-native';
+import { StatusBar } from 'expo-status-bar';
 
 export default function Loading() {
   return (
-    <Center flex={1} px='3'>
-      <HStack space={2} alignItems='center'>
-        <Spinner accessibilityLabel='Loading posts' />
-        <Heading color='primary.500' fontSize='md'>
-          Loading
-        </Heading>
-      </HStack>
-    </Center>
+    <Box flex={1} bg='#000'>
+      <StatusBar style='light' />
+      <LottieView source={require('../assets/loading.json')} autoPlay loop />
+    </Box>
   );
 }

@@ -6,6 +6,7 @@ import {
 } from '../actions/actionTypes';
 
 const INIT_STATE = {
+  fetchCurrentUser: false,
   currentUser: false,
   userInfo: {},
 };
@@ -16,12 +17,14 @@ export const authReducer = (state = INIT_STATE, action) => {
       return {
         ...state,
         currentUser: true,
+        fetchCurrentUser: true,
         userInfo: action.payload,
       };
     case GUEST_USER:
     case CREATE_USER_ERROR:
       return {
         ...state,
+        fetchCurrentUser: true,
         currentUser: false,
         userInfo: {},
       };
