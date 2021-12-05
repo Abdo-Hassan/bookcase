@@ -1,7 +1,7 @@
 import React from 'react';
 import { FlatList } from 'native-base';
-import ActionButton from '../components/ActionButton';
-import { secondaryColor } from '../constants/Colors';
+import ActionButton from '../ActionButton';
+import { secondaryColor } from '../../constants/Colors';
 import UserReview from './UserReview';
 
 export default function ReviewsList({ allReviews, navigation }) {

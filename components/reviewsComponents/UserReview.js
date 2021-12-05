@@ -8,7 +8,7 @@ import {
 } from '@expo/vector-icons';
 import { Box, HStack, VStack, Avatar, Heading, Text } from 'native-base';
 import { TouchableOpacity } from 'react-native';
-import { secondaryColor } from '../constants/Colors';
+import { secondaryColor } from '../../constants/Colors';
 
 export default function UserReview({
   review,

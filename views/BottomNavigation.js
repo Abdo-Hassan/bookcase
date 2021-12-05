@@ -11,11 +11,14 @@ import {
   EvilIcons,
 } from '@expo/vector-icons';
 import { customColor, primaryColor } from '../constants/Colors';
-import {} from '@expo/vector-icons';
+import ActionSheetDetails from '../components/ActionSheetDetails';
+import { useDisclose } from 'native-base';
 
 const Tab = createBottomTabNavigator();
 
 export default function BottomNavigation() {
+  const { isOpen, onClose, onOpen } = useDisclose();
+
   return (
     <Tab.Navigator
       screenOptions={{
@@ -73,17 +76,27 @@ export default function BottomNavigation() {
           },
           headerRight: () => {
             return (
-              <EvilIcons
-                name='gear'
-                size={30}
-                color='#ccc'
-                style={{ marginRight: 15 }}
-              />
+              <>
+                <EvilIcons
+                  name='gear'
+                  size={30}
+                  color='#ccc'
+                  style={{ marginRight: 15 }}
+                  onPress={onOpen}
+                />
+                <ActionSheetDetails
+                  isOpen={isOpen}
+                  onClose={onClose}
+                  profile={true}
+                />
+              </>
             );
           },
           tabBarLabel: 'Profile',
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name='person-outline' size={24} color={color} />
+            <>
+              <Ionicons name='person-outline' size={size} color={color} />
+            </>
           ),
         }}
       />

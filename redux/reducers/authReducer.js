@@ -3,6 +3,7 @@ import {
   CREATE_USER_ERROR,
   CURRENT_USER,
   GUEST_USER,
+  LOGOUT,
 } from '../actions/actionTypes';
 
 const INIT_STATE = {
@@ -20,6 +21,7 @@ export const authReducer = (state = INIT_STATE, action) => {
         fetchCurrentUser: true,
         userInfo: action.payload,
       };
+
     case GUEST_USER:
     case CREATE_USER_ERROR:
       return {
@@ -28,6 +30,14 @@ export const authReducer = (state = INIT_STATE, action) => {
         currentUser: false,
         userInfo: {},
       };
+
+    case LOGOUT:
+      return {
+        ...state,
+        currentUser: false,
+        userInfo: {},
+      };
+
     case CREATE_USER:
       return {
         ...state,

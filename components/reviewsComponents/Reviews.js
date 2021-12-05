@@ -1,8 +1,8 @@
 import React from 'react';
 import { Heading, HStack, Box, Avatar, FlatList, VStack } from 'native-base';
 import { TouchableOpacity } from 'react-native';
-import { AntDesign, Ionicons } from '@expo/vector-icons';
-import ReviewsList from './ReviewsList';
+import { Ionicons } from '@expo/vector-icons';
+import ReviewsList from '../reviewsComponents/ReviewsList';
 
 export default function Reviews({ navigation }) {
   return (

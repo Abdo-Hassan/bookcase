@@ -10,7 +10,7 @@ import {
   IconButton,
   ScrollView,
 } from 'native-base';
-import ReviewsList from '../../components/ReviewsList';
+import ReviewsList from '../../components/reviewsComponents/ReviewsList';
 import { StatusBar } from 'expo-status-bar';
 import { Feather } from '@expo/vector-icons';
 import { secondaryColor } from '../../constants/Colors';

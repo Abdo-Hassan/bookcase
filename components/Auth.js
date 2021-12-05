@@ -69,7 +69,6 @@ export default function Auth({ register, createUser, loginUser }) {
         <ActionButton
           title={register ? 'Continue' : 'Login'}
           color={secondaryColor}
-          onClick={() => console.log('register')}
           auth={true}
           author={false}
           onClick={register ? createUser : loginUser}

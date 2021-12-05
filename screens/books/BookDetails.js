@@ -23,7 +23,7 @@ import { TouchableOpacity, FlatList } from 'react-native';
 import ActionSheetDetails from '../../components/ActionSheetDetails';
 import BookList from '../../components/BookList';
 import ActionButton from '../../components/ActionButton';
-import Reviews from '../../components/Reviews';
+import Reviews from '../../components/reviewsComponents/Reviews';
 
 export default function BookDetails({ route, navigation }) {
   const { books, bookImage } = route.params;

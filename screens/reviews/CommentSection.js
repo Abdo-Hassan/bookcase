@@ -1,16 +1,8 @@
 import React, { useState } from 'react';
-import {
-  Box,
-  Button,
-  Input,
-  HStack,
-  VStack,
-  Heading,
-  IconButton,
-} from 'native-base';
+import { Box, Button, HStack, VStack, Heading, IconButton } from 'native-base';
 import { TextInput } from 'react-native';
 import { MaterialIcons, Feather } from '@expo/vector-icons';
-import UserReview from '../../components/UserReview';
+import UserReview from '../../components/reviewsComponents/UserReview';
 import { secondaryColor } from '../../constants/Colors';
 
 export default function CommentSection({ route, navigation }) {
