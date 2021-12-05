@@ -12,12 +12,40 @@ import {
 import ActionButton from '../components/ActionButton';
 import { secondaryColor } from '../constants/Colors';
 import { MaterialIcons } from '@expo/vector-icons';
+import { useDispatch } from 'react-redux';
+import {
+  createUserAction,
+  createUserWithFacebook,
+  createUserWithGoogle,
+  signIn,
+} from '../redux/actions/authActions';
 
-export default function Auth({ register, createUser, loginUser }) {
+export default function Auth({ register }) {
   const [show, setShow] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const handleClick = () => setShow(!show);
+  const dispatch = useDispatch();
+
+  const loginUser = () => {
+    if (email && password) {
+      dispatch(signIn(email, password));
+    }
+  };
+
+  const createUser = () => {
+    if (email && password) {
+      dispatch(createUserAction(email, password));
+    }
+  };
+
+  const signUpWithGoogle = () => {
+    dispatch(createUserWithGoogle());
+  };
+
+  const signUpWithFacebook = () => {
+    dispatch(createUserWithFacebook());
+  };
 
   return (
     <Box flex={1} bgColor='#000' pt={register ? 3 : 0}>
@@ -38,6 +66,7 @@ export default function Auth({ register, createUser, loginUser }) {
             py={3}
             value={email}
             onChangeText={setEmail}
+            isInvalid={false}
           />
           <Input
             fontSize={15}
@@ -86,11 +115,27 @@ export default function Auth({ register, createUser, loginUser }) {
           </Text>
         )}
 
-        <HStack alignItems='center' justifyContent='center' space={3}>
+        <HStack alignItems='center' justifyContent='center' space={3} mb={3}>
           <Divider w={10} />
           <Text fontSize='14'>OR</Text>
           <Divider w={10} />
         </HStack>
+
+        {/* <ActionButton
+          title='Sign up with google'
+          color={secondaryColor}
+          auth={true}
+          author={false}
+          onClick={signUpWithGoogle}
+        /> */}
+
+        {/* <ActionButton
+          title='Sign up with Facebook'
+          color={secondaryColor}
+          auth={true}
+          author={false}
+          onClick={signUpWithFacebook}
+        /> */}
       </VStack>
     </Box>
   );

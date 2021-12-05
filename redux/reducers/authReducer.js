@@ -4,6 +4,12 @@ import {
   CURRENT_USER,
   GUEST_USER,
   LOGOUT,
+  LOGIN,
+  LOGIN_ERROR,
+  CREATE_USER_GOOGLE,
+  CREATE_USER_FACEBOOK,
+  CREATE_USER_GOOGLE_ERROR,
+  CREATE_USER_FACEBOOK_ERROR,
 } from '../actions/actionTypes';
 
 const INIT_STATE = {
@@ -14,7 +20,11 @@ const INIT_STATE = {
 
 export const authReducer = (state = INIT_STATE, action) => {
   switch (action.type) {
+    case CREATE_USER:
     case CURRENT_USER:
+    case CREATE_USER_GOOGLE:
+    case CREATE_USER_FACEBOOK:
+    case LOGIN:
       return {
         ...state,
         currentUser: true,
@@ -23,26 +33,16 @@ export const authReducer = (state = INIT_STATE, action) => {
       };
 
     case GUEST_USER:
+    case LOGOUT:
     case CREATE_USER_ERROR:
+    case CREATE_USER_GOOGLE_ERROR:
+    case CREATE_USER_FACEBOOK_ERROR:
+    case LOGIN_ERROR:
       return {
         ...state,
         fetchCurrentUser: true,
         currentUser: false,
         userInfo: {},
-      };
-
-    case LOGOUT:
-      return {
-        ...state,
-        currentUser: false,
-        userInfo: {},
-      };
-
-    case CREATE_USER:
-      return {
-        ...state,
-        currentUser: true,
-        userInfo: action.payload,
       };
 
     default:
