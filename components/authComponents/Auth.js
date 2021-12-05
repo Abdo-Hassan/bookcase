@@ -9,8 +9,8 @@ import {
   Text,
   VStack,
 } from 'native-base';
-import ActionButton from '../components/ActionButton';
-import { secondaryColor } from '../constants/Colors';
+import ActionButton from '../ActionButton';
+import { secondaryColor } from '../../constants/Colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useDispatch } from 'react-redux';
 import {
@@ -18,7 +18,7 @@ import {
   createUserWithFacebook,
   createUserWithGoogle,
   signIn,
-} from '../redux/actions/authActions';
+} from '../../redux/actions/authActions';
 
 export default function Auth({ register }) {
   const [show, setShow] = useState(false);

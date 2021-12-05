@@ -11,12 +11,21 @@ import {
 import { TouchableOpacity } from 'react-native';
 import Popup from './Popup';
 
-export default function ActionSheetDetails({ isOpen, onClose, profile }) {
+export default function ActionSheetDetails({
+  isOpen,
+  onClose,
+  profile,
+  navigation,
+}) {
   const [modalVisible, setModalVisible] = useState(false);
 
   const handleClickIcons = (iconName) => {
-    if (iconName === 'logout') {
-      setModalVisible(true);
+    if (profile) {
+      if (iconName === 'logout') {
+        setModalVisible(true);
+      } else if (iconName === 'person-outline') {
+        navigation.navigate('accountSettings');
+      }
     }
   };
 

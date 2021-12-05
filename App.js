@@ -7,12 +7,13 @@ import Guest from './screens/auth/Guest';
 import BottomNavigation from './views/BottomNavigation';
 import { createStackNavigator } from '@react-navigation/stack';
 import ReviewDetails from './screens/reviews/ReviewDetails';
-import { secondaryColor } from './constants/Colors';
+import { secondaryColor, customColor } from './constants/Colors';
 import CommentSection from './screens/reviews/CommentSection';
 import Loading from './components/Loading';
 import { Provider, useSelector, useDispatch } from 'react-redux';
 import { store } from './redux/store';
 import { getUser } from './redux/actions/authActions';
+import AccountSettings from './components/authComponents/AccountSettings';
 
 const Stack = createStackNavigator();
 
@@ -88,6 +89,18 @@ function AppDetails() {
                   },
                 }}
                 component={CommentSection}
+              />
+              <Stack.Screen
+                name='accountSettings'
+                options={{
+                  headerTintColor: '#fff',
+                  title: 'Account Settings',
+                  headerShown: true,
+                  headerStyle: {
+                    backgroundColor: customColor,
+                  },
+                }}
+                component={AccountSettings}
               />
             </>
           )}

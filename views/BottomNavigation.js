@@ -16,7 +16,7 @@ import { useDisclose } from 'native-base';
 
 const Tab = createBottomTabNavigator();
 
-export default function BottomNavigation() {
+export default function BottomNavigation({ navigation }) {
   const { isOpen, onClose, onOpen } = useDisclose();
 
   return (
@@ -88,6 +88,7 @@ export default function BottomNavigation() {
                   isOpen={isOpen}
                   onClose={onClose}
                   profile={true}
+                  navigation={navigation}
                 />
               </>
             );
