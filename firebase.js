@@ -36,20 +36,6 @@ export const getBooks = async () => {
   }
 };
 
-export const register = async (email, password) => {
-  try {
-    await createUserWithEmailAndPassword(auth, email, password).then(
-      (authCredential) => {
-        const user = authCredential.user;
-        return user;
-      }
-    );
-  } catch (err) {
-    console.log('err code', err.code);
-    console.log('err message', err.message);
-  }
-};
-
 //Google sign in popup
 // signInWithPopup(auth, provider)
 //   .then((result) => {

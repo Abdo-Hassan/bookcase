@@ -4,19 +4,24 @@ import { Box, Heading, Icon, Input, VStack } from 'native-base';
 import { MaterialIcons } from '@expo/vector-icons';
 import ActionButton from '../../components/ActionButton';
 import { secondaryColor } from '../../constants/Colors';
-import { register } from '../../firebase';
+import { createUserAction } from '../../redux/actions/authActions';
+import { authReducer } from '../../redux/reducers/authReducer';
+import { useDispatch, useSelector } from 'react-redux';
 
 export default function Register() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [show, setShow] = useState(false);
 
+  const dispatch = useDispatch();
+  const { currentUser } = useSelector((state) => state.authReducer);
+
   const handleClick = () => setShow(!show);
 
   const createUser = () => {
     if (email && password) {
-      const { user } = register(email, password);
-      if (user) {
+      dispatch(createUserAction(email, password));
+      if (currentUser) {
         navigation.navigate('home');
       }
     }

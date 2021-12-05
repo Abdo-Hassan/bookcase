@@ -3,15 +3,17 @@ import { StatusBar } from 'expo-status-bar';
 import { NativeBaseProvider, extendTheme } from 'native-base';
 import { LogBox } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
-import { onAuthStateChanged } from 'firebase/auth';
-import { auth, getBooks } from './firebase';
 import Guest from './screens/auth/Guest';
 import BottomNavigation from './views/BottomNavigation';
 import { createStackNavigator } from '@react-navigation/stack';
 import ReviewDetails from './screens/reviews/ReviewDetails';
-import { secondaryColor, textColor } from './constants/Colors';
+import { secondaryColor } from './constants/Colors';
 import CommentSection from './screens/reviews/CommentSection';
 import Loading from './components/Loading';
+import { Provider, useSelector } from 'react-redux';
+import { store } from './redux/store';
+import { getUser } from './redux/actions/authActions';
+import { authReducer } from './redux/reducers/authReducer';
 
 const Stack = createStackNavigator();
 
@@ -33,14 +35,25 @@ const configGradient = {
   },
 };
 
-export default function App() {
-  const [currentUser, setCurrentUser] = useState(false);
+// for using redux store app must wraps whole app
+export default App = () => {
+  return (
+    <Provider store={store}>
+      <AppWrapper />
+    </Provider>
+  );
+};
+
+function AppWrapper() {
   const [loading, setLoading] = useState(true);
-  const [currentUserInfo, setCurrentUserInfo] = useState('');
-  console.log('App - currentUserInfo', currentUserInfo);
+  const currentUser = useSelector((state) => state.currentUser);
+  console.log('AppWrapper - currentUser', currentUser);
+  const userInfo = useSelector((state) => state.userInfo);
+  console.log('AppWrapper - userInfo', userInfo);
 
   useEffect(() => {
-    getBooks();
+    getUser();
+    setLoading(false);
   }, []);
 
   const handleScreens = () => {
@@ -85,22 +98,10 @@ export default function App() {
     }
   };
 
-  // firebase listen to user
-  onAuthStateChanged(auth, (user) => {
-    if (user != null) {
-      setCurrentUser(true);
-      setLoading(false);
-      setCurrentUserInfo(user);
-    } else {
-      setLoading(false);
-      setCurrentUser(false);
-    }
-  });
-
   return (
     <NavigationContainer>
       <NativeBaseProvider config={configGradient} theme={customTheme}>
-        <StatusBar style='light' />
+        <StatusBar style='auto' />
         {handleScreens()}
       </NativeBaseProvider>
     </NavigationContainer>
