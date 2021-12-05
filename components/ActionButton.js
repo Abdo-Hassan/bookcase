@@ -23,7 +23,7 @@ export default function ActionButton({
         borderRadius='full'
         width={author ? 180 : 320}
         p={author ? 3 : 4}
-        mb={author ? 1 : 6}
+        mb={author || !auth ? 1 : 6}
         leftIcon={
           author && !auth ? (
             <Icon as={Entypo} name='plus' size='sm' color='#fff' />

@@ -7,21 +7,20 @@ import {
   GUEST_USER,
 } from './actionTypes';
 
-export const getUser = async () => async (dispatch) => {
+export const getUser = () => async (dispatch) => {
   // firebase listen to user
-  onAuthStateChanged(auth, (user) => {
-    if (user != null) {
+  try {
+    onAuthStateChanged(auth, (user) => {
       dispatch({
         type: CURRENT_USER,
         payload: user,
       });
-      return user;
-    } else {
-      dispatch({
-        type: GUEST_USER,
-      });
-    }
-  });
+    });
+  } catch (error) {
+    dispatch({
+      type: GUEST_USER,
+    });
+  }
 };
 
 export const createUserAction = (email, password) => async (dispatch) => {

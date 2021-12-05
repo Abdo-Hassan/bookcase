@@ -23,7 +23,18 @@ export default function Guest() {
           },
         }}
       />
-      <Stack.Screen name='login' component={Login} />
+      <Stack.Screen
+        name='login'
+        component={Login}
+        options={{
+          headerTintColor: '#fff',
+          title: 'Login',
+          headerShown: true,
+          headerStyle: {
+            backgroundColor: customColor,
+          },
+        }}
+      />
     </Stack.Navigator>
   );
 }

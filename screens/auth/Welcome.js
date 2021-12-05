@@ -11,6 +11,7 @@ import ActionButton from '../../components/ActionButton';
 import { SwiperFlatList } from 'react-native-swiper-flatlist';
 import { Dimensions, TouchableOpacity } from 'react-native';
 import { customColor, secondaryColor } from '../../constants/Colors';
+import { StatusBar } from 'expo-status-bar';
 const { width } = Dimensions.get('window');
 
 const texts = [
@@ -34,6 +35,7 @@ const texts = [
 export default function Welcome({ navigation }) {
   return (
     <Box flex={1}>
+      <StatusBar style='light' />
       <PresenceTransition
         visible={true}
         initial={{
@@ -81,7 +83,12 @@ export default function Welcome({ navigation }) {
           auth={true}
         />
         {/* login */}
-        <ActionButton title='Log in' color='#fff' auth={true} />
+        <ActionButton
+          title='Log in'
+          color='#fff'
+          onClick={() => navigation.navigate('login')}
+          auth={true}
+        />
       </VStack>
     </Box>
   );

@@ -10,7 +10,7 @@ import ReviewDetails from './screens/reviews/ReviewDetails';
 import { secondaryColor } from './constants/Colors';
 import CommentSection from './screens/reviews/CommentSection';
 import Loading from './components/Loading';
-import { Provider, useSelector } from 'react-redux';
+import { Provider, useSelector, useDispatch } from 'react-redux';
 import { store } from './redux/store';
 import { getUser } from './redux/actions/authActions';
 import { authReducer } from './redux/reducers/authReducer';
@@ -46,14 +46,14 @@ export default App = () => {
 
 function AppWrapper() {
   const [loading, setLoading] = useState(true);
+  const dispatch = useDispatch();
+  let getCurrentUser = dispatch(getUser());
   const currentUser = useSelector((state) => state.currentUser);
-  console.log('AppWrapper - currentUser', currentUser);
-  const userInfo = useSelector((state) => state.userInfo);
-  console.log('AppWrapper - userInfo', userInfo);
 
   useEffect(() => {
-    getUser();
-    setLoading(false);
+    if (getCurrentUser) {
+      setLoading(false);
+    }
   }, []);
 
   const handleScreens = () => {
