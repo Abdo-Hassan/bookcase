@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   Box,
   Text,
@@ -8,7 +8,9 @@ import {
   Button,
   HStack,
   Progress,
+  Image,
 } from 'native-base';
+import * as ImagePicker from 'expo-image-picker';
 import { TouchableOpacity } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import {
@@ -17,12 +19,44 @@ import {
   customSecondaryColor,
   primaryColor,
 } from '../../constants/Colors';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { useSelector } from 'react-redux';
+import { MaterialCommunityIcons, Entypo } from '@expo/vector-icons';
+import { useSelector, useDispatch } from 'react-redux';
+// import { uploadProfileImage } from '../../redux/actions/userDataActions';
 
 export default function Profile({ navigation }) {
-  const userInfo = useSelector((state) => state.userInfo);
-  console.log('Profile - userInfo', userInfo);
+  const dispatch = useDispatch();
+  const profileImage = useSelector((state) => state.profileImage);
+  const userRecord = useSelector((state) => state.userRecord);
+
+  useEffect(() => {
+    (async () => {
+      if (Platform.OS !== 'web') {
+        const { status } =
+          await ImagePicker.requestMediaLibraryPermissionsAsync();
+        if (status !== 'granted') {
+          alert('Sorry, we need camera roll permissions to make this work!');
+        }
+      }
+    })();
+  }, []);
+
+  const pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      base64: true,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    if (!result.cancelled) {
+      const split = result.uri.split('/');
+      const imageName = split[split.length - 1];
+      const imageUrl = result.base64;
+      // dispatch(uploadProfileImage(imageUrl, imageName));
+    }
+  };
+
   return (
     <Box flex={1} bg='#000' px={4}>
       <StatusBar style='light' />
@@ -36,16 +70,25 @@ export default function Profile({ navigation }) {
           top={-50}
           rounded='full'
         >
-          <Avatar
-            size='xl'
-            source={require('../../assets/elda7e7.png')}
-            alignSelf='center'
-          />
+          <Avatar size='xl' source={{ uri: profileImage }} alignSelf='center' />
+        </Box>
+        <Box
+          bg={primaryColor}
+          rounded='full'
+          w='10'
+          alignItems='center'
+          justifyContent='center'
+          p={2}
+          position='absolute'
+          right={110}
+          top={6}
+        >
+          <Entypo name='camera' size={24} color='#fff' onPress={pickImage} />
         </Box>
 
         <VStack space={3} alignItems='center' justifyContent='center'>
           <Heading fontSize='19' color='#fff'>
-            Hi, name!
+            Hi, {userRecord?.name}
           </Heading>
           <Text fontSize='13' color='#fff'>
             2

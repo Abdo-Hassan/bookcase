@@ -12,6 +12,7 @@ import {
   CREATE_USER_FACEBOOK_ERROR,
   UPLOAD_PROFILE_IMAGE_PROGRESS,
   UPLOAD_PROFILE_IMAGE,
+  USER_RECORD,
 } from '../actions/actionTypes';
 
 const INIT_STATE = {
@@ -48,6 +49,12 @@ export const authReducer = (state = INIT_STATE, action) => {
         fetchCurrentUser: true,
         currentUser: false,
         userInfo: {},
+      };
+
+    case USER_RECORD:
+      return {
+        ...state,
+        userRecord: action.payload,
       };
 
     case UPLOAD_PROFILE_IMAGE:

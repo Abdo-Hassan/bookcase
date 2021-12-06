@@ -9,6 +9,7 @@ import {
   Slider,
   IconButton,
   ScrollView,
+  Progress,
 } from 'native-base';
 import ReviewsList from '../../components/reviewsComponents/ReviewsList';
 import { StatusBar } from 'expo-status-bar';
@@ -91,51 +92,21 @@ export default function ReviewDetails({ navigation }) {
           <Collapse isOpen={show}>
             <Box>
               <Collapse isOpen={show}>
-                <Heading fontSize='16' color='#fff' mb={4}>
+                <Heading fontSize='16' color='#fff' mb={1}>
                   Other users describe this books as :
                 </Heading>
-                <Heading fontSize='14' color='#ccc'>
+                <Heading fontSize='14' color='#ccc' my={2}>
                   Inspiring
                 </Heading>
-                <Slider
-                  size='lg'
-                  colorScheme='orange'
-                  defaultValue={70}
-                  minValue={0}
-                  maxValue={100}
-                >
-                  <Slider.Track>
-                    <Slider.FilledTrack />
-                  </Slider.Track>
-                </Slider>
-                <Heading fontSize='14' color='#ccc'>
+                <Progress size='md' colorScheme='warning' value={65} />
+                <Heading fontSize='14' color='#ccc' my={2}>
                   Motivating
                 </Heading>
-                <Slider
-                  size='lg'
-                  colorScheme='orange'
-                  defaultValue={70}
-                  minValue={0}
-                  maxValue={100}
-                >
-                  <Slider.Track>
-                    <Slider.FilledTrack />
-                  </Slider.Track>
-                </Slider>
-                <Heading fontSize='14' color='#ccc'>
+                <Progress size='md' colorScheme='warning' value={80} />
+                <Heading fontSize='14' color='#ccc' my={2}>
                   Heartwarming
                 </Heading>
-                <Slider
-                  size='lg'
-                  colorScheme='orange'
-                  defaultValue={70}
-                  minValue={0}
-                  maxValue={100}
-                >
-                  <Slider.Track>
-                    <Slider.FilledTrack />
-                  </Slider.Track>
-                </Slider>
+                <Progress size='md' colorScheme='warning' value={38} mb={2} />
               </Collapse>
             </Box>
           </Collapse>
