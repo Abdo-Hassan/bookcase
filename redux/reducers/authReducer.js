@@ -10,12 +10,17 @@ import {
   CREATE_USER_FACEBOOK,
   CREATE_USER_GOOGLE_ERROR,
   CREATE_USER_FACEBOOK_ERROR,
+  UPLOAD_PROFILE_IMAGE_PROGRESS,
+  UPLOAD_PROFILE_IMAGE,
 } from '../actions/actionTypes';
 
 const INIT_STATE = {
   fetchCurrentUser: false,
   currentUser: false,
+  profileImageProgress: 0,
+  profileImage: '',
   userInfo: {},
+  userRecord: {},
 };
 
 export const authReducer = (state = INIT_STATE, action) => {
@@ -43,6 +48,18 @@ export const authReducer = (state = INIT_STATE, action) => {
         fetchCurrentUser: true,
         currentUser: false,
         userInfo: {},
+      };
+
+    case UPLOAD_PROFILE_IMAGE:
+      return {
+        ...state,
+        profileImage: action.payload,
+      };
+
+    case UPLOAD_PROFILE_IMAGE_PROGRESS:
+      return {
+        ...state,
+        profileImageProgress: action.payload,
       };
 
     default:

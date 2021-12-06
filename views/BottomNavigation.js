@@ -25,7 +25,7 @@ export default function BottomNavigation({ navigation }) {
         tabBarActiveTintColor: primaryColor,
         headerShown: false,
         tabBarStyle: {
-          backgroundColor: '#1f1f1f',
+          backgroundColor: '#1A1A1A',
           borderTopWidth: 0,
           height: 55,
           paddingBottom: 8,

@@ -7,7 +7,8 @@ import {
   FacebookAuthProvider,
   signInWithPopup,
 } from 'firebase/auth';
-import { auth, db } from '../../firebase';
+import { auth, db, storage } from '../../firebase';
+import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 import { addDoc, collection, doc, onSnapshot } from 'firebase/firestore';
 import {
   CREATE_USER,
@@ -20,17 +21,20 @@ import {
   GUEST_USER,
   LOGIN_ERROR,
   LOGOUT,
+  UPLOAD_PROFILE_IMAGE,
+  UPLOAD_PROFILE_IMAGE_PROGRESS,
 } from './actionTypes';
 import { store } from '../../redux/store';
 
 const googleProvider = new GoogleAuthProvider();
 const facebookProvider = new FacebookAuthProvider();
-const collectionRef = collection(db, 'books');
+const usersRef = collection(db, 'users');
+const userDataRef = collection(db, 'userData');
 
 // firebase listen to user
 export const getUser = () => async (dispatch) => {
   // const state = store.getState();
-  // const documentRef = doc(db, 'books', state?.userInfo?.uid);
+  // const documentRef = doc(db, 'users', state?.userInfo?.uid);
   try {
     onAuthStateChanged(auth, (user) => {
       if (user !== null) {
@@ -60,7 +64,7 @@ export const createUserAction = (email, password, name) => async (dispatch) => {
     await createUserWithEmailAndPassword(auth, email, password).then(
       (authCredential) => {
         const user = authCredential.user;
-        addDoc(collectionRef, {
+        addDoc(usersRef, {
           name,
           email: user.email,
           id: user.uid,
@@ -143,4 +147,36 @@ export const userSignOut = () => async (dispatch) => {
       type: GUEST_USER,
     });
   }
+};
+
+export const uploadProfilePic = (pic) => async (dispatch) => {
+  const storageRef = ref(storage);
+  const uploadTask = uploadBytesResumable(storageRef, pic);
+
+  uploadTask.on(
+    'state_changed',
+    (snapshot) => {
+      const progress = Math.round(
+        (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+      );
+      dispatch({
+        type: UPLOAD_PROFILE_IMAGE_PROGRESS,
+        payload: progress,
+      });
+    },
+    (err) => {
+      console.log('uploadTask.on - err', err);
+    },
+    () => {
+      getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+        dispatch({
+          type: UPLOAD_PROFILE_IMAGE,
+          payload: url,
+        });
+        addDoc(userDataRef, {
+          profilePic: url,
+        });
+      });
+    }
+  );
 };

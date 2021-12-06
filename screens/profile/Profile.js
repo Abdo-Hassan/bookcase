@@ -7,6 +7,7 @@ import {
   Avatar,
   Button,
   HStack,
+  Progress,
 } from 'native-base';
 import { TouchableOpacity } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
@@ -17,8 +18,11 @@ import {
   primaryColor,
 } from '../../constants/Colors';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { useSelector } from 'react-redux';
 
 export default function Profile({ navigation }) {
+  const userInfo = useSelector((state) => state.userInfo);
+  console.log('Profile - userInfo', userInfo);
   return (
     <Box flex={1} bg='#000' px={4}>
       <StatusBar style='light' />
@@ -92,6 +96,8 @@ export default function Profile({ navigation }) {
           </Text>
         </HStack>
       </TouchableOpacity>
+
+      {/* <Progress colorScheme='warning' value={65} /> */}
     </Box>
   );
 }
