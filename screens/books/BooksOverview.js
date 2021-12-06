@@ -15,6 +15,7 @@ import {
 import { TouchableOpacity } from 'react-native';
 import BookList from '../../components/BookList';
 import { primaryColor } from '../../constants/Colors';
+import { StatusBar } from 'expo-status-bar';
 
 let DummyBooks1 = [
   { id: 1, image: require('../../assets/elda7e7.png') },
@@ -62,6 +63,7 @@ export default function BooksOverview({ navigation }) {
       }}
       pb={4}
     >
+      <StatusBar style='light' />
       <HStack mt='20' mb='5' alignItems='center'>
         <Text bold fontSize='26' ml='3' color='#fff' flex={0.92}>
           Good afternoon!

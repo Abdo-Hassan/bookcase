@@ -7,7 +7,8 @@ import {
   FacebookAuthProvider,
   signInWithPopup,
 } from 'firebase/auth';
-import { auth } from '../../firebase';
+import { auth, db } from '../../firebase';
+import { addDoc, collection, doc, onSnapshot } from 'firebase/firestore';
 import {
   CREATE_USER,
   CREATE_USER_ERROR,
@@ -20,15 +21,22 @@ import {
   LOGIN_ERROR,
   LOGOUT,
 } from './actionTypes';
+import { store } from '../../redux/store';
 
 const googleProvider = new GoogleAuthProvider();
 const facebookProvider = new FacebookAuthProvider();
+const collectionRef = collection(db, 'books');
 
 // firebase listen to user
 export const getUser = () => async (dispatch) => {
+  // const state = store.getState();
+  // const documentRef = doc(db, 'books', state?.userInfo?.uid);
   try {
     onAuthStateChanged(auth, (user) => {
       if (user !== null) {
+        // onSnapshot(documentRef, (doc) => {
+        //   console.log('data', doc.data());
+        // });
         dispatch({
           type: CURRENT_USER,
           payload: user,
@@ -47,11 +55,16 @@ export const getUser = () => async (dispatch) => {
 };
 
 // Create new user with email and password
-export const createUserAction = (email, password) => async (dispatch) => {
+export const createUserAction = (email, password, name) => async (dispatch) => {
   try {
     await createUserWithEmailAndPassword(auth, email, password).then(
       (authCredential) => {
         const user = authCredential.user;
+        addDoc(collectionRef, {
+          name,
+          email: user.email,
+          id: user.uid,
+        });
         dispatch({
           type: CREATE_USER,
           payload: user,

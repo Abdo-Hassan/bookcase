@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 export default function AccountSettings() {
   const userInfo = useSelector((state) => state.userInfo);
   return (
-    <VStack flex={1} bg='#000' p={3} space={3}>
+    <VStack flex={1} bg='#000' px={5} py={3} space={3}>
       <StatusBar style='light' />
       <Heading fontSize='17' color='#fff'>
         Basic Info

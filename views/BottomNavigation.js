@@ -80,7 +80,7 @@ export default function BottomNavigation({ navigation }) {
                 <EvilIcons
                   name='gear'
                   size={30}
-                  color='#ccc'
+                  color='#fff'
                   style={{ marginRight: 15 }}
                   onPress={onOpen}
                 />
@@ -95,9 +95,7 @@ export default function BottomNavigation({ navigation }) {
           },
           tabBarLabel: 'Profile',
           tabBarIcon: ({ color, size }) => (
-            <>
-              <Ionicons name='person-outline' size={size} color={color} />
-            </>
+            <Ionicons name='person-outline' size={size} color={color} />
           ),
         }}
       />
