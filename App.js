@@ -114,7 +114,7 @@ function AppDetails() {
   return (
     <NavigationContainer>
       <NativeBaseProvider config={configGradient} theme={customTheme}>
-        <StatusBar style='auto' />
+        <StatusBar style='light' />
         {handleScreens()}
       </NativeBaseProvider>
     </NavigationContainer>

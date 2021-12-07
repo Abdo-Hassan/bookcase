@@ -21,10 +21,11 @@ import {
 } from '../../constants/Colors';
 import { MaterialCommunityIcons, Entypo } from '@expo/vector-icons';
 import { useSelector, useDispatch } from 'react-redux';
-// import { uploadProfileImage } from '../../redux/actions/userDataActions';
+import { uploadProfileImage } from '../../redux/actions/userDataActions';
 
 export default function Profile({ navigation }) {
   const dispatch = useDispatch();
+  const userInfo = useSelector((state) => state.userInfo);
   const profileImage = useSelector((state) => state.profileImage);
   const userRecord = useSelector((state) => state.userRecord);
 
@@ -45,7 +46,6 @@ export default function Profile({ navigation }) {
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       base64: true,
       allowsEditing: true,
-      aspect: [4, 3],
       quality: 1,
     });
 
@@ -53,7 +53,7 @@ export default function Profile({ navigation }) {
       const split = result.uri.split('/');
       const imageName = split[split.length - 1];
       const imageUrl = result.base64;
-      // dispatch(uploadProfileImage(imageUrl, imageName));
+      dispatch(uploadProfileImage(imageUrl, imageName, userInfo?.uid));
     }
   };
 

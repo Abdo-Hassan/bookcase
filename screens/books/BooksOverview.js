@@ -69,7 +69,12 @@ export default function BooksOverview({ navigation }) {
           Good afternoon!
         </Text>
         <TouchableOpacity>
-          <Ionicons name='notifications-outline' size={25} color='#fff' />
+          <Ionicons
+            name='notifications-outline'
+            size={25}
+            color='#fff'
+            onPress={() => navigation.navigate('notifications')}
+          />
         </TouchableOpacity>
       </HStack>
 

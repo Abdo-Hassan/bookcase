@@ -8,7 +8,7 @@ import {
   signInWithPopup,
 } from 'firebase/auth';
 import { auth, db } from '../../firebase';
-import { addDoc, collection, doc, onSnapshot } from 'firebase/firestore';
+import { doc, onSnapshot, setDoc } from 'firebase/firestore';
 import {
   CREATE_USER,
   CREATE_USER_ERROR,
@@ -25,16 +25,14 @@ import {
 
 const googleProvider = new GoogleAuthProvider();
 const facebookProvider = new FacebookAuthProvider();
-const usersRef = collection(db, 'users');
 
 // firebase listen to user
 export const getUser = () => async (dispatch) => {
-  const userDocId = doc(db, 'users', '12mJWxuthSFYtznNgnQK');
-  // const userDocId = doc(db, 'users', state?.userInfo?.uid);
   try {
     onAuthStateChanged(auth, (user) => {
       if (user !== null) {
-        onSnapshot(userDocId, (doc) => {
+        const userRef = doc(db, 'users', user.uid);
+        onSnapshot(userRef, (doc) => {
           dispatch({
             type: USER_RECORD,
             payload: doc.data(),
@@ -63,15 +61,18 @@ export const createUserAction = (email, password, name) => async (dispatch) => {
     await createUserWithEmailAndPassword(auth, email, password).then(
       (authCredential) => {
         const user = authCredential.user;
-        addDoc(usersRef, {
+        const userRef = doc(db, 'users', user?.uid);
+
+        setDoc(userRef, {
           name,
           email: user.email,
-          id: user.uid,
         });
+
         dispatch({
           type: CREATE_USER,
           payload: user,
         });
+
         return user;
       }
     );
