@@ -30,6 +30,7 @@ export default function BookDetails({ route, navigation }) {
   const { isOpen, onClose, onOpen } = useDisclose();
 
   const handleNavigate = (item) => {
+    console.log('handleNavigate - item', item);
     if (item.withIcon && item.title === '1.3 Ratings') {
       navigation.navigate('reviews');
     }
@@ -77,6 +78,7 @@ export default function BookDetails({ route, navigation }) {
     return (
       <HStack mx={4} my={3} alignItems='center' justifyContent='center'>
         <TouchableOpacity
+          onPress={() => handleNavigate(item)}
           activeOpacity={
             item.withIcon && item.title === '1.3 Ratings' ? 0.4 : 1
           }
@@ -86,12 +88,7 @@ export default function BookDetails({ route, navigation }) {
               {item.title}
             </Heading>
 
-            <HStack
-              alignItems='center'
-              space={1}
-              justifyContent='center'
-              onPress={() => handleNavigate(item)}
-            >
+            <HStack alignItems='center' space={1} justifyContent='center'>
               {item.withIcon && item.title === '1.3 Ratings' ? (
                 <AntDesign name='star' size={20} color='gold' />
               ) : (

@@ -25,9 +25,9 @@ import { uploadProfileImage } from '../../redux/actions/userDataActions';
 
 export default function Profile({ navigation }) {
   const dispatch = useDispatch();
-  const userInfo = useSelector((state) => state.userInfo);
+  const userAuth = useSelector((state) => state.userAuth);
   const profileImage = useSelector((state) => state.profileImage);
-  const userRecord = useSelector((state) => state.userRecord);
+  const userProfile = useSelector((state) => state.userProfile);
 
   useEffect(() => {
     (async () => {
@@ -52,7 +52,7 @@ export default function Profile({ navigation }) {
       const split = result.uri.split('/');
       const imageName = split[split.length - 1];
       const imageUrl = result.uri;
-      dispatch(uploadProfileImage(imageUrl, imageName, userInfo?.uid));
+      dispatch(uploadProfileImage(imageName, imageUrl, userAuth?.uid));
     }
   };
 
@@ -87,7 +87,7 @@ export default function Profile({ navigation }) {
 
         <VStack space={3} alignItems='center' justifyContent='center'>
           <Heading fontSize='19' color='#fff'>
-            Hi, {userRecord?.firstName} {userRecord?.lastName}
+            Hi, {userProfile?.firstName} {userProfile?.lastName}
           </Heading>
           <Text fontSize='13' color='#fff'>
             2
@@ -100,8 +100,8 @@ export default function Profile({ navigation }) {
         <Button
           onPress={() =>
             navigation.navigate('profileEdit', {
-              firstName: userRecord?.firstName,
-              lastName: userRecord?.lastName,
+              firstName: userProfile?.firstName,
+              lastName: userProfile?.lastName,
               pickImage,
               profileImage,
             })

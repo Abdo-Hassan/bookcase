@@ -52,7 +52,7 @@ let DummyBooks3 = [
 ];
 
 export default function BooksOverview({ navigation }) {
-  const userRecord = useSelector((state) => state.userRecord);
+  const userProfile = useSelector((state) => state.userProfile);
   return (
     <Box
       flex={1}
@@ -68,7 +68,7 @@ export default function BooksOverview({ navigation }) {
       <StatusBar style='light' />
       <HStack mt='20' mb='5' alignItems='center'>
         <Text bold fontSize='26' ml='3' color='#fff' flex={0.92}>
-          Good afternoon! {userRecord?.firstName}
+          Good Morning {userProfile?.firstName}
         </Text>
         <TouchableOpacity>
           <Ionicons

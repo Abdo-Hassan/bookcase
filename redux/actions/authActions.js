@@ -20,28 +20,31 @@ import {
   GUEST_USER,
   LOGIN_ERROR,
   LOGOUT,
-  USER_RECORD,
+  USER_NAME,
 } from './actionTypes';
-
-const googleProvider = new GoogleAuthProvider();
-const facebookProvider = new FacebookAuthProvider();
 
 // firebase listen to user
 export const getUser = () => async (dispatch) => {
   try {
     onAuthStateChanged(auth, (user) => {
       if (user !== null) {
-        const userRef = doc(db, 'users', user.uid);
-        onSnapshot(userRef, (doc) => {
-          dispatch({
-            type: USER_RECORD,
-            payload: doc.data(),
-          });
-        });
+        const userProfileRef = doc(db, 'userProfile', user.uid);
         dispatch({
           type: CURRENT_USER,
-          payload: user,
+          payload: { userId: user?.uid, email: user?.email },
         });
+
+        if (userProfileRef) {
+          onSnapshot(userProfileRef, (doc) => {
+            dispatch({
+              type: USER_NAME,
+              payload: {
+                firstName: doc.data()?.firstName,
+                lastName: doc.data()?.lastName,
+              },
+            });
+          });
+        }
       } else {
         dispatch({
           type: GUEST_USER,
@@ -63,16 +66,28 @@ export const createUserAction =
         (authCredential) => {
           const user = authCredential.user;
           const userRef = doc(db, 'users', user?.uid);
+          const userProfileRef = doc(db, 'userProfile', user?.uid);
 
+          // create user record for email and id
           setDoc(userRef, {
-            firstName,
-            lastName,
+            userId: user.uid,
             email: user.email,
+          }).then(() => {
+            dispatch({
+              type: CREATE_USER,
+              payload: { userId: user?.uid, email: user?.email },
+            });
           });
 
-          dispatch({
-            type: CREATE_USER,
-            payload: user,
+          // create user record for first name and last name
+          setDoc(userProfileRef, {
+            firstName,
+            lastName,
+          }).then(() => {
+            dispatch({
+              type: USER_NAME,
+              payload: { firstName, lastName },
+            });
           });
 
           return user;
@@ -87,6 +102,7 @@ export const createUserAction =
 
 // Google sign up
 export const createUserWithGoogle = () => async (dispatch) => {
+  const googleProvider = new GoogleAuthProvider();
   await signInWithPopup(auth, googleProvider)
     .then((userCred) => {
       let user = userCred.user;
@@ -104,6 +120,7 @@ export const createUserWithGoogle = () => async (dispatch) => {
 
 // Facebook sign up
 export const createUserWithFacebook = () => async (dispatch) => {
+  const facebookProvider = new FacebookAuthProvider();
   await signInWithPopup(auth, facebookProvider)
     .then((userCred) => {
       let user = userCred.user;

@@ -8,11 +8,11 @@ import { useSelector } from 'react-redux';
 
 export default function ProfileEdit({ route }) {
   const { pickImage, profileImage } = route.params;
-  const userRecord = useSelector((state) => state.userRecord);
-  const userInfo = useSelector((state) => state.userInfo);
+  const userProfile = useSelector((state) => state.userProfile);
+  const userAuth = useSelector((state) => state.userAuth);
 
-  const [firstNameInput, setFirstName] = useState(userRecord?.firstName);
-  const [lastNameInput, setLastName] = useState(userRecord?.lastName);
+  const [firstNameInput, setFirstName] = useState(userProfile?.firstName);
+  const [lastNameInput, setLastName] = useState(userProfile?.lastName);
 
   return (
     <Box flex={1} bg='#000' pt={10}>
@@ -58,7 +58,7 @@ export default function ProfileEdit({ route }) {
 
       <ActionButton
         onClick={editProfileUsername(
-          userInfo?.uid,
+          userAuth?.userId,
           firstNameInput,
           lastNameInput
         )}

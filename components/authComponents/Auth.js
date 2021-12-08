@@ -148,21 +148,21 @@ export default function Auth({ register }) {
           <Divider w={10} />
         </HStack>
 
-        {/* <ActionButton
+        <ActionButton
           title='Sign up with google'
           color={secondaryColor}
           auth={true}
           author={false}
           onClick={signUpWithGoogle}
-        /> */}
+        />
 
-        {/* <ActionButton
+        <ActionButton
           title='Sign up with Facebook'
           color={secondaryColor}
           auth={true}
           author={false}
           onClick={signUpWithFacebook}
-        /> */}
+        />
       </VStack>
     </Box>
   );
