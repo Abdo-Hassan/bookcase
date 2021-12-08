@@ -22,7 +22,8 @@ import {
 
 export default function Auth({ register }) {
   const [show, setShow] = useState(false);
-  const [name, setName] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const handleClick = () => setShow(!show);
@@ -35,8 +36,8 @@ export default function Auth({ register }) {
   };
 
   const createUser = () => {
-    if (email && password && name) {
-      dispatch(createUserAction(email, password, name));
+    if ((email && password && firstName, lastName)) {
+      dispatch(createUserAction(email, password, firstName, lastName));
     }
   };
 
@@ -60,16 +61,29 @@ export default function Auth({ register }) {
 
         <VStack my={4} space={3}>
           {register && (
-            <Input
-              borderWidth={0}
-              fontSize={15}
-              variant='filled'
-              placeholder='Name'
-              py={3}
-              value={name}
-              onChangeText={setName}
-              isInvalid={false}
-            />
+            <>
+              <Input
+                borderWidth={0}
+                fontSize={15}
+                variant='filled'
+                placeholder='First Name'
+                py={3}
+                mb={3}
+                value={firstName}
+                onChangeText={setFirstName}
+                isInvalid={false}
+              />
+              <Input
+                borderWidth={0}
+                fontSize={15}
+                variant='filled'
+                placeholder='Last Name'
+                py={3}
+                value={lastName}
+                onChangeText={setLastName}
+                isInvalid={false}
+              />
+            </>
           )}
           <Input
             borderWidth={0}

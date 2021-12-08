@@ -56,32 +56,34 @@ export const getUser = () => async (dispatch) => {
 };
 
 // Create new user with email and password
-export const createUserAction = (email, password, name) => async (dispatch) => {
-  try {
-    await createUserWithEmailAndPassword(auth, email, password).then(
-      (authCredential) => {
-        const user = authCredential.user;
-        const userRef = doc(db, 'users', user?.uid);
+export const createUserAction =
+  (email, password, firstName, lastName) => async (dispatch) => {
+    try {
+      await createUserWithEmailAndPassword(auth, email, password).then(
+        (authCredential) => {
+          const user = authCredential.user;
+          const userRef = doc(db, 'users', user?.uid);
 
-        setDoc(userRef, {
-          name,
-          email: user.email,
-        });
+          setDoc(userRef, {
+            firstName,
+            lastName,
+            email: user.email,
+          });
 
-        dispatch({
-          type: CREATE_USER,
-          payload: user,
-        });
+          dispatch({
+            type: CREATE_USER,
+            payload: user,
+          });
 
-        return user;
-      }
-    );
-  } catch (err) {
-    dispatch({
-      type: CREATE_USER_ERROR,
-    });
-  }
-};
+          return user;
+        }
+      );
+    } catch (err) {
+      dispatch({
+        type: CREATE_USER_ERROR,
+      });
+    }
+  };
 
 // Google sign up
 export const createUserWithGoogle = () => async (dispatch) => {

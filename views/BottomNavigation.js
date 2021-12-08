@@ -2,23 +2,14 @@ import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Search from '../screens/Search';
 import Bookshelf from '../screens/Bookshelf';
-import Home from '../screens/books/Home';
-import Profile from '../screens/profile/Profile';
-import {
-  AntDesign,
-  MaterialIcons,
-  Ionicons,
-  EvilIcons,
-} from '@expo/vector-icons';
+import HomeStack from '../views/HomeStack';
+import ProfileStack from './ProfileStack';
+import { AntDesign, MaterialIcons, Ionicons } from '@expo/vector-icons';
 import { customColor, primaryColor } from '../constants/Colors';
-import ActionSheetDetails from '../components/ActionSheetDetails';
-import { useDisclose } from 'native-base';
 
 const Tab = createBottomTabNavigator();
 
-export default function BottomNavigation({ navigation }) {
-  const { isOpen, onClose, onOpen } = useDisclose();
-
+export default function BottomNavigation({}) {
   return (
     <Tab.Navigator
       screenOptions={{
@@ -33,8 +24,8 @@ export default function BottomNavigation({ navigation }) {
       }}
     >
       <Tab.Screen
-        name='homeScreen'
-        component={Home}
+        name='homeStack'
+        component={HomeStack}
         options={{
           tabBarLabel: 'Home',
           tabBarIcon: ({ color, size }) => (
@@ -56,6 +47,12 @@ export default function BottomNavigation({ navigation }) {
         name='bookshelf'
         component={Bookshelf}
         options={{
+          title: 'Book shelf',
+          headerStyle: {
+            backgroundColor: customColor,
+          },
+          headerShown: true,
+          headerTintColor: '#fff',
           tabBarLabel: 'Bookshelf',
           tabBarIcon: ({ color, size }) => (
             <MaterialIcons name='favorite-border' color={color} size={24} />
@@ -63,36 +60,9 @@ export default function BottomNavigation({ navigation }) {
         }}
       />
       <Tab.Screen
-        name='profile'
-        component={Profile}
+        name='profileStack'
+        component={ProfileStack}
         options={{
-          title: 'Profile',
-          headerShown: true,
-          headerStyle: {
-            backgroundColor: customColor,
-          },
-          headerTitleStyle: {
-            color: '#fff',
-          },
-          headerRight: () => {
-            return (
-              <>
-                <EvilIcons
-                  name='gear'
-                  size={30}
-                  color='#fff'
-                  style={{ marginRight: 15 }}
-                  onPress={onOpen}
-                />
-                <ActionSheetDetails
-                  isOpen={isOpen}
-                  onClose={onClose}
-                  profile={true}
-                  navigation={navigation}
-                />
-              </>
-            );
-          },
           tabBarLabel: 'Profile',
           tabBarIcon: ({ color, size }) => (
             <Ionicons name='person-outline' size={size} color={color} />

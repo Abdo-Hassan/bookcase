@@ -44,7 +44,6 @@ export default function Profile({ navigation }) {
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
-      base64: true,
       allowsEditing: true,
       quality: 1,
     });
@@ -52,7 +51,7 @@ export default function Profile({ navigation }) {
     if (!result.cancelled) {
       const split = result.uri.split('/');
       const imageName = split[split.length - 1];
-      const imageUrl = result.base64;
+      const imageUrl = result.uri;
       dispatch(uploadProfileImage(imageUrl, imageName, userInfo?.uid));
     }
   };
@@ -70,7 +69,7 @@ export default function Profile({ navigation }) {
           top={-50}
           rounded='full'
         >
-          <Avatar size='xl' source={{ uri: profileImage }} alignSelf='center' />
+          {/* <Avatar size='xl' source={{ uri: profileImage }} alignSelf='center' /> */}
         </Box>
         <Box
           bg={primaryColor}
@@ -88,7 +87,7 @@ export default function Profile({ navigation }) {
 
         <VStack space={3} alignItems='center' justifyContent='center'>
           <Heading fontSize='19' color='#fff'>
-            Hi, {userRecord?.name}
+            Hi, {userRecord?.firstName} {userRecord?.lastName}
           </Heading>
           <Text fontSize='13' color='#fff'>
             2
@@ -99,6 +98,12 @@ export default function Profile({ navigation }) {
         </VStack>
 
         <Button
+          onPress={() =>
+            navigation.navigate('profileEdit', {
+              firstName: userRecord?.firstName,
+              lastName: userRecord?.lastName,
+            })
+          }
           bgColor={customSecondaryColor}
           w='40%'
           alignSelf='center'
@@ -125,7 +130,8 @@ export default function Profile({ navigation }) {
           bgColor='#1A1A1A'
           py={4}
           rounded='lg'
-          mt={10}
+          mt={16}
+          position='relative'
           alignItems='center'
           justifyContent='space-around'
         >

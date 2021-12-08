@@ -66,42 +66,6 @@ function AppDetails() {
           ) : (
             <>
               <Stack.Screen name='home' component={BottomNavigation} />
-              <Stack.Screen
-                name='reviews'
-                options={{
-                  headerTintColor: '#fff',
-                  title: 'Reviews',
-                  headerShown: true,
-                  headerStyle: {
-                    backgroundColor: secondaryColor,
-                  },
-                }}
-                component={ReviewDetails}
-              />
-              <Stack.Screen
-                name='comment'
-                options={{
-                  headerTintColor: '#fff',
-                  title: 'Comments',
-                  headerShown: true,
-                  headerStyle: {
-                    backgroundColor: secondaryColor,
-                  },
-                }}
-                component={CommentSection}
-              />
-              <Stack.Screen
-                name='accountSettings'
-                options={{
-                  headerTintColor: '#fff',
-                  title: 'Account Settings',
-                  headerShown: true,
-                  headerStyle: {
-                    backgroundColor: customColor,
-                  },
-                }}
-                component={AccountSettings}
-              />
             </>
           )}
         </Stack.Navigator>
