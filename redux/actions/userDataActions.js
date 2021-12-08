@@ -39,3 +39,18 @@ export const uploadProfileImage =
       }
     );
   };
+
+export const editProfileUsername =
+  (userId, firstName, lastName) => async (dispatch) => {
+    const userRef = doc(db, 'users', userId);
+    try {
+      if (firstName && lastName) {
+        await updateDoc(userRef, {
+          firstName,
+          lastName,
+        });
+      }
+    } catch (err) {
+      console.log('err', err);
+    }
+  };

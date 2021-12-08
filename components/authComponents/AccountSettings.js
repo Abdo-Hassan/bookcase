@@ -18,6 +18,13 @@ export default function AccountSettings() {
       <Text color='#fff' fontSize='16'>
         {userInfo?.email}
       </Text>
+
+      <Text color='#ccc' fontSize='15'>
+        Full name
+      </Text>
+      <Text color='#fff' fontSize='16'>
+        {userInfo?.firstName} {userInfo?.lastName}
+      </Text>
     </VStack>
   );
 }

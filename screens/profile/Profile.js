@@ -102,6 +102,8 @@ export default function Profile({ navigation }) {
             navigation.navigate('profileEdit', {
               firstName: userRecord?.firstName,
               lastName: userRecord?.lastName,
+              pickImage,
+              profileImage,
             })
           }
           bgColor={customSecondaryColor}
@@ -122,7 +124,7 @@ export default function Profile({ navigation }) {
         </Button>
       </VStack>
 
-      <TouchableOpacity
+      {/* <TouchableOpacity
         activeOpacity={0.4}
         onPress={() => navigation.navigate('bookshelf')}
       >
@@ -144,7 +146,7 @@ export default function Profile({ navigation }) {
             Favorite Books
           </Text>
         </HStack>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
 
       {/* <Progress colorScheme='warning' value={65} /> */}
     </Box>

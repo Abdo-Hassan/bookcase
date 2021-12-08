@@ -16,6 +16,7 @@ import { TouchableOpacity } from 'react-native';
 import BookList from '../../components/BookList';
 import { primaryColor } from '../../constants/Colors';
 import { StatusBar } from 'expo-status-bar';
+import { useSelector } from 'react-redux';
 
 let DummyBooks1 = [
   { id: 1, image: require('../../assets/elda7e7.png') },
@@ -51,6 +52,7 @@ let DummyBooks3 = [
 ];
 
 export default function BooksOverview({ navigation }) {
+  const userRecord = useSelector((state) => state.userRecord);
   return (
     <Box
       flex={1}
@@ -66,7 +68,7 @@ export default function BooksOverview({ navigation }) {
       <StatusBar style='light' />
       <HStack mt='20' mb='5' alignItems='center'>
         <Text bold fontSize='26' ml='3' color='#fff' flex={0.92}>
-          Good afternoon!
+          Good afternoon! {userRecord?.firstName}
         </Text>
         <TouchableOpacity>
           <Ionicons

@@ -1,10 +1,72 @@
-import React from 'react';
-import { Box, Text } from 'native-base';
+import React, { useState } from 'react';
+import { Avatar, Box, Input, Text, VStack } from 'native-base';
+import { primaryColor, secondaryColor } from '../../constants/Colors';
+import { Entypo } from '@expo/vector-icons';
+import ActionButton from '../../components/ActionButton';
+import { editProfileUsername } from '../../redux/actions/userDataActions';
+import { useSelector } from 'react-redux';
 
-export default function ProfileEdit() {
+export default function ProfileEdit({ route }) {
+  const { pickImage, profileImage } = route.params;
+  const userRecord = useSelector((state) => state.userRecord);
+  const userInfo = useSelector((state) => state.userInfo);
+
+  const [firstNameInput, setFirstName] = useState(userRecord?.firstName);
+  const [lastNameInput, setLastName] = useState(userRecord?.lastName);
+
   return (
-    <Box flex={1} bg='#000'>
-      <Text>ProfileEdit</Text>
+    <Box flex={1} bg='#000' pt={10}>
+      <VStack mb={6}>
+        {/* <Avatar size='xl' source={{ uri: profileImage }} alignSelf='center' /> */}
+        <Box
+          bg={primaryColor}
+          rounded='full'
+          w='10'
+          alignItems='center'
+          justifyContent='center'
+          p={2}
+          position='absolute'
+          right={130}
+          top='2/3'
+        >
+          <Entypo name='camera' size={24} color='#fff' onPress={pickImage} />
+        </Box>
+      </VStack>
+      <VStack mx={4} space={4} flex={1}>
+        <Input
+          borderWidth={0}
+          fontSize={15}
+          variant='filled'
+          placeholder='First Name'
+          py={3}
+          value={firstNameInput}
+          onChangeText={setFirstName}
+          isInvalid={false}
+        />
+        <Input
+          borderWidth={0}
+          fontSize={15}
+          variant='filled'
+          placeholder='Last Name'
+          py={3}
+          mb={3}
+          value={lastNameInput}
+          onChangeText={setLastName}
+          isInvalid={false}
+        />
+      </VStack>
+
+      <ActionButton
+        onClick={editProfileUsername(
+          userInfo?.uid,
+          firstNameInput,
+          lastNameInput
+        )}
+        title='Submit'
+        color={primaryColor}
+        author={false}
+        auth={true}
+      />
     </Box>
   );
 }
