@@ -26,8 +26,32 @@ import { uploadProfileImage } from '../../redux/actions/userDataActions';
 export default function Profile({ navigation }) {
   const dispatch = useDispatch();
   const userAuth = useSelector((state) => state.userAuth);
-  const profileImage = useSelector((state) => state.profileImage);
   const userProfile = useSelector((state) => state.userProfile);
+  console.log('userPhoto', userProfile?.userPhoto);
+
+  // const ProfileImage = () => {
+  //   if (userProfile?.userPhoto) {
+  //     return (
+  //       <Image
+  //         size='lg'
+  //         rounded='full'
+  //         source={{ uri: userProfile?.userPhoto }}
+  //         alignSelf='center'
+  //         alt='profileImage'
+  //       />
+  //     );
+  //   } else {
+  //       return (
+  //         <Image
+  //           size='lg'
+  //           rounded='full'
+  //           source={{ uri: userProfile?.userPhoto }}
+  //           alignSelf='center'
+  //           alt='profileImage'
+  //         />
+  //       );
+  //   }
+  // }
 
   useEffect(() => {
     (async () => {
@@ -52,7 +76,7 @@ export default function Profile({ navigation }) {
       const split = result.uri.split('/');
       const imageName = split[split.length - 1];
       const imageUrl = result.uri;
-      dispatch(uploadProfileImage(imageName, imageUrl, userAuth?.uid));
+      dispatch(uploadProfileImage(imageName, imageUrl, userAuth?.userId));
     }
   };
 
@@ -69,7 +93,14 @@ export default function Profile({ navigation }) {
           top={-50}
           rounded='full'
         >
-          {/* <Avatar size='xl' source={{ uri: profileImage }} alignSelf='center' /> */}
+          <Image
+            size='lg'
+            rounded='full'
+            source={{ uri: userProfile?.userPhoto }}
+            alignSelf='center'
+            alt='profileImage'
+            key={userProfile?.userPhoto}
+          />
         </Box>
         <Box
           bg={primaryColor}
@@ -100,10 +131,7 @@ export default function Profile({ navigation }) {
         <Button
           onPress={() =>
             navigation.navigate('profileEdit', {
-              firstName: userProfile?.firstName,
-              lastName: userProfile?.lastName,
               pickImage,
-              profileImage,
             })
           }
           bgColor={customSecondaryColor}

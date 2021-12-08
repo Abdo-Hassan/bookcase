@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Avatar, Box, Input, Text, VStack } from 'native-base';
+import { Box, Input, VStack, Image } from 'native-base';
 import { primaryColor, secondaryColor } from '../../constants/Colors';
 import { Entypo } from '@expo/vector-icons';
 import ActionButton from '../../components/ActionButton';
@@ -7,7 +7,7 @@ import { editProfileUsername } from '../../redux/actions/userDataActions';
 import { useSelector } from 'react-redux';
 
 export default function ProfileEdit({ route }) {
-  const { pickImage, profileImage } = route.params;
+  const { pickImage } = route.params;
   const userProfile = useSelector((state) => state.userProfile);
   const userAuth = useSelector((state) => state.userAuth);
 
@@ -17,7 +17,14 @@ export default function ProfileEdit({ route }) {
   return (
     <Box flex={1} bg='#000' pt={10}>
       <VStack mb={6}>
-        {/* <Avatar size='xl' source={{ uri: profileImage }} alignSelf='center' /> */}
+        <Image
+          rounded='full'
+          size='lg'
+          source={{ uri: userProfile?.userPhoto }}
+          alignSelf='center'
+          key={userProfile?.userPhoto}
+          alt='profileImage'
+        />
         <Box
           bg={primaryColor}
           rounded='full'

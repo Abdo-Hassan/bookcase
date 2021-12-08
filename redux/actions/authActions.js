@@ -21,6 +21,7 @@ import {
   LOGIN_ERROR,
   LOGOUT,
   USER_NAME,
+  PROFILE_IMAGE,
 } from './actionTypes';
 
 // firebase listen to user
@@ -43,6 +44,12 @@ export const getUser = () => async (dispatch) => {
                 lastName: doc.data()?.lastName,
               },
             });
+            if (doc.data()?.userPhoto) {
+              dispatch({
+                type: PROFILE_IMAGE,
+                payload: doc.data()?.userPhoto,
+              });
+            }
           });
         }
       } else {
@@ -73,6 +80,10 @@ export const createUserAction =
             userId: user.uid,
             email: user.email,
           }).then(() => {
+            dispatch({
+              type: CREATE_USER,
+              payload: { userId: user?.uid, email: user?.email },
+            });
             dispatch({
               type: CREATE_USER,
               payload: { userId: user?.uid, email: user?.email },

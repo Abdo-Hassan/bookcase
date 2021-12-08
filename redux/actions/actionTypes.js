@@ -1,6 +1,6 @@
 export const CURRENT_USER = 'CURRENT_USER';
 export const USER_NAME = 'USER_NAME';
-export const UPLOAD_PROFILE_IMAGE = 'UPLOAD_PROFILE_IMAGE';
+export const PROFILE_IMAGE = 'PROFILE_IMAGE';
 export const GUEST_USER = 'GUEST_USER';
 export const CREATE_USER = 'CREATE_USER';
 export const CREATE_USER_GOOGLE = 'CREATE_USER_GOOGLE';

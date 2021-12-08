@@ -10,7 +10,7 @@ import {
   CREATE_USER_FACEBOOK,
   CREATE_USER_GOOGLE_ERROR,
   CREATE_USER_FACEBOOK_ERROR,
-  UPLOAD_PROFILE_IMAGE,
+  PROFILE_IMAGE,
   USER_NAME,
 } from '../actions/actionTypes';
 
@@ -63,10 +63,12 @@ export const authReducer = (state = INIT_STATE, action) => {
         fetchCurrentUser: true,
       };
 
-    case UPLOAD_PROFILE_IMAGE:
+    case PROFILE_IMAGE:
       return {
         ...state,
-        userProfile: { userPhoto: action.payload },
+        userProfile: {
+          userPhoto: action.payload,
+        },
       };
 
     default:

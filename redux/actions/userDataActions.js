@@ -1,17 +1,7 @@
-import { UPLOAD_PROFILE_IMAGE } from './actionTypes';
-import { doc, setDoc, updateDoc } from 'firebase/firestore';
+import { PROFILE_IMAGE } from './actionTypes';
+import { doc, updateDoc } from 'firebase/firestore';
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 import { db, storage } from '../../firebase';
-
-export const getUserProfile = (userId) => async (dispatch) => {
-  const userProfileRef = doc(db, 'userProfile', userId);
-  await onSnapshot(userProfileRef, (doc) => {
-    dispatch({
-      type: UPLOAD_PROFILE_IMAGE,
-      payload: doc.data(),
-    });
-  });
-};
 
 export const uploadProfileImage =
   (imageName, imageUrl, userId) => async (dispatch) => {
@@ -33,16 +23,15 @@ export const uploadProfileImage =
     const storageRef = ref(storage, `/userImages/${imageName}`);
     await uploadBytesResumable(storageRef, blob);
 
-    // We're done with the blob, close and release it
     blob.close();
 
     getDownloadURL(storageRef).then((url) => {
       dispatch({
-        type: UPLOAD_PROFILE_IMAGE,
+        type: PROFILE_IMAGE,
         payload: url,
       });
-      setDoc(userProfileRef, {
-        profileImage: url,
+      updateDoc(userProfileRef, {
+        userPhoto: url,
       });
     });
   };
