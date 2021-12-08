@@ -22,7 +22,9 @@ import {
   LOGOUT,
   USER_NAME,
   PROFILE_IMAGE,
+  USER_THEME,
 } from './actionTypes';
+import { primaryColor } from '../../constants/Colors';
 
 // firebase listen to user
 export const getUser = () => async (dispatch) => {
@@ -30,6 +32,8 @@ export const getUser = () => async (dispatch) => {
     onAuthStateChanged(auth, (user) => {
       if (user !== null) {
         const userProfileRef = doc(db, 'userProfile', user.uid);
+        const userSettingsRef = doc(db, 'userSettings', user.uid);
+
         dispatch({
           type: CURRENT_USER,
           payload: { userId: user?.uid, email: user?.email },
@@ -50,6 +54,15 @@ export const getUser = () => async (dispatch) => {
                 payload: doc.data()?.userPhoto,
               });
             }
+          });
+        }
+
+        if (userSettingsRef) {
+          onSnapshot(userSettingsRef, (doc) => {
+            dispatch({
+              type: USER_THEME,
+              payload: doc.data()?.theme,
+            });
           });
         }
       } else {
@@ -74,6 +87,7 @@ export const createUserAction =
           const user = authCredential.user;
           const userRef = doc(db, 'users', user?.uid);
           const userProfileRef = doc(db, 'userProfile', user?.uid);
+          const userSettingsRef = doc(db, 'userSettings', user?.uid);
 
           // create user record for email and id
           setDoc(userRef, {
@@ -98,6 +112,16 @@ export const createUserAction =
             dispatch({
               type: USER_NAME,
               payload: { firstName, lastName },
+            });
+          });
+
+          // create user record for app theme
+          setDoc(userSettingsRef, {
+            theme: primaryColor,
+          }).then(() => {
+            dispatch({
+              type: USER_THEME,
+              payload: primaryColor,
             });
           });
 

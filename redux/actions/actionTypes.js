@@ -2,6 +2,7 @@ export const CURRENT_USER = 'CURRENT_USER';
 export const USER_NAME = 'USER_NAME';
 export const PROFILE_IMAGE = 'PROFILE_IMAGE';
 export const GUEST_USER = 'GUEST_USER';
+export const USER_THEME = 'USER_THEME';
 export const CREATE_USER = 'CREATE_USER';
 export const CREATE_USER_GOOGLE = 'CREATE_USER_GOOGLE';
 export const CREATE_USER_FACEBOOK = 'CREATE_USER_FACEBOOK';

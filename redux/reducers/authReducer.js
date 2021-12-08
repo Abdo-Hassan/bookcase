@@ -12,6 +12,7 @@ import {
   CREATE_USER_FACEBOOK_ERROR,
   PROFILE_IMAGE,
   USER_NAME,
+  USER_THEME,
 } from '../actions/actionTypes';
 
 const INIT_STATE = {
@@ -23,6 +24,9 @@ const INIT_STATE = {
     userPhoto: '',
     firstName: '',
     lastName: '',
+  },
+  userSettings: {
+    theme: '',
   },
 };
 
@@ -68,6 +72,14 @@ export const authReducer = (state = INIT_STATE, action) => {
         ...state,
         userProfile: {
           userPhoto: action.payload,
+        },
+      };
+
+    case USER_THEME:
+      return {
+        ...state,
+        userSettings: {
+          theme: action.payload,
         },
       };
 

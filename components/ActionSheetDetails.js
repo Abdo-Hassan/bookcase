@@ -7,6 +7,7 @@ import {
   SimpleLineIcons,
   FontAwesome,
   AntDesign,
+  EvilIcons,
 } from '@expo/vector-icons';
 import { TouchableOpacity } from 'react-native';
 import Popup from './Popup';
@@ -25,6 +26,8 @@ export default function ActionSheetDetails({
         setModalVisible(true);
       } else if (iconName === 'person-outline') {
         navigation.navigate('accountSettings');
+      } else if (iconName === 'gear') {
+        navigation.navigate('userSettings');
       }
     }
   };
@@ -40,6 +43,12 @@ export default function ActionSheetDetails({
       },
       {
         id: 2,
+        title: 'App',
+        iconName: 'gear',
+        iconType: <EvilIcons />,
+      },
+      {
+        id: 3,
         title: 'Logout',
         iconName: 'logout',
         iconType: <MaterialIcons />,

@@ -7,6 +7,7 @@ import AccountSettings from '../components/authComponents/AccountSettings';
 import { EvilIcons } from '@expo/vector-icons';
 import { useDisclose } from 'native-base';
 import ActionSheetDetails from '../components/ActionSheetDetails';
+import UserSettings from '../screens/profile/UserSettings';
 
 const Stack = createStackNavigator();
 
@@ -61,6 +62,14 @@ export default function ProfileStack({ navigation }) {
           title: 'Account Settings',
         }}
         component={AccountSettings}
+      />
+
+      <Stack.Screen
+        name='userSettings'
+        options={{
+          title: 'App Settings',
+        }}
+        component={UserSettings}
       />
     </Stack.Navigator>
   );

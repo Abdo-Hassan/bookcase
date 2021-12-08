@@ -27,31 +27,6 @@ export default function Profile({ navigation }) {
   const dispatch = useDispatch();
   const userAuth = useSelector((state) => state.userAuth);
   const userProfile = useSelector((state) => state.userProfile);
-  console.log('userPhoto', userProfile?.userPhoto);
-
-  // const ProfileImage = () => {
-  //   if (userProfile?.userPhoto) {
-  //     return (
-  //       <Image
-  //         size='lg'
-  //         rounded='full'
-  //         source={{ uri: userProfile?.userPhoto }}
-  //         alignSelf='center'
-  //         alt='profileImage'
-  //       />
-  //     );
-  //   } else {
-  //       return (
-  //         <Image
-  //           size='lg'
-  //           rounded='full'
-  //           source={{ uri: userProfile?.userPhoto }}
-  //           alignSelf='center'
-  //           alt='profileImage'
-  //         />
-  //       );
-  //   }
-  // }
 
   useEffect(() => {
     (async () => {

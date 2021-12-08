@@ -1,4 +1,4 @@
-import { PROFILE_IMAGE } from './actionTypes';
+import { PROFILE_IMAGE, USER_THEME } from './actionTypes';
 import { doc, updateDoc } from 'firebase/firestore';
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 import { db, storage } from '../../firebase';
@@ -50,3 +50,19 @@ export const editProfileUsername =
       console.log('err', err);
     }
   };
+
+export const changeAppTheme = (theme, userId) => async (dispatch) => {
+  const userSettingsRef = doc(db, 'userSettings', userId);
+  try {
+    updateDoc(userSettingsRef, {
+      theme,
+    }).then(() => {
+      dispatch({
+        type: USER_THEME,
+        payload: theme,
+      });
+    });
+  } catch (error) {
+    console.log('changeAppTheme - error', error);
+  }
+};

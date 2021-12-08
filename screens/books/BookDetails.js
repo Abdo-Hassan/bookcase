@@ -30,7 +30,6 @@ export default function BookDetails({ route, navigation }) {
   const { isOpen, onClose, onOpen } = useDisclose();
 
   const handleNavigate = (item) => {
-    console.log('handleNavigate - item', item);
     if (item.withIcon && item.title === '1.3 Ratings') {
       navigation.navigate('reviews');
     }
