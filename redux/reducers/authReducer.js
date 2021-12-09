@@ -61,6 +61,7 @@ export const authReducer = (state = INIT_STATE, action) => {
       return {
         ...state,
         userProfile: {
+          userPhoto: state.userProfile?.userPhoto,
           firstName: action.payload?.firstName,
           lastName: action.payload?.lastName,
         },
@@ -72,6 +73,8 @@ export const authReducer = (state = INIT_STATE, action) => {
         ...state,
         userProfile: {
           userPhoto: action.payload,
+          firstName: state.userProfile?.firstName,
+          lastName: state.userProfile?.lastName,
         },
       };
 

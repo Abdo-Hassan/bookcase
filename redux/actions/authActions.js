@@ -41,17 +41,18 @@ export const getUser = () => async (dispatch) => {
 
         if (userProfileRef) {
           onSnapshot(userProfileRef, (doc) => {
+            const data = doc.data();
             dispatch({
               type: USER_NAME,
               payload: {
-                firstName: doc.data()?.firstName,
-                lastName: doc.data()?.lastName,
+                firstName: data?.firstName,
+                lastName: data?.lastName,
               },
             });
-            if (doc.data()?.userPhoto) {
+            if (data?.userPhoto) {
               dispatch({
                 type: PROFILE_IMAGE,
-                payload: doc.data()?.userPhoto,
+                payload: data?.userPhoto,
               });
             }
           });
@@ -59,9 +60,10 @@ export const getUser = () => async (dispatch) => {
 
         if (userSettingsRef) {
           onSnapshot(userSettingsRef, (doc) => {
+            const theme = doc.data()?.theme;
             dispatch({
               type: USER_THEME,
-              payload: doc.data()?.theme,
+              payload: theme,
             });
           });
         }
