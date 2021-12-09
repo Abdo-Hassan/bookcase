@@ -1,18 +1,31 @@
 import React, { useState } from 'react';
 import { Box, Input, VStack, Image } from 'native-base';
-import { primaryColor, secondaryColor } from '../../constants/Colors';
+import { primaryColor } from '../../constants/Colors';
 import { Entypo } from '@expo/vector-icons';
 import ActionButton from '../../components/ActionButton';
 import { editProfileUsername } from '../../redux/actions/userDataActions';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 export default function ProfileEdit({ route }) {
   const { pickImage } = route.params;
   const userProfile = useSelector((state) => state.userProfile);
   const userAuth = useSelector((state) => state.userAuth);
+  const dispatch = useDispatch();
 
+  const [editNameLoading, setEditNameLoading] = useState(false);
   const [firstNameInput, setFirstName] = useState(userProfile?.firstName);
   const [lastNameInput, setLastName] = useState(userProfile?.lastName);
+
+  const editProfile = () => {
+    if (firstNameInput && lastNameInput) {
+      setEditNameLoading(true);
+      dispatch(
+        editProfileUsername(userAuth?.userId, firstNameInput, lastNameInput)
+      );
+    } else {
+      setEditNameLoading(false);
+    }
+  };
 
   return (
     <Box flex={1} bg='#000' pt={10}>
@@ -64,15 +77,12 @@ export default function ProfileEdit({ route }) {
       </VStack>
 
       <ActionButton
-        onClick={editProfileUsername(
-          userAuth?.userId,
-          firstNameInput,
-          lastNameInput
-        )}
+        onClick={editProfile}
         title='Submit'
         color={primaryColor}
-        author={false}
         auth={true}
+        author={false}
+        editNameLoading={editNameLoading}
       />
     </Box>
   );

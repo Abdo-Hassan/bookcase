@@ -55,6 +55,8 @@ export const authReducer = (state = INIT_STATE, action) => {
         currentUser: false,
         fetchCurrentUser: true,
         userAuth: {},
+        userProfile: {},
+        userSettings: {},
       };
 
     case USER_NAME:

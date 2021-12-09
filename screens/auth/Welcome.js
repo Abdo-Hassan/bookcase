@@ -81,6 +81,7 @@ export default function Welcome({ navigation }) {
           color={secondaryColor}
           onClick={() => navigation.navigate('register')}
           auth={true}
+          author={false}
         />
         {/* login */}
         <ActionButton
@@ -88,6 +89,7 @@ export default function Welcome({ navigation }) {
           color='#fff'
           onClick={() => navigation.navigate('login')}
           auth={true}
+          author={false}
         />
       </VStack>
     </Box>

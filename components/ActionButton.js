@@ -2,7 +2,6 @@ import React from 'react';
 import { Button, Heading, Icon } from 'native-base';
 import { TouchableOpacity } from 'react-native';
 import { Entypo, Ionicons } from '@expo/vector-icons';
-import { secondaryColor } from '../constants/Colors';
 
 export default function ActionButton({
   title,
@@ -11,11 +10,28 @@ export default function ActionButton({
   review,
   onClick,
   auth,
+  signInLoading,
+  signUpLoading,
+  editNameLoading,
 }) {
   return (
     <TouchableOpacity activeOpacity={0.4}>
       <Button
         onPress={onClick}
+        isLoading={
+          (auth && signInLoading) ||
+          (auth && signUpLoading) ||
+          (auth && editNameLoading)
+            ? true
+            : false
+        }
+        disabled={
+          (auth && signInLoading) ||
+          (auth && signUpLoading) ||
+          (auth && editNameLoading)
+            ? true
+            : false
+        }
         position={review ? 'absolute' : 'relative'}
         bottom={review ? 2 : 0}
         alignSelf='center'

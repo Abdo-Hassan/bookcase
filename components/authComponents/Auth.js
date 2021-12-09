@@ -22,6 +22,8 @@ import {
 
 export default function Auth({ register }) {
   const [show, setShow] = useState(false);
+  const [signInLoading, setSignInLoading] = useState(false);
+  const [signUpLoading, setSignUpLoading] = useState(false);
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
@@ -31,13 +33,19 @@ export default function Auth({ register }) {
 
   const loginUser = () => {
     if (email && password) {
+      setSignInLoading(true);
       dispatch(signIn(email, password));
+    } else {
+      setSignInLoading(false);
     }
   };
 
   const createUser = () => {
     if ((email && password && firstName, lastName)) {
+      setSignUpLoading(true);
       dispatch(createUserAction(email, password, firstName, lastName));
+    } else {
+      setSignUpLoading(false);
     }
   };
 
@@ -127,6 +135,8 @@ export default function Auth({ register }) {
           color={secondaryColor}
           auth={true}
           author={false}
+          signInLoading={signInLoading}
+          signUpLoading={signUpLoading}
           onClick={register ? createUser : loginUser}
         />
 
