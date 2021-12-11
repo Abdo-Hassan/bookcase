@@ -52,7 +52,7 @@ let DummyBooks3 = [
 ];
 
 export default function BooksOverview({ navigation }) {
-  const userProfile = useSelector((state) => state.userProfile);
+  const userProfile = useSelector((state) => state.userData.userProfile);
   return (
     <Box
       flex={1}

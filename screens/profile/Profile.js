@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Box,
   Text,
@@ -8,6 +8,7 @@ import {
   Button,
   HStack,
   Progress,
+  Spinner,
   Image,
 } from 'native-base';
 import * as ImagePicker from 'expo-image-picker';
@@ -19,14 +20,19 @@ import {
   customSecondaryColor,
   primaryColor,
 } from '../../constants/Colors';
-import { MaterialCommunityIcons, Entypo } from '@expo/vector-icons';
+import { MaterialCommunityIcons, Entypo, AntDesign } from '@expo/vector-icons';
 import { useSelector, useDispatch } from 'react-redux';
 import { uploadProfileImage } from '../../redux/actions/userDataActions';
 
 export default function Profile({ navigation }) {
   const dispatch = useDispatch();
-  const userAuth = useSelector((state) => state.userAuth);
-  const userProfile = useSelector((state) => state.userProfile);
+  const userAuth = useSelector((state) => state.auth.userAuth);
+  const userProfile = useSelector((state) => state.userData.userProfile);
+
+  const userPhoto = userProfile?.userPhoto;
+  const userPhotoProgress = userProfile?.userPhotoProgress;
+
+  const [uploadImageLoading, setUploadImageLoading] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -52,6 +58,12 @@ export default function Profile({ navigation }) {
       const imageName = split[split.length - 1];
       const imageUrl = result.uri;
       dispatch(uploadProfileImage(imageName, imageUrl, userAuth?.userId));
+
+      if (userPhotoProgress < 100) {
+        setUploadImageLoading(true);
+      } else {
+        setUploadImageLoading(false);
+      }
     }
   };
 
@@ -68,14 +80,24 @@ export default function Profile({ navigation }) {
           top={-50}
           rounded='full'
         >
-          <Image
-            size='lg'
-            rounded='full'
-            source={{ uri: userProfile?.userPhoto }}
-            alignSelf='center'
-            alt='profileImage'
-            key={userProfile?.userPhoto}
-          />
+          {userPhoto ? (
+            <Image
+              size='lg'
+              rounded='full'
+              source={{ uri: userPhoto }}
+              alignSelf='center'
+              alt='profileImage'
+              key={userPhoto}
+            />
+          ) : (
+            <Avatar bg='#888' size='xl'>
+              {uploadImageLoading ? (
+                <Spinner color='warning.500' size='xl' />
+              ) : (
+                <AntDesign name='picture' size={40} color='#fff' />
+              )}
+            </Avatar>
+          )}
         </Box>
         <Box
           bg={primaryColor}
@@ -132,11 +154,11 @@ export default function Profile({ navigation }) {
         onPress={() => navigation.navigate('bookshelf')}
       >
         <HStack
+          borderWidth={2}
           bgColor='#1A1A1A'
           py={4}
           rounded='lg'
-          mt={16}
-          position='relative'
+          mt={20}
           alignItems='center'
           justifyContent='space-around'
         >
@@ -150,8 +172,6 @@ export default function Profile({ navigation }) {
           </Text>
         </HStack>
       </TouchableOpacity> */}
-
-      {/* <Progress colorScheme='warning' value={65} /> */}
     </Box>
   );
 }

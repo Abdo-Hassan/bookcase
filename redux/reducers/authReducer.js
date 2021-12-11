@@ -10,24 +10,12 @@ import {
   CREATE_USER_FACEBOOK,
   CREATE_USER_GOOGLE_ERROR,
   CREATE_USER_FACEBOOK_ERROR,
-  PROFILE_IMAGE,
-  USER_NAME,
-  USER_THEME,
 } from '../actions/actionTypes';
 
 const INIT_STATE = {
   fetchCurrentUser: false,
   currentUser: false,
-  profileImageProgress: 0,
   userAuth: {},
-  userProfile: {
-    userPhoto: '',
-    firstName: '',
-    lastName: '',
-  },
-  userSettings: {
-    theme: '',
-  },
 };
 
 export const authReducer = (state = INIT_STATE, action) => {
@@ -55,37 +43,6 @@ export const authReducer = (state = INIT_STATE, action) => {
         currentUser: false,
         fetchCurrentUser: true,
         userAuth: {},
-        userProfile: {},
-        userSettings: {},
-      };
-
-    case USER_NAME:
-      return {
-        ...state,
-        userProfile: {
-          userPhoto: state.userProfile?.userPhoto,
-          firstName: action.payload?.firstName,
-          lastName: action.payload?.lastName,
-        },
-        fetchCurrentUser: true,
-      };
-
-    case PROFILE_IMAGE:
-      return {
-        ...state,
-        userProfile: {
-          userPhoto: action.payload,
-          firstName: state.userProfile?.firstName,
-          lastName: state.userProfile?.lastName,
-        },
-      };
-
-    case USER_THEME:
-      return {
-        ...state,
-        userSettings: {
-          theme: action.payload,
-        },
       };
 
     default:

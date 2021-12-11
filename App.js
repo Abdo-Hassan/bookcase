@@ -47,8 +47,8 @@ function AppDetails() {
   const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
   dispatch(getUser());
-  const currentUser = useSelector((state) => state.currentUser);
-  const fetchCurrentUser = useSelector((state) => state.fetchCurrentUser);
+  const currentUser = useSelector((state) => state.auth.currentUser);
+  const fetchCurrentUser = useSelector((state) => state.auth.fetchCurrentUser);
 
   useEffect(() => {
     if (fetchCurrentUser) {

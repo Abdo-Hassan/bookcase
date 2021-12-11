@@ -4,8 +4,8 @@ import { Heading, Text, VStack } from 'native-base';
 import { useSelector } from 'react-redux';
 
 export default function AccountSettings() {
-  const userAuth = useSelector((state) => state.userAuth);
-  const userProfile = useSelector((state) => state.userProfile);
+  const userAuth = useSelector((state) => state.auth.userAuth);
+  const userProfile = useSelector((state) => state.userData.userProfile);
 
   return (
     <VStack flex={1} bg='#000' px={5} py={3} space={3}>

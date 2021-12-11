@@ -9,8 +9,8 @@ import {
 import { changeAppTheme } from '../../redux/actions/userDataActions';
 
 export default function UserSettings() {
-  const userAuth = useSelector((state) => state.userAuth);
-  const userSettings = useSelector((state) => state.userSettings);
+  const userAuth = useSelector((state) => state.auth.userAuth);
+  const userSettings = useSelector((state) => state.userData.userSettings);
   const dispatch = useDispatch();
 
   const handleAppTheme = (theme, userId) => {

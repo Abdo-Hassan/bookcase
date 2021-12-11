@@ -1,4 +1,8 @@
-import { PROFILE_IMAGE, USER_THEME } from './actionTypes';
+import {
+  PROFILE_IMAGE,
+  PROFILE_IMAGE_PROGRESS,
+  USER_THEME,
+} from './actionTypes';
 import { doc, updateDoc } from 'firebase/firestore';
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 import { db, storage } from '../../firebase';
@@ -21,19 +25,37 @@ export const uploadProfileImage =
     });
 
     const storageRef = ref(storage, `/userImages/${imageName}`);
-    await uploadBytesResumable(storageRef, blob);
+    const uploadTask = uploadBytesResumable(storageRef, blob);
+    // blob.close();
 
-    blob.close();
-
-    getDownloadURL(storageRef).then((url) => {
-      dispatch({
-        type: PROFILE_IMAGE,
-        payload: url,
-      });
-      updateDoc(userProfileRef, {
-        userPhoto: url,
-      });
-    });
+    uploadTask.on(
+      'state_changed',
+      (snapshot) => {
+        const progress = Math.round(
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+        );
+        console.log('progress', progress);
+        dispatch({
+          type: PROFILE_IMAGE_PROGRESS,
+          payload: progress,
+        });
+      },
+      (err) => {
+        console.log('uploadTask.on - err', err);
+      },
+      () => {
+        getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+          console.log('getDownloadURL - url', url);
+          dispatch({
+            type: PROFILE_IMAGE,
+            payload: url,
+          });
+          updateDoc(userProfileRef, {
+            userPhoto: url,
+          });
+        });
+      }
+    );
   };
 
 export const editProfileUsername =

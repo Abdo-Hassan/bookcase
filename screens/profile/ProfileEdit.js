@@ -6,10 +6,10 @@ import ActionButton from '../../components/ActionButton';
 import { editProfileUsername } from '../../redux/actions/userDataActions';
 import { useSelector, useDispatch } from 'react-redux';
 
-export default function ProfileEdit({ route }) {
+export default function ProfileEdit({ route, navigation }) {
   const { pickImage } = route.params;
-  const userProfile = useSelector((state) => state.userProfile);
-  const userAuth = useSelector((state) => state.userAuth);
+  const userProfile = useSelector((state) => state.userData.userProfile);
+  const userAuth = useSelector((state) => state.auth.userAuth);
   const dispatch = useDispatch();
 
   const [editNameLoading, setEditNameLoading] = useState(false);
@@ -22,6 +22,7 @@ export default function ProfileEdit({ route }) {
       dispatch(
         editProfileUsername(userAuth?.userId, firstNameInput, lastNameInput)
       );
+      navigation.navigate('profile');
     } else {
       setEditNameLoading(false);
     }
