@@ -5,10 +5,9 @@ import {
   VStack,
   Heading,
   Button,
-  HStack,
-  Progress,
   Spinner,
   Image,
+  useToast,
 } from 'native-base';
 import * as ImagePicker from 'expo-image-picker';
 import { TouchableOpacity } from 'react-native';
@@ -24,13 +23,13 @@ import { useSelector, useDispatch } from 'react-redux';
 import { uploadProfileImage } from '../../redux/actions/userDataActions';
 
 export default function Profile({ navigation }) {
+  const toast = useToast();
   const dispatch = useDispatch();
   const userAuth = useSelector((state) => state.auth.userAuth);
   const userProfile = useSelector((state) => state.userData.userProfile);
 
   const userPhoto = userProfile?.userPhoto;
   const userPhotoProgress = userProfile?.userPhotoProgress;
-  console.log('Profile - userPhotoProgress', userPhotoProgress);
 
   useEffect(() => {
     (async () => {
@@ -43,6 +42,26 @@ export default function Profile({ navigation }) {
       }
     })();
   }, []);
+
+  useEffect(() => {
+    if (userPhotoProgress === 100 && userPhotoProgress !== 0) {
+      toast.show({
+        render: () => {
+          return (
+            <Box
+              bg='emerald.300'
+              p={2}
+              rounded='sm'
+              mb={5}
+              _text={{ color: '#000' }}
+            >
+              Photo updated successfully!
+            </Box>
+          );
+        },
+      });
+    }
+  }, [userPhotoProgress]);
 
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -72,28 +91,22 @@ export default function Profile({ navigation }) {
           top={-50}
           rounded='full'
         >
-          {userPhoto ? (
-            userPhotoProgress < 100 && userPhotoProgress !== 0 ? (
-              <Box bg='#888' p={7} rounded='full'>
-                <Spinner color='warning.500' size='lg' />
-              </Box>
-            ) : (
-              <Image
-                size='lg'
-                rounded='full'
-                source={{ uri: userPhoto }}
-                alignSelf='center'
-                alt='profileImage'
-                key={userPhoto}
-              />
-            )
+          {userPhotoProgress < 100 && userPhotoProgress > 0 ? (
+            <Box bg='#888' p={7} rounded='full'>
+              <Spinner color='warning.500' size='lg' />
+            </Box>
+          ) : userPhoto ? (
+            <Image
+              size='lg'
+              rounded='full'
+              source={{ uri: userPhoto }}
+              alignSelf='center'
+              alt='profileImage'
+              key={userPhoto}
+            />
           ) : (
             <Box bg='#888' p={7} rounded='full'>
-              {userPhotoProgress < 100 && userPhotoProgress !== 0 ? (
-                <Spinner color='warning.500' size='lg' />
-              ) : (
-                <AntDesign name='picture' size={40} color='#fff' />
-              )}
+              <AntDesign name='picture' size={40} color='#fff' />
             </Box>
           )}
         </Box>

@@ -1,5 +1,13 @@
 import React, { useState } from 'react';
-import { Box, Input, VStack, Image, HStack, Spinner } from 'native-base';
+import {
+  Box,
+  Input,
+  VStack,
+  Image,
+  HStack,
+  Spinner,
+  useToast,
+} from 'native-base';
 import { customPrimaryColor, primaryColor } from '../../constants/Colors';
 import { Entypo, AntDesign } from '@expo/vector-icons';
 import ActionButton from '../../components/ActionButton';
@@ -7,6 +15,7 @@ import { editProfileUsername } from '../../redux/actions/userDataActions';
 import { useSelector, useDispatch } from 'react-redux';
 
 export default function ProfileEdit({ route, navigation }) {
+  const toast = useToast();
   const { pickImage } = route.params;
   const userProfile = useSelector((state) => state.userData.userProfile);
   const userAuth = useSelector((state) => state.auth.userAuth);
@@ -25,6 +34,21 @@ export default function ProfileEdit({ route, navigation }) {
       dispatch(
         editProfileUsername(userAuth?.userId, firstNameInput, lastNameInput)
       );
+      toast.show({
+        render: () => {
+          return (
+            <Box
+              bg='emerald.300'
+              p={2}
+              rounded='sm'
+              mb={5}
+              _text={{ color: '#000' }}
+            >
+              Changes updated successfully!
+            </Box>
+          );
+        },
+      });
       navigation.navigate('profile');
     } else {
       setEditNameLoading(false);
