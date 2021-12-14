@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { Box, Input, VStack, Image } from 'native-base';
-import { primaryColor } from '../../constants/Colors';
-import { Entypo } from '@expo/vector-icons';
+import { Box, Input, VStack, Image, HStack, Spinner } from 'native-base';
+import { customPrimaryColor, primaryColor } from '../../constants/Colors';
+import { Entypo, AntDesign } from '@expo/vector-icons';
 import ActionButton from '../../components/ActionButton';
 import { editProfileUsername } from '../../redux/actions/userDataActions';
 import { useSelector, useDispatch } from 'react-redux';
@@ -11,6 +11,9 @@ export default function ProfileEdit({ route, navigation }) {
   const userProfile = useSelector((state) => state.userData.userProfile);
   const userAuth = useSelector((state) => state.auth.userAuth);
   const dispatch = useDispatch();
+
+  const userPhoto = userProfile?.userPhoto;
+  const userPhotoProgress = userProfile?.userPhotoProgress;
 
   const [editNameLoading, setEditNameLoading] = useState(false);
   const [firstNameInput, setFirstName] = useState(userProfile?.firstName);
@@ -29,16 +32,28 @@ export default function ProfileEdit({ route, navigation }) {
   };
 
   return (
-    <Box flex={1} bg='#000' pt={10}>
+    <Box flex={1} bg='#000' pt={5}>
       <VStack mb={6}>
-        <Image
-          rounded='full'
-          size='lg'
-          source={{ uri: userProfile?.userPhoto }}
-          alignSelf='center'
-          key={userProfile?.userPhoto}
-          alt='profileImage'
-        />
+        <Box alignSelf='center' rounded='full'>
+          {userPhoto ? (
+            <Image
+              size='lg'
+              rounded='full'
+              source={{ uri: userPhoto }}
+              alignSelf='center'
+              alt='profileImage'
+              key={userPhoto}
+            />
+          ) : (
+            <Box bg='#888' p={7} rounded='full'>
+              {userPhotoProgress < 100 ? (
+                <Spinner color='warning.500' size='lg' />
+              ) : (
+                <AntDesign name='picture' size={40} color='#fff' />
+              )}
+            </Box>
+          )}
+        </Box>
         <Box
           bg={primaryColor}
           rounded='full'

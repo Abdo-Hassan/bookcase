@@ -4,7 +4,6 @@ import {
   Text,
   VStack,
   Heading,
-  Avatar,
   Button,
   HStack,
   Progress,
@@ -31,8 +30,7 @@ export default function Profile({ navigation }) {
 
   const userPhoto = userProfile?.userPhoto;
   const userPhotoProgress = userProfile?.userPhotoProgress;
-
-  const [uploadImageLoading, setUploadImageLoading] = useState(false);
+  console.log('Profile - userPhotoProgress', userPhotoProgress);
 
   useEffect(() => {
     (async () => {
@@ -58,12 +56,6 @@ export default function Profile({ navigation }) {
       const imageName = split[split.length - 1];
       const imageUrl = result.uri;
       dispatch(uploadProfileImage(imageName, imageUrl, userAuth?.userId));
-
-      if (userPhotoProgress < 100) {
-        setUploadImageLoading(true);
-      } else {
-        setUploadImageLoading(false);
-      }
     }
   };
 
@@ -81,22 +73,28 @@ export default function Profile({ navigation }) {
           rounded='full'
         >
           {userPhoto ? (
-            <Image
-              size='lg'
-              rounded='full'
-              source={{ uri: userPhoto }}
-              alignSelf='center'
-              alt='profileImage'
-              key={userPhoto}
-            />
+            userPhotoProgress < 100 && userPhotoProgress !== 0 ? (
+              <Box bg='#888' p={7} rounded='full'>
+                <Spinner color='warning.500' size='lg' />
+              </Box>
+            ) : (
+              <Image
+                size='lg'
+                rounded='full'
+                source={{ uri: userPhoto }}
+                alignSelf='center'
+                alt='profileImage'
+                key={userPhoto}
+              />
+            )
           ) : (
-            <Avatar bg='#888' size='xl'>
-              {uploadImageLoading ? (
-                <Spinner color='warning.500' size='xl' />
+            <Box bg='#888' p={7} rounded='full'>
+              {userPhotoProgress < 100 && userPhotoProgress !== 0 ? (
+                <Spinner color='warning.500' size='lg' />
               ) : (
                 <AntDesign name='picture' size={40} color='#fff' />
               )}
-            </Avatar>
+            </Box>
           )}
         </Box>
         <Box

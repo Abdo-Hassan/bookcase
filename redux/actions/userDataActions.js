@@ -23,10 +23,8 @@ export const uploadProfileImage =
       xhr.open('GET', imageUrl, true);
       xhr.send(null);
     });
-
     const storageRef = ref(storage, `/userImages/${imageName}`);
     const uploadTask = uploadBytesResumable(storageRef, blob);
-    // blob.close();
 
     uploadTask.on(
       'state_changed',
@@ -34,7 +32,6 @@ export const uploadProfileImage =
         const progress = Math.round(
           (snapshot.bytesTransferred / snapshot.totalBytes) * 100
         );
-        console.log('progress', progress);
         dispatch({
           type: PROFILE_IMAGE_PROGRESS,
           payload: progress,
@@ -45,13 +42,18 @@ export const uploadProfileImage =
       },
       () => {
         getDownloadURL(uploadTask.snapshot.ref).then((url) => {
-          console.log('getDownloadURL - url', url);
           dispatch({
             type: PROFILE_IMAGE,
             payload: url,
           });
           updateDoc(userProfileRef, {
             userPhoto: url,
+          }).then(() => {
+            // reset previous profile photo progress
+            dispatch({
+              type: PROFILE_IMAGE_PROGRESS,
+              payload: 0,
+            });
           });
         });
       }

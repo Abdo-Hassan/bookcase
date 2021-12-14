@@ -26,6 +26,7 @@ export const userDataReducer = (state = INIT_STATE, action) => {
         ...state,
         userProfile: {
           userPhoto: state.userProfile?.userPhoto,
+          userPhotoProgress: state.userProfile?.userPhotoProgress,
           firstName: action.payload?.firstName,
           lastName: action.payload?.lastName,
         },
