@@ -2,21 +2,21 @@ import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Search from '../screens/Search';
 import Bookshelf from '../screens/Bookshelf';
-import Home from '../screens/books/Home';
-import Profile from '../screens/profile/Profile';
+import HomeStack from '../views/HomeStack';
+import ProfileStack from './ProfileStack';
 import { AntDesign, MaterialIcons, Ionicons } from '@expo/vector-icons';
-import { primaryColor } from '../constants/Colors';
+import { customColor, primaryColor } from '../constants/Colors';
 
 const Tab = createBottomTabNavigator();
 
-export default function BottomNavigation() {
+export default function BottomNavigation({}) {
   return (
     <Tab.Navigator
       screenOptions={{
         tabBarActiveTintColor: primaryColor,
         headerShown: false,
         tabBarStyle: {
-          backgroundColor: '#1f1f1f',
+          backgroundColor: '#1A1A1A',
           borderTopWidth: 0,
           height: 55,
           paddingBottom: 8,
@@ -24,8 +24,8 @@ export default function BottomNavigation() {
       }}
     >
       <Tab.Screen
-        name='homeScreen'
-        component={Home}
+        name='homeStack'
+        component={HomeStack}
         options={{
           tabBarLabel: 'Home',
           tabBarIcon: ({ color, size }) => (
@@ -47,6 +47,12 @@ export default function BottomNavigation() {
         name='bookshelf'
         component={Bookshelf}
         options={{
+          title: 'Book shelf',
+          headerStyle: {
+            backgroundColor: customColor,
+          },
+          headerShown: true,
+          headerTintColor: '#fff',
           tabBarLabel: 'Bookshelf',
           tabBarIcon: ({ color, size }) => (
             <MaterialIcons name='favorite-border' color={color} size={24} />
@@ -54,12 +60,12 @@ export default function BottomNavigation() {
         }}
       />
       <Tab.Screen
-        name='profile'
-        component={Profile}
+        name='profileStack'
+        component={ProfileStack}
         options={{
           tabBarLabel: 'Profile',
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name='person-outline' size={24} color={color} />
+            <Ionicons name='person-outline' size={size} color={color} />
           ),
         }}
       />
