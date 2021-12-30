@@ -10,6 +10,8 @@ import {
 import ActionButton from '../../components/ActionButton';
 import { SwiperFlatList } from 'react-native-swiper-flatlist';
 import { Dimensions, TouchableOpacity } from 'react-native';
+import { customColor, secondaryColor } from '../../constants/Colors';
+import { StatusBar } from 'expo-status-bar';
 const { width } = Dimensions.get('window');
 
 const texts = [
@@ -30,9 +32,10 @@ const texts = [
   },
 ];
 
-export default function Welcome() {
+export default function Welcome({ navigation }) {
   return (
     <Box flex={1}>
+      <StatusBar style='light' />
       <PresenceTransition
         visible={true}
         initial={{
@@ -53,7 +56,7 @@ export default function Welcome() {
         />
       </PresenceTransition>
 
-      <VStack alignItems='center' bg='#c5c3e4' flex={1}>
+      <VStack alignItems='center' bg={customColor} flex={1}>
         {/* slider */}
         <SwiperFlatList
           index={2}
@@ -63,19 +66,31 @@ export default function Welcome() {
           data={texts}
           renderItem={({ item }) => (
             <Box width={width} justifyContent='center' px='3' height={200}>
-              <Heading fontSize='28' color='#474375' textAlign='center' mb='2'>
+              <Heading fontSize='28' color='#fff' textAlign='center' mb='2'>
                 {item.title}
               </Heading>
-              <Heading fontSize='18' color='#474375' textAlign='center'>
+              <Heading fontSize='18' color='#fff' textAlign='center'>
                 {item.subTitle}
               </Heading>
             </Box>
           )}
         />
         {/* try */}
-        <ActionButton title='Register' color='#6C63FF' />
+        <ActionButton
+          title='Register'
+          color={secondaryColor}
+          onClick={() => navigation.navigate('register')}
+          auth={true}
+          author={false}
+        />
         {/* login */}
-        <ActionButton title='Log in' color='#fff' />
+        <ActionButton
+          title='Log in'
+          color='#fff'
+          onClick={() => navigation.navigate('login')}
+          auth={true}
+          author={false}
+        />
       </VStack>
     </Box>
   );
