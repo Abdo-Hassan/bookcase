@@ -59,7 +59,11 @@ export default function ProfileEdit({ route, navigation }) {
     <Box flex={1} bg='#000' pt={5}>
       <VStack mb={6}>
         <Box alignSelf='center' rounded='full'>
-          {userPhoto ? (
+          {userPhotoProgress < 100 && userPhotoProgress > 0 ? (
+            <Box bg='#888' p={7} rounded='full'>
+              <Spinner color='warning.500' size='lg' />
+            </Box>
+          ) : userPhoto ? (
             <Image
               size='lg'
               rounded='full'
@@ -70,11 +74,7 @@ export default function ProfileEdit({ route, navigation }) {
             />
           ) : (
             <Box bg='#888' p={7} rounded='full'>
-              {userPhotoProgress < 100 ? (
-                <Spinner color='warning.500' size='lg' />
-              ) : (
-                <AntDesign name='picture' size={40} color='#fff' />
-              )}
+              <AntDesign name='picture' size={40} color='#fff' />
             </Box>
           )}
         </Box>
