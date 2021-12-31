@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Box,
   FlatList,
@@ -21,11 +21,29 @@ import { TouchableOpacity, Share } from 'react-native';
 import ActionSheetDetails from '../../components/ActionSheetDetails';
 import { secondaryColor, textColor } from '../../constants/Colors';
 import ActionButton from '../../components/ActionButton';
+import axios from 'axios';
 
 export default function BookListDetails({ route, navigation }) {
   const { isOpen, onClose, onOpen } = useDisclose();
-  const { books, image1, image2, image3, title, author, authorName } =
+  const [BooksLists, setBooksLists] = useState([]);
+  const { books, term, image1, image2, image3, title, author, authorName } =
     route.params;
+
+  const fetchBooks = async () => {
+    try {
+      const res = await axios.get(
+        `https://www.googleapis.com/books/v1/volumes/?q=${term}+subject:${term}`
+      );
+      const first10Books = res?.data?.items.slice(0, 10);
+      setBooksLists(first10Books);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchBooks();
+  }, []);
 
   const onShare = async () => {
     try {
@@ -165,7 +183,7 @@ export default function BookListDetails({ route, navigation }) {
 
         <FlatList
           h='400'
-          data={books}
+          data={BooksLists}
           renderItem={({ item }) => (
             <Box pl='4' pr='5' py='2'>
               <HStack space={10}>
@@ -174,7 +192,7 @@ export default function BookListDetails({ route, navigation }) {
                   onPress={() =>
                     navigation.navigate('bookDetails', {
                       books,
-                      bookImage: item.image,
+                      bookImage: item?.imageLinks?.smallThumbnail,
                     })
                   }
                   flex={1}
@@ -183,7 +201,7 @@ export default function BookListDetails({ route, navigation }) {
                     <Image
                       size='100'
                       rounded='lg'
-                      source={item.image}
+                      source={item?.imageLinks?.smallThumbnail}
                       alt='bookDetails'
                     />
                     <VStack space={2} alignSelf='center'>
@@ -192,13 +210,13 @@ export default function BookListDetails({ route, navigation }) {
                         color={secondaryColor}
                         textAlign='left'
                       >
-                        كتاب الدحيح
+                        {item?.volumeInfo?.title}
                       </Heading>
                       <Heading fontSize='15' color={secondaryColor}>
                         Audio Book
                       </Heading>
                       <Heading fontSize='15' color={secondaryColor}>
-                        By: طاهر المعتز بالله
+                        By: {item?.volumeInfo?.authors[0]}
                       </Heading>
                     </VStack>
                   </HStack>
