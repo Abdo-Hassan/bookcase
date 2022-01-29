@@ -22,7 +22,6 @@ import {
 import { TouchableOpacity, FlatList } from 'react-native';
 import ActionSheetDetails from '../../components/ActionSheetDetails';
 import BookList from '../../components/BookList';
-import ActionButton from '../../components/ActionButton';
 import Reviews from '../../components/reviewsComponents/Reviews';
 
 export default function BookDetails({ route, navigation }) {
@@ -205,32 +204,23 @@ export default function BookDetails({ route, navigation }) {
 
         {/* book description */}
         <Box mx={3} my={6}>
-          <Heading fontSize='16' color='#ccc' textAlign='right' mb={3}>
-            الدحيح : ما وراء الكواليس
-          </Heading>
-          <Heading fontSize='16' color='#ccc' textAlign='right' mb={3}>
-            كواليس برنامج الدحيح وسيرة أحمد الغندور الشخصية فى كتاب واحد
-          </Heading>
-          <Heading fontSize='16' color='#ccc' textAlign='right' mb={3}>
-            هنسمع كواليس انطلاق برنامج الدحيح من بدايته فى قناة أحمد الغندور على
-            . اليوتيوب وقتا كان برنامج فردى
-          </Heading>
+          {item?.volumeInfo?.description && (
+            <Heading fontSize='16' color='#ccc' textAlign='left' mb={3}>
+              {item?.volumeInfo?.description.length > 250
+                ? `${item?.volumeInfo?.description.slice(0, 250)}.....`
+                : item?.volumeInfo?.description}
+            </Heading>
+          )}
 
           <Heading fontSize='14' color='#ccc'>
-            Release Date: Nov 26, 2021
+            Published Date: {item?.volumeInfo?.publishedDate}
           </Heading>
-          <Heading fontSize='14' color='#ccc'>
-            Publisher &copy; Bookcase
-          </Heading>
+          {item?.volumeInfo?.publisher && (
+            <Heading fontSize='14' color='#ccc'>
+              Publisher &copy; {item?.volumeInfo?.publisher}
+            </Heading>
+          )}
         </Box>
-
-        {/* Play Sample of the book */}
-        <ActionButton
-          title='Play Sample'
-          color={secondaryColor}
-          author={false}
-          auth={false}
-        />
 
         {/* Book reviews */}
         <Reviews navigation={navigation} />
@@ -252,7 +242,11 @@ export default function BookDetails({ route, navigation }) {
           />
         </Box>
 
-        <BookList title='Similar titles' navigation={navigation} />
+        <BookList
+          title='Similar titles'
+          navigation={navigation}
+          similarBooks={item?.volumeInfo?.title}
+        />
       </ScrollView>
     </Box>
   );

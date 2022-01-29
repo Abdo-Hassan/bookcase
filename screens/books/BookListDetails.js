@@ -31,10 +31,6 @@ export default function BookListDetails({ route, navigation }) {
   const [authorBooks, setAuthorBooks] = useState([]);
   const { term, title, author, authorName, num, bookListCategory, category } =
     route.params;
-  console.log('~ author', author);
-  console.log('~ authorBooks', authorBooks);
-  console.log('~ booksLists', booksLists);
-  console.log('~ bookListCategory', bookListCategory);
 
   const fetchBooks = async () => {
     try {

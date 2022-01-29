@@ -23,6 +23,7 @@ LogBox.ignoreLogs([
   'AsyncStorage has been extracted from react-native core and will be removed in a future release.',
   'Setting a timer for a long period of time',
   'Non-serializable values were found in the navigation state',
+  "Can't perform a React state update on",
 ]);
 
 const configGradient = {

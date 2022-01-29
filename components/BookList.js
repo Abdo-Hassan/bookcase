@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { HStack, Heading, Badge, Image } from 'native-base';
-import { Feather, Ionicons } from '@expo/vector-icons';
+import { HStack, Heading, Badge, Image, Skeleton } from 'native-base';
+import { Ionicons } from '@expo/vector-icons';
 import { FlatList, TouchableOpacity } from 'react-native';
-import { primaryColor } from '../constants/Colors';
 import axios from 'axios';
 
-export default function BookList({ term, title, navigation }) {
-  const [BooksLists, setBooksLists] = useState([]);
+export default function BookList({ term, title, navigation, similarBooks }) {
+  const [booksLists, setBooksLists] = useState([]);
+  const [similarBooksLists, setSimilarBooksLists] = useState([]);
 
   const fetchBooks = async () => {
     try {
@@ -24,6 +24,22 @@ export default function BookList({ term, title, navigation }) {
     fetchBooks();
   }, []);
 
+  const fetchSimilarBooks = async () => {
+    try {
+      const res = await axios.get(
+        `https://www.googleapis.com/books/v1/volumes/?q=${similarBooks}`
+      );
+      const similarBooksLists = res?.data?.items.slice(0, 10);
+      setSimilarBooksLists(similarBooksLists);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    if (similarBooks) fetchSimilarBooks();
+  }, [similarBooks]);
+
   const renderBookList = ({ item }) => {
     return (
       <TouchableOpacity
@@ -33,15 +49,19 @@ export default function BookList({ term, title, navigation }) {
             item,
           })
         }>
-        <Image
-          source={{ uri: item?.volumeInfo?.imageLinks?.smallThumbnail }}
-          alt='book image'
-          size={'130'}
-          rounded='lg'
-          resizeMode='cover'
-          mb={4}
-          mx={2}
-        />
+        {item ? (
+          <Image
+            source={{ uri: item?.volumeInfo?.imageLinks?.smallThumbnail }}
+            alt='book image'
+            size={'130'}
+            rounded='lg'
+            resizeMode='cover'
+            mb={4}
+            mx={2}
+          />
+        ) : (
+          <Skeleton h='10' size='200' rounded='md' px='1' />
+        )}
       </TouchableOpacity>
     );
   };
@@ -54,7 +74,7 @@ export default function BookList({ term, title, navigation }) {
           navigation.navigate('bookListDetails', {
             title,
             author: false,
-            bookListCategory: BooksLists,
+            bookListCategory: similarBooks ? similarBooksLists : booksLists,
             category: true,
             num: 4,
           })
@@ -72,7 +92,7 @@ export default function BookList({ term, title, navigation }) {
       <FlatList
         horizontal
         showsHorizontalScrollIndicator={false}
-        data={BooksLists}
+        data={similarBooks ? similarBooksLists : booksLists}
         renderItem={renderBookList}
         keyExtractor={(item) => item.id}
       />

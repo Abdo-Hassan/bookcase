@@ -22,7 +22,6 @@ import axios from 'axios';
 export default function BooksOverview({ navigation }) {
   const userProfile = useSelector((state) => state.userData.userProfile);
   const [featuredBook, setFeaturedBook] = useState({});
-  console.log('~ featuredBook', featuredBook);
 
   const fetchFeaturedBook = async () => {
     try {
@@ -30,7 +29,6 @@ export default function BooksOverview({ navigation }) {
         `https://www.googleapis.com/books/v1/volumes/XFkyuQEACAAJ`
       );
       const featuredBook = res?.data;
-      console.log('~ fetchFeaturedBook', featuredBook);
       setFeaturedBook(featuredBook);
     } catch (error) {
       console.log(error);
@@ -221,7 +219,7 @@ export default function BooksOverview({ navigation }) {
                 }}
                 bgColor={primaryColor}
                 right='0'>
-                4.7
+                4.5
               </Badge>
               <Box rounded='lg'>
                 <Image
@@ -256,7 +254,12 @@ export default function BooksOverview({ navigation }) {
                   </Stack>
 
                   <Text fontWeight='400' color='#fff' textAlign='center' mx='5'>
-                    {featuredBook?.volumeInfo?.description}
+                    {featuredBook?.volumeInfo?.description.length > 199
+                      ? `${featuredBook?.volumeInfo?.description.slice(
+                          0,
+                          199
+                        )}.....`
+                      : featuredBook?.volumeInfo?.description}
                   </Text>
                 </Stack>
               </Box>
