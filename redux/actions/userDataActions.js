@@ -2,7 +2,7 @@ import {
   PROFILE_IMAGE,
   PROFILE_IMAGE_PROGRESS,
   USER_THEME,
-} from './actionTypes';
+} from '../types/actionTypes';
 import { doc, updateDoc } from 'firebase/firestore';
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 import { db, storage } from '../../firebase';

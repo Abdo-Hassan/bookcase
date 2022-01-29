@@ -9,47 +9,12 @@ import {
   HStack,
   ScrollView,
   Heading,
-  Badge,
-  Stack,
 } from 'native-base';
 import { TouchableOpacity } from 'react-native';
 import BookList from '../../components/BookList';
 import { primaryColor } from '../../constants/Colors';
 import { StatusBar } from 'expo-status-bar';
 import { useSelector } from 'react-redux';
-
-let DummyBooks1 = [
-  { id: 1, image: require('../../assets/elda7e7.png') },
-  { id: 3, image: require('../../assets/bookCover4.jpg') },
-  { id: 4, image: require('../../assets/bookCover5.jpg') },
-  { id: 5, image: require('../../assets/bookCover6.jpg') },
-  { id: 6, image: require('../../assets/bookCover7.jpg') },
-  { id: 2, image: require('../../assets/bookCover.jpg') },
-  { id: 7, image: require('../../assets/bookCover8.jpg') },
-  { id: 8, image: require('../../assets/bookCover9.jpg') },
-];
-
-let DummyBooks2 = [
-  { id: 11, image: require('../../assets/bookCover9.jpg') },
-  { id: 12, image: require('../../assets/bookCover8.jpg') },
-  { id: 13, image: require('../../assets/bookCover4.jpg') },
-  { id: 9, image: require('../../assets/elda7e7.png') },
-  { id: 14, image: require('../../assets/bookCover5.jpg') },
-  { id: 10, image: require('../../assets/bookCover.jpg') },
-  { id: 15, image: require('../../assets/bookCover8.jpg') },
-  { id: 16, image: require('../../assets/bookCover9.jpg') },
-];
-
-let DummyBooks3 = [
-  { id: 18, image: require('../../assets/bookCover.jpg') },
-  { id: 19, image: require('../../assets/bookCover6.jpg') },
-  { id: 20, image: require('../../assets/bookCover7.jpg') },
-  { id: 21, image: require('../../assets/bookCover9.jpg') },
-  { id: 22, image: require('../../assets/bookCover4.jpg') },
-  { id: 23, image: require('../../assets/bookCover6.jpg') },
-  { id: 17, image: require('../../assets/elda7e7.png') },
-  { id: 24, image: require('../../assets/bookCover4.jpg') },
-];
 
 export default function BooksOverview({ navigation }) {
   const userProfile = useSelector((state) => state.userData.userProfile);
@@ -87,10 +52,41 @@ export default function BooksOverview({ navigation }) {
             activeOpacity={0.6}
             onPress={() =>
               navigation.navigate('bookListDetails', {
-                books: DummyBooks1,
-                image1: DummyBooks1[0].image,
-                image2: DummyBooks1[1].image,
-                image3: DummyBooks1[2].image,
+                term: 'health',
+                title: 'الصحة والجمال',
+              })
+            }
+          >
+            <Box mx='4' my='1'>
+              <Image
+                source={require('../../assets/bookCover4.jpg')}
+                alt='image'
+                rounded='lg'
+                height={120}
+                mb={1}
+                resizeMode='cover'
+              />
+              <Center
+                _text={{
+                  color: 'white',
+                  fontWeight: 'bold',
+                  fontSize: 'xl',
+                }}
+                position='absolute'
+                bottom='6'
+                left='3'
+              >
+                الصحة والجمال
+              </Center>
+            </Box>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            activeOpacity={0.6}
+            onPress={() =>
+              navigation.navigate('bookListDetails', {
+                term: 'nature',
+                title: 'الطبيعة',
               })
             }
           >
@@ -113,7 +109,7 @@ export default function BooksOverview({ navigation }) {
                 bottom='6'
                 left='3'
               >
-                أبدأ بهذه الكتب
+                الطبيعة
               </Center>
             </Box>
           </TouchableOpacity>
@@ -122,52 +118,39 @@ export default function BooksOverview({ navigation }) {
             activeOpacity={0.6}
             onPress={() =>
               navigation.navigate('bookListDetails', {
-                books: DummyBooks2,
-                image1: DummyBooks2[0].image,
-                image2: DummyBooks2[1].image,
-                image3: DummyBooks2[2].image,
+                term: 'technology',
+                title: 'التكنولوجيا',
               })
             }
           >
             <Box mx='4' my='1'>
               <Image
-                source={require('../../assets/bookCover4.jpg')}
+                source={require('../../assets/bookCover3.jpg')}
                 alt='image'
                 rounded='lg'
                 height={120}
                 mb={1}
                 resizeMode='cover'
               />
-            </Box>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            activeOpacity={0.6}
-            onPress={() =>
-              navigation.navigate('bookListDetails', {
-                books: DummyBooks3,
-                image1: DummyBooks3[0].image,
-                image2: DummyBooks3[1].image,
-                image3: DummyBooks3[2].image,
-              })
-            }
-          >
-            <Box mx='4' my='1'>
-              <Image
-                source={require('../../assets/bookCover5.jpg')}
-                alt='image'
-                rounded='lg'
-                height={120}
-                mb={1}
-                resizeMode='cover'
-              />
+              <Center
+                _text={{
+                  color: 'white',
+                  fontWeight: 'bold',
+                  fontSize: 'xl',
+                }}
+                position='absolute'
+                bottom='6'
+                left='3'
+              >
+                التكنولوجيا
+              </Center>
             </Box>
           </TouchableOpacity>
 
           <BookList
             navigation={navigation}
-            DummyBooks={DummyBooks3}
-            title=' الأكثر استماعا اليوم'
+            term='planets'
+            title='الفلك والكواكب'
           />
 
           {/* book of the month */}
@@ -180,7 +163,8 @@ export default function BooksOverview({ navigation }) {
             </Heading>
           </Box>
 
-          <TouchableOpacity
+          {/* TODO: set name of single book*/}
+          {/* <TouchableOpacity
             activeOpacity={0.6}
             onPress={() =>
               navigation.navigate('bookDetails', {
@@ -257,39 +241,49 @@ export default function BooksOverview({ navigation }) {
                 </Stack>
               </Box>
             </Box>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
 
           <BookList
+            term='sport'
             navigation={navigation}
-            DummyBooks={DummyBooks1}
-            title='جديد الاسبوع'
+            title='الجديد فى الرياضة'
           />
           <BookList
             navigation={navigation}
-            DummyBooks={DummyBooks2}
-            title='قريبا على بوكيس'
+            term='brain'
+            title='القوة العقلية'
           />
 
           <TouchableOpacity
             activeOpacity={0.6}
             onPress={() =>
               navigation.navigate('bookListDetails', {
-                books: DummyBooks1,
-                image1: DummyBooks1[0].image,
-                image2: DummyBooks1[1].image,
-                image3: DummyBooks1[2].image,
+                term: 'science',
+                title: 'العلوم',
               })
             }
           >
             <Box mx='4' my='1'>
               <Image
-                source={require('../../assets/bookCover7.jpg')}
+                source={require('../../assets/bookCover5.jpg')}
                 alt='image'
                 rounded='lg'
                 height={120}
                 mb={1}
                 resizeMode='cover'
               />
+              <Center
+                _text={{
+                  color: 'white',
+                  fontWeight: 'bold',
+                  fontSize: 'xl',
+                }}
+                position='absolute'
+                bottom='6'
+                left='3'
+              >
+                العلوم
+              </Center>
             </Box>
           </TouchableOpacity>
         </ScrollView>

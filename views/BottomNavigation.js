@@ -21,8 +21,7 @@ export default function BottomNavigation({}) {
           height: 55,
           paddingBottom: 8,
         },
-      }}
-    >
+      }}>
       <Tab.Screen
         name='homeStack'
         component={HomeStack}

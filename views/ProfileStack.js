@@ -1,5 +1,5 @@
 import React from 'react';
-import { createStackNavigator } from '@react-navigation/stack';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { customColor } from '../constants/Colors';
 import Profile from '../screens/profile/Profile';
 import ProfileEdit from '../screens/profile/ProfileEdit';
@@ -9,7 +9,7 @@ import { useDisclose } from 'native-base';
 import ActionSheetDetails from '../components/ActionSheetDetails';
 import UserSettings from '../screens/profile/UserSettings';
 
-const Stack = createStackNavigator();
+const Stack = createNativeStackNavigator();
 
 export default function ProfileStack({ navigation }) {
   const { isOpen, onClose, onOpen } = useDisclose();
@@ -20,8 +20,7 @@ export default function ProfileStack({ navigation }) {
         headerStyle: {
           backgroundColor: customColor,
         },
-      }}
-    >
+      }}>
       <Stack.Screen
         name='profile'
         options={{

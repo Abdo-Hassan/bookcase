@@ -9,6 +9,7 @@ import {
   useDisclose,
   Avatar,
   Text,
+  Spinner,
 } from 'native-base';
 import {
   MaterialCommunityIcons,
@@ -19,23 +20,22 @@ import {
 } from '@expo/vector-icons';
 import { TouchableOpacity, Share } from 'react-native';
 import ActionSheetDetails from '../../components/ActionSheetDetails';
-import { secondaryColor, textColor } from '../../constants/Colors';
+import { secondaryColor, primaryColor } from '../../constants/Colors';
 import ActionButton from '../../components/ActionButton';
 import axios from 'axios';
 
 export default function BookListDetails({ route, navigation }) {
   const { isOpen, onClose, onOpen } = useDisclose();
   const [BooksLists, setBooksLists] = useState([]);
-  const { books, term, image1, image2, image3, title, author, authorName } =
-    route.params;
+  const { term, title, author, authorName } = route.params;
 
   const fetchBooks = async () => {
     try {
       const res = await axios.get(
         `https://www.googleapis.com/books/v1/volumes/?q=${term}+subject:${term}`
       );
-      const first10Books = res?.data?.items.slice(0, 10);
-      setBooksLists(first10Books);
+      const first50Books = res?.data?.items.slice(0, 20);
+      setBooksLists(first50Books);
     } catch (error) {
       console.log(error);
     }
@@ -90,7 +90,9 @@ export default function BookListDetails({ route, navigation }) {
           <>
             <Image
               size={'120'}
-              source={image1}
+              source={{
+                uri: BooksLists[0]?.volumeInfo?.imageLinks?.smallThumbnail,
+              }}
               rounded='md'
               resizeMode='cover'
               alt='bookListImage'
@@ -98,7 +100,9 @@ export default function BookListDetails({ route, navigation }) {
             />
             <Image
               size={'140'}
-              source={image2}
+              source={{
+                uri: BooksLists[1]?.volumeInfo?.imageLinks?.smallThumbnail,
+              }}
               rounded='md'
               resizeMode='cover'
               alt='bookListImage'
@@ -109,7 +113,9 @@ export default function BookListDetails({ route, navigation }) {
             />
             <Image
               size={'160'}
-              source={image3}
+              source={{
+                uri: BooksLists[2]?.volumeInfo?.imageLinks?.smallThumbnail,
+              }}
               rounded='md'
               resizeMode='cover'
               alt='bookListImage'
@@ -130,14 +136,16 @@ export default function BookListDetails({ route, navigation }) {
           </Avatar>
         )}
 
-        <Heading
-          fontSize={20}
-          textAlign='center'
-          color='#fff'
-          mt={title ? 20 : author ? 5 : 10}
-        >
-          {author ? authorName : title}
-        </Heading>
+        {author && (
+          <Heading
+            fontSize={20}
+            textAlign='center'
+            color='#fff'
+            mt={title ? 20 : author ? 5 : 10}
+          >
+            {authorName}
+          </Heading>
+        )}
 
         {author && (
           <Heading fontSize={14} textAlign='center' color='#ccc' mt={3}>
@@ -168,8 +176,8 @@ export default function BookListDetails({ route, navigation }) {
         )}
 
         <HStack space={10} mx={3} my={4}>
-          <Heading fontSize='19' color='#fff' flex={1}>
-            All titles
+          <Heading fontSize='19' color='#fff' flex={1} textAlign='left' ml={2}>
+            {title}
           </Heading>
 
           <TouchableOpacity activeOpacity={0.4}>
@@ -181,59 +189,87 @@ export default function BookListDetails({ route, navigation }) {
           </TouchableOpacity>
         </HStack>
 
-        <FlatList
-          h='400'
-          data={BooksLists}
-          renderItem={({ item }) => (
-            <Box pl='4' pr='5' py='2'>
-              <HStack space={10}>
-                <TouchableOpacity
-                  activeOpacity={0.6}
-                  onPress={() =>
-                    navigation.navigate('bookDetails', {
-                      books,
-                      bookImage: item?.imageLinks?.smallThumbnail,
-                    })
-                  }
-                  flex={1}
-                >
-                  <HStack space={4}>
-                    <Image
-                      size='100'
-                      rounded='lg'
-                      source={item?.imageLinks?.smallThumbnail}
-                      alt='bookDetails'
-                    />
-                    <VStack space={2} alignSelf='center'>
-                      <Heading
-                        fontSize='15'
-                        color={secondaryColor}
-                        textAlign='left'
-                      >
-                        {item?.volumeInfo?.title}
-                      </Heading>
-                      <Heading fontSize='15' color={secondaryColor}>
-                        Audio Book
-                      </Heading>
-                      <Heading fontSize='15' color={secondaryColor}>
-                        By: {item?.volumeInfo?.authors[0]}
-                      </Heading>
-                    </VStack>
+        {BooksLists && BooksLists.length !== 0 ? (
+          <FlatList
+            contentContainerStyle={{ flexGrow: 1 }}
+            // h='200'
+            data={BooksLists}
+            renderItem={({ item }) => {
+              return (
+                <Box pl='4' pr='5' py='2'>
+                  <HStack space={2}>
+                    <TouchableOpacity
+                      activeOpacity={0.6}
+                      onPress={() =>
+                        navigation.navigate('bookDetails', {
+                          item,
+                        })
+                      }
+                    >
+                      <HStack space={4}>
+                        <Image
+                          size='100'
+                          rounded='lg'
+                          source={{
+                            uri: item?.volumeInfo?.imageLinks?.smallThumbnail,
+                          }}
+                          alt='bookDetails'
+                        />
+                        <VStack space={2} alignSelf='center'>
+                          <Heading
+                            fontSize='15'
+                            color={secondaryColor}
+                            textAlign='left'
+                          >
+                            {item?.volumeInfo?.title.length > 25
+                              ? `${item?.volumeInfo?.title.slice(0, 25)}...`
+                              : item?.volumeInfo?.title}
+                          </Heading>
+                          <Heading fontSize='15' color={secondaryColor}>
+                            Audio Book
+                          </Heading>
+                          {item?.volumeInfo?.authors && (
+                            <Heading fontSize='15' color={secondaryColor}>
+                              {/* By: {item?.volumeInfo?.authors[0]} */}
+                              By:{' '}
+                              {item?.volumeInfo?.authors[0].length > 21
+                                ? `${item?.volumeInfo?.authors[0].slice(
+                                    0,
+                                    21
+                                  )} ...`
+                                : item?.volumeInfo?.authors[0]}
+                            </Heading>
+                          )}
+                        </VStack>
+                      </HStack>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity activeOpacity={0.4} onPress={onOpen}>
+                      <Box mt={7} ml={7}>
+                        <Entypo
+                          name='dots-three-vertical'
+                          size={17}
+                          color='#ccc'
+                        />
+                      </Box>
+                    </TouchableOpacity>
+
+                    <ActionSheetDetails isOpen={isOpen} onClose={onClose} />
                   </HStack>
-                </TouchableOpacity>
-
-                <TouchableOpacity activeOpacity={0.4} onPress={onOpen}>
-                  <Box mt={7} ml={7}>
-                    <Entypo name='dots-three-vertical' size={17} color='#ccc' />
-                  </Box>
-                </TouchableOpacity>
-
-                <ActionSheetDetails isOpen={isOpen} onClose={onClose} />
-              </HStack>
-            </Box>
-          )}
-          keyExtractor={(item) => item.id}
-        />
+                </Box>
+              );
+            }}
+            keyExtractor={(item) => item.id}
+          />
+        ) : (
+          <Spinner
+            accessibilityLabel='Loading books'
+            color={primaryColor}
+            size='lg'
+            mt={5}
+            justifyContent='center'
+          />
+        )}
       </Box>
     </Box>
   );

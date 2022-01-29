@@ -10,7 +10,7 @@ import {
   CREATE_USER_FACEBOOK,
   CREATE_USER_GOOGLE_ERROR,
   CREATE_USER_FACEBOOK_ERROR,
-} from '../actions/actionTypes';
+} from '../types/actionTypes';
 
 const INIT_STATE = {
   fetchCurrentUser: false,

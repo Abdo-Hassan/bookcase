@@ -26,7 +26,7 @@ import ActionButton from '../../components/ActionButton';
 import Reviews from '../../components/reviewsComponents/Reviews';
 
 export default function BookDetails({ route, navigation }) {
-  const { books, bookImage } = route.params;
+  const { item } = route.params;
   const { isOpen, onClose, onOpen } = useDisclose();
 
   const handleNavigate = (item) => {
@@ -159,14 +159,14 @@ export default function BookDetails({ route, navigation }) {
       <ScrollView>
         <Image
           mt={6}
-          source={bookImage}
+          source={{ uri: item?.volumeInfo?.imageLinks?.smallThumbnail }}
           size='250'
           alt='bookImage'
           alignSelf='center'
           rounded='xl'
         />
         <Heading fontSize='22' color='#fff' my={6} textAlign='center'>
-          الدحيح- ما وراء الكواليس
+          {item?.volumeInfo?.title}
         </Heading>
         <VStack justifyContent='center' space={3} alignItems='center'>
           <Heading fontSize='17' color='#ccc'>
@@ -176,30 +176,11 @@ export default function BookDetails({ route, navigation }) {
               color={secondaryColor}
               onPress={() =>
                 navigation.navigate('bookListDetails', {
-                  books,
                   author: true,
-                  authorName: 'طاهر المعتز بالله',
                 })
               }
             >
-              طاهر المعتز بالله
-            </Text>
-          </Heading>
-
-          <Heading
-            fontSize='17'
-            color='#ccc'
-            onPress={() =>
-              navigation.navigate('bookListDetails', {
-                books,
-                author: true,
-                authorName: 'أحمد الغندور',
-              })
-            }
-          >
-            With:{' '}
-            <Text fontSize='17' color={secondaryColor}>
-              أحمد الغندور
+              {item?.volumeInfo?.authors[0]}
             </Text>
           </Heading>
         </VStack>
@@ -291,11 +272,7 @@ export default function BookDetails({ route, navigation }) {
           />
         </Box>
 
-        <BookList
-          DummyBooks={books}
-          title='Similar titles'
-          navigation={navigation}
-        />
+        <BookList title='Similar titles' navigation={navigation} />
       </ScrollView>
     </Box>
   );

@@ -1,13 +1,13 @@
 import React from 'react';
-import { createStackNavigator } from '@react-navigation/stack';
-import { customColor } from '../../constants/Colors';
-import Welcome from './Welcome';
-import Register from './Register';
-import Login from './Login';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { customColor } from '../constants/Colors';
+import Welcome from '../screens/auth/Welcome';
+import Register from '../screens/auth/Register';
+import Login from '../screens/auth/Login';
 
-const Stack = createStackNavigator();
+const Stack = createNativeStackNavigator();
 
-export default function Guest() {
+export default function GuestStack() {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name='welcome' component={Welcome} />

@@ -53,8 +53,7 @@ export default function Profile({ navigation }) {
               p={2}
               rounded='sm'
               mb={5}
-              _text={{ color: '#000' }}
-            >
+              _text={{ color: '#000' }}>
               Photo updated successfully!
             </Box>
           );
@@ -89,8 +88,7 @@ export default function Profile({ navigation }) {
           position='absolute'
           alignSelf='center'
           top={-50}
-          rounded='full'
-        >
+          rounded='full'>
           {userPhotoProgress < 100 && userPhotoProgress > 0 ? (
             <Box bg='#888' p={7} rounded='full'>
               <Spinner color='warning.500' size='lg' />
@@ -119,8 +117,7 @@ export default function Profile({ navigation }) {
           p={2}
           position='absolute'
           right={110}
-          top={6}
-        >
+          top={6}>
           <Entypo name='camera' size={24} color='#fff' onPress={pickImage} />
         </Box>
 
@@ -131,7 +128,7 @@ export default function Profile({ navigation }) {
           <Text fontSize='13' color='#fff'>
             2
           </Text>
-          <Text fontSize='15' color='#ccc' mt={-3} mb={4}>
+          <Text fontSize='15' color='#ccc' mt={-3} mb={6}>
             Following
           </Text>
         </VStack>
@@ -142,6 +139,7 @@ export default function Profile({ navigation }) {
               pickImage,
             })
           }
+          variant='solid'
           bgColor={customSecondaryColor}
           w='40%'
           alignSelf='center'
@@ -154,8 +152,7 @@ export default function Profile({ navigation }) {
             fontWeight: 'bold',
           }}
           position='absolute'
-          bottom={-20}
-        >
+          bottom={-10}>
           Edit Profile
         </Button>
       </VStack>

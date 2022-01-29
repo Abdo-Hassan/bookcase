@@ -3,18 +3,14 @@ import { StatusBar } from 'expo-status-bar';
 import { NativeBaseProvider, extendTheme } from 'native-base';
 import { LogBox } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
-import Guest from './screens/auth/Guest';
 import BottomNavigation from './views/BottomNavigation';
-import { createStackNavigator } from '@react-navigation/stack';
-import ReviewDetails from './screens/reviews/ReviewDetails';
-import { secondaryColor, customColor } from './constants/Colors';
-import CommentSection from './screens/reviews/CommentSection';
 import Loading from './components/Loading';
 import { Provider, useSelector, useDispatch } from 'react-redux';
 import { store } from './redux/store';
 import { getUser } from './redux/actions/authActions';
+import GuestStack from './views/GuestStack';
 
-const Stack = createStackNavigator();
+const GOOGLE_BOOKS_API_KEY = 'AIzaSyDv5rFRovPnY0RNlM9CXnxzWMCqkYynlds';
 
 // set default color mode
 const config = {
@@ -26,6 +22,7 @@ const customTheme = extendTheme({ config });
 LogBox.ignoreLogs([
   'AsyncStorage has been extracted from react-native core and will be removed in a future release.',
   'Setting a timer for a long period of time',
+  'Non-serializable values were found in the navigation state',
 ]);
 
 const configGradient = {
@@ -45,6 +42,7 @@ export default App = () => {
 
 function AppDetails() {
   const [loading, setLoading] = useState(true);
+  console.log('~ loading', loading);
   const dispatch = useDispatch();
   dispatch(getUser());
   const currentUser = useSelector((state) => state.auth.currentUser);
@@ -58,17 +56,7 @@ function AppDetails() {
 
   const handleScreens = () => {
     if (!loading) {
-      return (
-        <Stack.Navigator screenOptions={{ headerShown: false }}>
-          {!currentUser ? (
-            <Stack.Screen name='guest' component={Guest} />
-          ) : (
-            <>
-              <Stack.Screen name='home' component={BottomNavigation} />
-            </>
-          )}
-        </Stack.Navigator>
-      );
+      return !currentUser ? <GuestStack /> : <BottomNavigation />;
     } else {
       return <Loading />;
     }

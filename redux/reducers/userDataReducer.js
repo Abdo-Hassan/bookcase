@@ -4,7 +4,7 @@ import {
   USER_THEME,
   PROFILE_IMAGE_PROGRESS,
   LOGOUT,
-} from '../actions/actionTypes';
+} from '../types/actionTypes';
 
 const INIT_STATE = {
   fetchCurrentUser: false,

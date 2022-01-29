@@ -23,7 +23,7 @@ import {
   USER_NAME,
   PROFILE_IMAGE,
   USER_THEME,
-} from './actionTypes';
+} from '../types/actionTypes';
 import { primaryColor } from '../../constants/Colors';
 
 // firebase listen to user

@@ -1,21 +1,38 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { HStack, Heading, Badge, Image } from 'native-base';
 import { Feather, Ionicons } from '@expo/vector-icons';
 import { FlatList, TouchableOpacity } from 'react-native';
 import { primaryColor } from '../constants/Colors';
+import axios from 'axios';
 
-export default function BookList({ DummyBooks, title, navigation }) {
+export default function BookList({ term, title, navigation }) {
+  const [BooksLists, setBooksLists] = useState([]);
+
+  const fetchBooks = async () => {
+    try {
+      const res = await axios.get(
+        `https://www.googleapis.com/books/v1/volumes/?q=${term}+subject:${term}`
+      );
+      const first20Books = res?.data?.items.slice(0, 20);
+      setBooksLists(first20Books);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchBooks();
+  }, []);
+
   const renderBookList = ({ item }) => {
     return (
       <TouchableOpacity
         activeOpacity={0.6}
         onPress={() =>
           navigation.navigate('bookDetails', {
-            books: DummyBooks,
-            bookImage: item.image,
+            item,
           })
-        }
-      >
+        }>
         <Badge
           rounded='full'
           mb={-9}
@@ -24,12 +41,11 @@ export default function BookList({ DummyBooks, title, navigation }) {
           zIndex={1}
           variant='solid'
           alignSelf='flex-end'
-          bg={primaryColor}
-        >
+          bg={primaryColor}>
           <Feather name='headphones' size={14} color='#fff' />
         </Badge>
         <Image
-          source={item.image}
+          source={{ uri: item?.volumeInfo?.imageLinks?.smallThumbnail }}
           alt='book image'
           size={'130'}
           rounded='lg'
@@ -47,14 +63,9 @@ export default function BookList({ DummyBooks, title, navigation }) {
         activeOpacity={0.6}
         onPress={() =>
           navigation.navigate('bookListDetails', {
-            books: DummyBooks,
-            image1: DummyBooks[0].image,
-            image2: DummyBooks[1].image,
-            image3: DummyBooks[2].image,
             title,
           })
-        }
-      >
+        }>
         <HStack mx={4} my={4}>
           <Heading fontSize='18' flex={1} textAlign='left' color='#fff'>
             {title}
@@ -68,7 +79,7 @@ export default function BookList({ DummyBooks, title, navigation }) {
       <FlatList
         horizontal
         showsHorizontalScrollIndicator={false}
-        data={DummyBooks}
+        data={BooksLists}
         renderItem={renderBookList}
         keyExtractor={(item) => item.id}
       />

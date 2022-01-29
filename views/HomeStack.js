@@ -1,5 +1,5 @@
 import React from 'react';
-import { createStackNavigator } from '@react-navigation/stack';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import BookDetails from '../screens/books/BookDetails';
 import BookListDetails from '../screens/books/BookListDetails';
 import BooksOverview from '../screens/books/BooksOverview';
@@ -8,7 +8,7 @@ import Notifications from '../screens/Notifications';
 import CommentSection from '../screens/reviews/CommentSection';
 import ReviewDetails from '../screens/reviews/ReviewDetails';
 
-const Stack = createStackNavigator();
+const Stack = createNativeStackNavigator();
 
 export default function HomeStack() {
   return (
