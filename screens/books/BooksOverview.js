@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Ionicons } from '@expo/vector-icons';
 import {
   Box,
@@ -9,15 +9,38 @@ import {
   HStack,
   ScrollView,
   Heading,
+  Badge,
+  Stack,
 } from 'native-base';
 import { TouchableOpacity } from 'react-native';
 import BookList from '../../components/BookList';
 import { primaryColor } from '../../constants/Colors';
 import { StatusBar } from 'expo-status-bar';
 import { useSelector } from 'react-redux';
+import axios from 'axios';
 
 export default function BooksOverview({ navigation }) {
   const userProfile = useSelector((state) => state.userData.userProfile);
+  const [featuredBook, setFeaturedBook] = useState({});
+  console.log('~ featuredBook', featuredBook);
+
+  const fetchFeaturedBook = async () => {
+    try {
+      const res = await axios.get(
+        `https://www.googleapis.com/books/v1/volumes/XFkyuQEACAAJ`
+      );
+      const featuredBook = res?.data;
+      console.log('~ fetchFeaturedBook', featuredBook);
+      setFeaturedBook(featuredBook);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchFeaturedBook();
+  }, []);
+
   return (
     <Box
       flex={1}
@@ -28,8 +51,7 @@ export default function BooksOverview({ navigation }) {
           end: [0, 0.2],
         },
       }}
-      pb={4}
-    >
+      pb={4}>
       <StatusBar style='light' />
       <HStack mt='20' mb='5' alignItems='center'>
         <Text bold fontSize='26' ml='3' color='#fff' flex={0.92}>
@@ -52,11 +74,13 @@ export default function BooksOverview({ navigation }) {
             activeOpacity={0.6}
             onPress={() =>
               navigation.navigate('bookListDetails', {
+                author: false,
                 term: 'health',
+                category: false,
+                num: '4',
                 title: 'الصحة والجمال',
               })
-            }
-          >
+            }>
             <Box mx='4' my='1'>
               <Image
                 source={require('../../assets/bookCover4.jpg')}
@@ -74,8 +98,7 @@ export default function BooksOverview({ navigation }) {
                 }}
                 position='absolute'
                 bottom='6'
-                left='3'
-              >
+                left='3'>
                 الصحة والجمال
               </Center>
             </Box>
@@ -85,11 +108,13 @@ export default function BooksOverview({ navigation }) {
             activeOpacity={0.6}
             onPress={() =>
               navigation.navigate('bookListDetails', {
+                author: false,
                 term: 'nature',
+                category: false,
+                num: '6',
                 title: 'الطبيعة',
               })
-            }
-          >
+            }>
             <Box mx='4' my='1'>
               <Image
                 source={require('../../assets/bookCover6.jpg')}
@@ -107,8 +132,7 @@ export default function BooksOverview({ navigation }) {
                 }}
                 position='absolute'
                 bottom='6'
-                left='3'
-              >
+                left='3'>
                 الطبيعة
               </Center>
             </Box>
@@ -118,11 +142,13 @@ export default function BooksOverview({ navigation }) {
             activeOpacity={0.6}
             onPress={() =>
               navigation.navigate('bookListDetails', {
+                author: false,
                 term: 'technology',
+                category: false,
+                num: '3',
                 title: 'التكنولوجيا',
               })
-            }
-          >
+            }>
             <Box mx='4' my='1'>
               <Image
                 source={require('../../assets/bookCover3.jpg')}
@@ -140,8 +166,7 @@ export default function BooksOverview({ navigation }) {
                 }}
                 position='absolute'
                 bottom='6'
-                left='3'
-              >
+                left='3'>
                 التكنولوجيا
               </Center>
             </Box>
@@ -159,20 +184,18 @@ export default function BooksOverview({ navigation }) {
               كتاب الشهر
             </Heading>
             <Heading fontSize='13' color='#ccc' textAlign='left' mb='1'>
-              الدحيح ما وراء الكواليس
+              {featuredBook?.volumeInfo?.title}
             </Heading>
           </Box>
 
-          {/* TODO: set name of single book*/}
-          {/* <TouchableOpacity
+          {/* Featured Books */}
+          <TouchableOpacity
             activeOpacity={0.6}
             onPress={() =>
               navigation.navigate('bookDetails', {
-                books: DummyBooks1,
-                bookImage: require('../../assets/elda7e7.png'),
+                item: featuredBook,
               })
-            }
-          >
+            }>
             <Box
               bg={{
                 linearGradient: {
@@ -183,8 +206,7 @@ export default function BooksOverview({ navigation }) {
               }}
               mx={4}
               my={4}
-              rounded='lg'
-            >
+              rounded='lg'>
               <Badge
                 rounded='sm'
                 px={3}
@@ -198,23 +220,23 @@ export default function BooksOverview({ navigation }) {
                   color: '#fff',
                 }}
                 bgColor={primaryColor}
-                right='0'
-              >
+                right='0'>
                 4.7
               </Badge>
               <Box rounded='lg'>
                 <Image
-                  source={require('../../assets/elda7e7.png')}
+                  source={require('../../assets/The-Last-Astronaut.jpg')}
                   alt='book image'
-                  size={'200'}
+                  size={'230'}
                   rounded='lg'
+                  mt={2}
                   alignSelf='center'
                   resizeMode='cover'
                 />
                 <Stack p='4' textAlign='center' space={3}>
                   <Stack space={2}>
                     <Heading size='md' ml='-1' color='#fff' textAlign='center'>
-                      الدحيح - ما وراء الكواليس
+                      {featuredBook?.volumeInfo?.title}
                     </Heading>
                     <Text
                       fontSize='xs'
@@ -227,21 +249,19 @@ export default function BooksOverview({ navigation }) {
                       fontWeight='500'
                       ml='-0.5'
                       mt='-1'
-                      textAlign='center'
-                    >
-                      By: طاهر المعتز بالله
+                      textAlign='center'>
+                      By:
+                      {featuredBook?.volumeInfo?.authors[0]}
                     </Text>
                   </Stack>
 
                   <Text fontWeight='400' color='#fff' textAlign='center' mx='5'>
-                    الدحيح : ما وراء الكواليس "كتاب بالعامية المصرية بصوت الدحيح
-                    نفسه ومن كتاية طاهر المعتز بالله , أحد كتاب اهم واشهر حلقات
-                    الدحيح. أستمع الان"
+                    {featuredBook?.volumeInfo?.description}
                   </Text>
                 </Stack>
               </Box>
             </Box>
-          </TouchableOpacity> */}
+          </TouchableOpacity>
 
           <BookList
             term='sport'
@@ -258,11 +278,13 @@ export default function BooksOverview({ navigation }) {
             activeOpacity={0.6}
             onPress={() =>
               navigation.navigate('bookListDetails', {
+                author: false,
                 term: 'science',
+                category: false,
+                num: '5',
                 title: 'العلوم',
               })
-            }
-          >
+            }>
             <Box mx='4' my='1'>
               <Image
                 source={require('../../assets/bookCover5.jpg')}
@@ -280,8 +302,7 @@ export default function BooksOverview({ navigation }) {
                 }}
                 position='absolute'
                 bottom='6'
-                left='3'
-              >
+                left='3'>
                 العلوم
               </Center>
             </Box>

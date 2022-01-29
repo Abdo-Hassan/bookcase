@@ -10,6 +10,7 @@ import {
   Avatar,
   Text,
   Spinner,
+  Skeleton,
 } from 'native-base';
 import {
   MaterialCommunityIcons,
@@ -26,16 +27,22 @@ import axios from 'axios';
 
 export default function BookListDetails({ route, navigation }) {
   const { isOpen, onClose, onOpen } = useDisclose();
-  const [BooksLists, setBooksLists] = useState([]);
-  const { term, title, author, authorName } = route.params;
+  const [booksLists, setBooksLists] = useState([]);
+  const [authorBooks, setAuthorBooks] = useState([]);
+  const { term, title, author, authorName, num, bookListCategory, category } =
+    route.params;
+  console.log('~ author', author);
+  console.log('~ authorBooks', authorBooks);
+  console.log('~ booksLists', booksLists);
+  console.log('~ bookListCategory', bookListCategory);
 
   const fetchBooks = async () => {
     try {
       const res = await axios.get(
         `https://www.googleapis.com/books/v1/volumes/?q=${term}+subject:${term}`
       );
-      const first50Books = res?.data?.items.slice(0, 20);
-      setBooksLists(first50Books);
+      const books = res?.data?.items;
+      setBooksLists(books);
     } catch (error) {
       console.log(error);
     }
@@ -44,6 +51,22 @@ export default function BookListDetails({ route, navigation }) {
   useEffect(() => {
     fetchBooks();
   }, []);
+
+  const fetchAuthorBooks = async () => {
+    try {
+      const res = await axios.get(
+        `https://www.googleapis.com/books/v1/volumes/?q=${term}+inauthor:${authorName}`
+      );
+      const authorBooks = res?.data?.items;
+      setAuthorBooks(authorBooks);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchAuthorBooks();
+  }, [author]);
 
   const onShare = async () => {
     try {
@@ -74,8 +97,7 @@ export default function BookListDetails({ route, navigation }) {
           start: [0, 0],
           end: [0, 0.4],
         },
-      }}
-    >
+      }}>
       <Box ml={5} mt={10}>
         <AntDesign
           name='arrowleft'
@@ -86,53 +108,29 @@ export default function BookListDetails({ route, navigation }) {
       </Box>
 
       <Box mb={5}>
-        {!author ? (
-          <>
-            <Image
-              size={'120'}
-              source={{
-                uri: BooksLists[0]?.volumeInfo?.imageLinks?.smallThumbnail,
-              }}
-              rounded='md'
-              resizeMode='cover'
-              alt='bookListImage'
-              alignSelf='center'
-            />
-            <Image
-              size={'140'}
-              source={{
-                uri: BooksLists[1]?.volumeInfo?.imageLinks?.smallThumbnail,
-              }}
-              rounded='md'
-              resizeMode='cover'
-              alt='bookListImage'
-              alignSelf='center'
-              position='absolute'
-              top={2}
-              zIndex={1}
-            />
-            <Image
-              size={'160'}
-              source={{
-                uri: BooksLists[2]?.volumeInfo?.imageLinks?.smallThumbnail,
-              }}
-              rounded='md'
-              resizeMode='cover'
-              alt='bookListImage'
-              alignSelf='center'
-              position='absolute'
-              zIndex={2}
-              top={6}
-            />
-          </>
+        {!author && num ? (
+          // FIXME:FIX Invalid call at line 91: require("../../assets/bookCover" + num + ".jpg")
+          <Image
+            // source={require(`../../assets/bookCover${num}.jpg`)}
+            source={require(`../../assets/bookCover${4}.jpg`)}
+            alt='image'
+            size={'200'}
+            rounded='lg'
+            alignSelf='center'
+            // height={120}
+            mb={1}
+            resizeMode='cover'
+          />
         ) : (
           <Avatar bg='amber.900' size='2xl' alignSelf='center'>
-            <HStack alignItems='center' justifyContent='center'>
-              <Text fontSize='40'>
-                {authorName.split('')[0]}
-                {authorName.split('')[1]}
-              </Text>
-            </HStack>
+            {author && (
+              <HStack alignItems='center' justifyContent='center'>
+                <Text fontSize='40'>
+                  {authorName.split('')[0]}
+                  {authorName.split('')[1]}
+                </Text>
+              </HStack>
+            )}
           </Avatar>
         )}
 
@@ -141,8 +139,7 @@ export default function BookListDetails({ route, navigation }) {
             fontSize={20}
             textAlign='center'
             color='#fff'
-            mt={title ? 20 : author ? 5 : 10}
-          >
+            mt={title ? 20 : author ? 5 : 10}>
             {authorName}
           </Heading>
         )}
@@ -167,8 +164,7 @@ export default function BookListDetails({ route, navigation }) {
               space={1}
               alignItems='center'
               justifyContent='center'
-              mb={1}
-            >
+              mb={1}>
               <Ionicons name='people-sharp' size={15} color='#ccc' />
               <Text color='#ccc'>131 Followers</Text>
             </HStack>
@@ -181,19 +177,20 @@ export default function BookListDetails({ route, navigation }) {
           </Heading>
 
           <TouchableOpacity activeOpacity={0.4}>
-            <Feather name='send' size={24} color='#ccc' onPress={onShare} />
-          </TouchableOpacity>
-
-          <TouchableOpacity activeOpacity={0.4}>
-            <MaterialCommunityIcons name='sort' size={24} color='#ccc' />
+            <Box mr='4'>
+              <Feather name='send' size={24} color='#ccc' onPress={onShare} />
+            </Box>
           </TouchableOpacity>
         </HStack>
 
-        {BooksLists && BooksLists.length !== 0 ? (
+        {(booksLists && booksLists.length !== 0) ||
+        (bookListCategory && bookListCategory.length !== 0) ? (
           <FlatList
             contentContainerStyle={{ flexGrow: 1 }}
-            // h='200'
-            data={BooksLists}
+            h='400'
+            data={
+              category ? bookListCategory : author ? authorBooks : booksLists
+            }
             renderItem={({ item }) => {
               return (
                 <Box pl='4' pr='5' py='2'>
@@ -204,9 +201,8 @@ export default function BookListDetails({ route, navigation }) {
                         navigation.navigate('bookDetails', {
                           item,
                         })
-                      }
-                    >
-                      <HStack space={4}>
+                      }>
+                      <HStack space={3}>
                         <Image
                           size='100'
                           rounded='lg'
@@ -215,22 +211,18 @@ export default function BookListDetails({ route, navigation }) {
                           }}
                           alt='bookDetails'
                         />
-                        <VStack space={2} alignSelf='center'>
+                        <VStack space={2} alignSelf='center' w='150'>
                           <Heading
                             fontSize='15'
                             color={secondaryColor}
-                            textAlign='left'
-                          >
+                            textAlign='left'>
                             {item?.volumeInfo?.title.length > 25
                               ? `${item?.volumeInfo?.title.slice(0, 25)}...`
                               : item?.volumeInfo?.title}
                           </Heading>
-                          <Heading fontSize='15' color={secondaryColor}>
-                            Audio Book
-                          </Heading>
+
                           {item?.volumeInfo?.authors && (
                             <Heading fontSize='15' color={secondaryColor}>
-                              {/* By: {item?.volumeInfo?.authors[0]} */}
                               By:{' '}
                               {item?.volumeInfo?.authors[0].length > 21
                                 ? `${item?.volumeInfo?.authors[0].slice(
@@ -262,13 +254,16 @@ export default function BookListDetails({ route, navigation }) {
             keyExtractor={(item) => item.id}
           />
         ) : (
-          <Spinner
-            accessibilityLabel='Loading books'
-            color={primaryColor}
-            size='lg'
-            mt={5}
-            justifyContent='center'
-          />
+          ['1', '2', '3'].map((skeleton, i) => (
+            <HStack space={8} rounded='md' p='4' key={i}>
+              <Skeleton flex='1' h='70' rounded='lg' />
+              <VStack flex='3' space='4' alignSelf='center'>
+                <Skeleton size='200' h='3' rounded='full' />
+                <Skeleton size='200' h='3' rounded='full' />
+                <Skeleton size='200' h='3' rounded='full' />
+              </VStack>
+            </HStack>
+          ))
         )}
       </Box>
     </Box>

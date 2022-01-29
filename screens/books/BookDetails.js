@@ -80,8 +80,7 @@ export default function BookDetails({ route, navigation }) {
           onPress={() => handleNavigate(item)}
           activeOpacity={
             item.withIcon && item.title === '1.3 Ratings' ? 0.4 : 1
-          }
-        >
+          }>
           <VStack space={1}>
             <Heading fontSize='12' color='#ccc' textAlign='center' color='#ccc'>
               {item.title}
@@ -122,8 +121,7 @@ export default function BookDetails({ route, navigation }) {
         px={4}
         my={1}
         mr={1}
-        py={2}
-      >
+        py={2}>
         <Text color='#fff' fontWeight='bold'>
           #{item.title}
         </Text>
@@ -141,8 +139,7 @@ export default function BookDetails({ route, navigation }) {
           start: [0, 0],
           end: [0, 0.4],
         },
-      }}
-    >
+      }}>
       <HStack alignItems='center' justifyContent='space-between' mx={5} pt={5}>
         <AntDesign
           name='arrowleft'
@@ -177,35 +174,21 @@ export default function BookDetails({ route, navigation }) {
               onPress={() =>
                 navigation.navigate('bookListDetails', {
                   author: true,
+                  category: false,
+                  authorName: item?.volumeInfo?.authors[0],
                 })
-              }
-            >
+              }>
               {item?.volumeInfo?.authors[0]}
             </Text>
           </Heading>
         </VStack>
         <VStack space={4} alignItems='center' justifyContent='center'>
-          <HStack space={9} mt={6}>
-            <TouchableOpacity activeOpacity={0.4}>
-              <Box bgColor={secondaryColor} rounded='full' p={4}>
-                <Feather name='headphones' size={22} color='#fff' />
-              </Box>
-            </TouchableOpacity>
-
+          <HStack space={9} mt={4}>
             <TouchableOpacity activeOpacity={0.4}>
               <Box bgColor={textColor} rounded='full' p={4}>
                 <MaterialIcons name='favorite-border' color='#fff' size={22} />
               </Box>
             </TouchableOpacity>
-          </HStack>
-
-          <HStack space={10}>
-            <Heading fontSize='16' color='#ccc' mx={1}>
-              Listen
-            </Heading>
-            <Heading fontSize='16' color='#ccc' mx={2}>
-              Save
-            </Heading>
           </HStack>
         </VStack>
         <Divider orientation='horizontal' mt={4} bgColor='#222' />
@@ -233,9 +216,6 @@ export default function BookDetails({ route, navigation }) {
             . اليوتيوب وقتا كان برنامج فردى
           </Heading>
 
-          <Heading fontSize='14' color='#ccc'>
-            Audio Book
-          </Heading>
           <Heading fontSize='14' color='#ccc'>
             Release Date: Nov 26, 2021
           </Heading>

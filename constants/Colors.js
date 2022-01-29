@@ -13,9 +13,9 @@ import { store } from '../redux/store';
 // });
 
 // FIXME: replace with app theme
-export const primaryColor = '#E8592A';
-export const secondaryColor = '#D06224';
-export const customColor = '#49081E';
-export const customPrimaryColor = '#6D334B';
-export const customSecondaryColor = '#F9E0DB';
-export const textColor = '#FF5403';
+export const primaryColor = '#2EB086';
+export const secondaryColor = '#219F94';
+export const customColor = '#219F94';
+export const customPrimaryColor = '#35858B';
+export const customSecondaryColor = '#FFEDED';
+export const textColor = '#35858B';

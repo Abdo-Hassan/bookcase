@@ -13,8 +13,8 @@ export default function BookList({ term, title, navigation }) {
       const res = await axios.get(
         `https://www.googleapis.com/books/v1/volumes/?q=${term}+subject:${term}`
       );
-      const first20Books = res?.data?.items.slice(0, 20);
-      setBooksLists(first20Books);
+      const books = res?.data?.items;
+      setBooksLists(books);
     } catch (error) {
       console.log(error);
     }
@@ -33,24 +33,13 @@ export default function BookList({ term, title, navigation }) {
             item,
           })
         }>
-        <Badge
-          rounded='full'
-          mb={-9}
-          mr={-1}
-          p={1.5}
-          zIndex={1}
-          variant='solid'
-          alignSelf='flex-end'
-          bg={primaryColor}>
-          <Feather name='headphones' size={14} color='#fff' />
-        </Badge>
         <Image
           source={{ uri: item?.volumeInfo?.imageLinks?.smallThumbnail }}
           alt='book image'
           size={'130'}
           rounded='lg'
           resizeMode='cover'
-          my={4}
+          mb={4}
           mx={2}
         />
       </TouchableOpacity>
@@ -64,6 +53,10 @@ export default function BookList({ term, title, navigation }) {
         onPress={() =>
           navigation.navigate('bookListDetails', {
             title,
+            author: false,
+            bookListCategory: BooksLists,
+            category: true,
+            num: 4,
           })
         }>
         <HStack mx={4} my={4}>

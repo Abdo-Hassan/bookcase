@@ -42,7 +42,6 @@ export default App = () => {
 
 function AppDetails() {
   const [loading, setLoading] = useState(true);
-  console.log('~ loading', loading);
   const dispatch = useDispatch();
   dispatch(getUser());
   const currentUser = useSelector((state) => state.auth.currentUser);
