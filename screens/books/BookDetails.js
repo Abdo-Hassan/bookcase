@@ -51,8 +51,6 @@ export default function BookDetails({ route, navigation }) {
       )
     );
   };
-  console.log('~ favoriteBook', favoriteBook);
-  console.log('~ iconName', iconName);
 
   const checkFavorite = () => {
     const isFavoriteBook = favoriteBooks?.some(
