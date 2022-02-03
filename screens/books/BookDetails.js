@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   Badge,
   Box,
@@ -23,10 +23,53 @@ import { TouchableOpacity, FlatList } from 'react-native';
 import ActionSheetDetails from '../../components/ActionSheetDetails';
 import BookList from '../../components/BookList';
 import Reviews from '../../components/reviewsComponents/Reviews';
+import { addBookToFavorite } from '../../redux/actions/booksActions';
+import { useDispatch, useSelector } from 'react-redux';
+import { useState } from 'react';
 
 export default function BookDetails({ route, navigation }) {
   const { item } = route.params;
   const { isOpen, onClose, onOpen } = useDisclose();
+  const dispatch = useDispatch();
+  const [iconName, setIconName] = useState('favorite-border');
+  const [favoriteBook, setFavoriteBook] = useState(false);
+  const userAuth = useSelector((state) => state.auth.userAuth);
+  const favoriteBooks = useSelector((state) => state.userBooks.favoriteBooks);
+
+  const addToFavorite = () => {
+    setFavoriteBook(true);
+    setIconName('favorite');
+    dispatch(
+      addBookToFavorite(
+        {
+          bookImage: item?.volumeInfo?.imageLinks?.smallThumbnail,
+          bookId: item?.id,
+          bookTitle: item?.volumeInfo?.title,
+          bookAuthor: item?.volumeInfo?.authors[0],
+        },
+        userAuth?.userId
+      )
+    );
+  };
+  console.log('~ favoriteBook', favoriteBook);
+  console.log('~ iconName', iconName);
+
+  const checkFavorite = () => {
+    const isFavoriteBook = favoriteBooks?.some(
+      (book) => book.bookId === item?.id
+    );
+    if (isFavoriteBook) {
+      setFavoriteBook(true);
+      setIconName('favorite');
+    } else {
+      setFavoriteBook(false);
+      setIconName('favorite-border');
+    }
+  };
+
+  useEffect(() => {
+    checkFavorite();
+  }, []);
 
   const handleNavigate = (item) => {
     if (item.withIcon && item.title === '1.3 Ratings') {
@@ -151,7 +194,12 @@ export default function BookDetails({ route, navigation }) {
           <Entypo name='dots-three-vertical' size={17} color='#fff' />
         </TouchableOpacity>
       </HStack>
-      <ActionSheetDetails isOpen={isOpen} onClose={onClose} />
+      <ActionSheetDetails
+        isOpen={isOpen}
+        item={item}
+        onClose={onClose}
+        favoriteBook={favoriteBook}
+      />
       <ScrollView>
         <Image
           mt={6}
@@ -183,9 +231,9 @@ export default function BookDetails({ route, navigation }) {
         </VStack>
         <VStack space={4} alignItems='center' justifyContent='center'>
           <HStack space={9} mt={4}>
-            <TouchableOpacity activeOpacity={0.4}>
+            <TouchableOpacity activeOpacity={0.4} onPress={addToFavorite}>
               <Box bgColor={textColor} rounded='full' p={4}>
-                <MaterialIcons name='favorite-border' color='#fff' size={22} />
+                <MaterialIcons name={iconName} color='#fff' size={22} />
               </Box>
             </TouchableOpacity>
           </HStack>

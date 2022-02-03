@@ -23,6 +23,7 @@ import {
   USER_NAME,
   PROFILE_IMAGE,
   USER_THEME,
+  FAVORITE_BOOKS,
 } from '../types/actionTypes';
 import { primaryColor } from '../../constants/Colors';
 
@@ -33,6 +34,7 @@ export const getUser = () => async (dispatch) => {
       if (user !== null) {
         const userProfileRef = doc(db, 'userProfile', user.uid);
         const userSettingsRef = doc(db, 'userSettings', user.uid);
+        const userBooksRef = doc(db, 'userBooks', user?.uid);
 
         dispatch({
           type: CURRENT_USER,
@@ -55,6 +57,16 @@ export const getUser = () => async (dispatch) => {
                 payload: data?.userPhoto,
               });
             }
+          });
+        }
+
+        if (userBooksRef) {
+          onSnapshot(userBooksRef, (doc) => {
+            const books = doc.data()?.favoriteBooks;
+            dispatch({
+              type: FAVORITE_BOOKS,
+              payload: books,
+            });
           });
         }
 

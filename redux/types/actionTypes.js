@@ -13,3 +13,5 @@ export const LOGIN = 'LOGIN';
 export const LOGIN_ERROR = 'LOGIN_ERROR';
 export const LOGOUT = 'LOGOUT';
 export const CREATE_USER_ERROR = 'CREATE_USER_ERROR';
+export const ADD_FAVORITE_BOOK = 'ADD_FAVORITE_BOOK';
+export const FAVORITE_BOOKS = 'FAVORITE_BOOKS';

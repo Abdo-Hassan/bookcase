@@ -11,14 +11,21 @@ import {
 } from '@expo/vector-icons';
 import { TouchableOpacity } from 'react-native';
 import Popup from './Popup';
+import { useDispatch, useSelector } from 'react-redux';
+import { addBookToFavorite } from '../redux/actions/booksActions';
 
 export default function ActionSheetDetails({
   isOpen,
   onClose,
   profile,
+  favoriteBook,
+  item,
   navigation,
 }) {
   const [modalVisible, setModalVisible] = useState(false);
+  const userAuth = useSelector((state) => state.auth.userAuth);
+
+  const dispatch = useDispatch();
 
   const handleClickIcons = (iconName) => {
     if (profile) {
@@ -28,6 +35,18 @@ export default function ActionSheetDetails({
         navigation.navigate('accountSettings');
       } else if (iconName === 'gear') {
         navigation.navigate('userSettings');
+      } else if (iconName === 'favorite-border') {
+        dispatch(
+          addBookToFavorite(
+            {
+              bookImage: item?.volumeInfo?.imageLinks?.smallThumbnail,
+              bookId: item?.id,
+              bookTitle: item?.volumeInfo?.title,
+              bookAuthor: item?.volumeInfo?.authors[0],
+            },
+            userAuth?.userId
+          )
+        );
       }
     }
   };
@@ -58,8 +77,8 @@ export default function ActionSheetDetails({
     options = [
       {
         id: 1,
-        title: 'Add to bookshelf',
-        iconName: 'favorite-outline',
+        title: favoriteBook ? 'Saved to bookshelf' : 'Add to bookshelf',
+        iconName: favoriteBook ? 'favorite' : 'favorite-border',
         iconType: <MaterialIcons />,
       },
       {
@@ -108,8 +127,7 @@ export default function ActionSheetDetails({
         isOpen={isOpen}
         onClose={onClose}
         size='full'
-        hideDragIndicator
-      >
+        hideDragIndicator>
         <Actionsheet.Content>
           <HStack py={3} alignItems='center' justifyContent='center'>
             <Text
@@ -117,8 +135,7 @@ export default function ActionSheetDetails({
               fontWeight='bold'
               textAlign='center'
               color='#fff'
-              flex={0.9}
-            >
+              flex={0.9}>
               {profile ? 'Settings' : 'اسم الكتاب'}
             </Text>
             <TouchableOpacity activeOpacity={0.6} onPress={onClose}>
@@ -138,8 +155,7 @@ export default function ActionSheetDetails({
                   size='6'
                   name={option?.iconName}
                 />
-              }
-            >
+              }>
               <Text color='#fff' fontSize='16'>
                 {option?.title}
               </Text>
