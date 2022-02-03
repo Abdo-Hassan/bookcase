@@ -9,6 +9,7 @@ import {
   ScrollView,
   Text,
   useDisclose,
+  useToast,
   VStack,
 } from 'native-base';
 import { secondaryColor, textColor } from '../../constants/Colors';
@@ -21,7 +22,7 @@ import {
 } from '@expo/vector-icons';
 import { TouchableOpacity, FlatList } from 'react-native';
 import ActionSheetDetails from '../../components/ActionSheetDetails';
-import BookList from '../../components/BookList';
+import BookList from '../../components/bookComponents/BookList';
 import Reviews from '../../components/reviewsComponents/Reviews';
 import { addBookToFavorite } from '../../redux/actions/booksActions';
 import { useDispatch, useSelector } from 'react-redux';
@@ -29,6 +30,7 @@ import { useState } from 'react';
 
 export default function BookDetails({ route, navigation }) {
   const { item } = route.params;
+  const toast = useToast();
   const { isOpen, onClose, onOpen } = useDisclose();
   const dispatch = useDispatch();
   const [iconName, setIconName] = useState('favorite-border');
@@ -50,6 +52,21 @@ export default function BookDetails({ route, navigation }) {
         userAuth?.userId
       )
     );
+    toast.show({
+      render: () => {
+        return (
+          <Box
+            bg='emerald.300'
+            p={2}
+            rounded='sm'
+            mb={5}
+            w='100%'
+            _text={{ color: '#000' }}>
+            Your book has been added to favorite!
+          </Box>
+        );
+      },
+    });
   };
 
   const checkFavorite = () => {

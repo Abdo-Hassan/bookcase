@@ -13,7 +13,7 @@ import {
   Stack,
 } from 'native-base';
 import { TouchableOpacity } from 'react-native';
-import BookList from '../../components/BookList';
+import BookList from '../../components/bookComponents/BookList';
 import { primaryColor } from '../../constants/Colors';
 import { StatusBar } from 'expo-status-bar';
 import { useSelector } from 'react-redux';

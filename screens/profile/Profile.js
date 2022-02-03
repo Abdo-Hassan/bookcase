@@ -8,6 +8,7 @@ import {
   Spinner,
   Image,
   useToast,
+  HStack,
 } from 'native-base';
 import * as ImagePicker from 'expo-image-picker';
 import { TouchableOpacity } from 'react-native';
@@ -157,10 +158,9 @@ export default function Profile({ navigation }) {
         </Button>
       </VStack>
 
-      {/* <TouchableOpacity
+      <TouchableOpacity
         activeOpacity={0.4}
-        onPress={() => navigation.navigate('bookshelf')}
-      >
+        onPress={() => navigation.navigate('bookshelf')}>
         <HStack
           borderWidth={2}
           bgColor='#1A1A1A'
@@ -168,8 +168,7 @@ export default function Profile({ navigation }) {
           rounded='lg'
           mt={20}
           alignItems='center'
-          justifyContent='space-around'
-        >
+          justifyContent='space-around'>
           <MaterialCommunityIcons
             name='bookshelf'
             size={50}
@@ -179,7 +178,7 @@ export default function Profile({ navigation }) {
             Favorite Books
           </Text>
         </HStack>
-      </TouchableOpacity> */}
+      </TouchableOpacity>
     </Box>
   );
 }
