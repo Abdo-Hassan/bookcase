@@ -9,19 +9,11 @@ import {
   useDisclose,
   Avatar,
   Text,
-  Spinner,
   Skeleton,
 } from 'native-base';
-import {
-  MaterialCommunityIcons,
-  AntDesign,
-  Feather,
-  Entypo,
-  Ionicons,
-} from '@expo/vector-icons';
-import { TouchableOpacity, Share } from 'react-native';
-import ActionSheetDetails from '../../components/ActionSheetDetails';
-import { secondaryColor, primaryColor } from '../../constants/Colors';
+import { Entypo, Ionicons, AntDesign } from '@expo/vector-icons';
+import { TouchableOpacity } from 'react-native';
+import { secondaryColor } from '../../constants/Colors';
 import ActionButton from '../../components/ActionButton';
 import axios from 'axios';
 
@@ -63,25 +55,6 @@ export default function BookListDetails({ route, navigation }) {
   useEffect(() => {
     fetchAuthorBooks();
   }, [author]);
-
-  const onShare = async () => {
-    try {
-      const result = await Share.share({
-        message: 'https://abdohassan.info/',
-      });
-      if (result.action === Share.sharedAction) {
-        if (result.activityType) {
-          // shared with activity type of result.activityType
-        } else {
-          // shared
-        }
-      } else if (result.action === Share.dismissedAction) {
-        // dismissed
-      }
-    } catch (error) {
-      alert(error.message);
-    }
-  };
 
   return (
     <Box
@@ -171,12 +144,6 @@ export default function BookListDetails({ route, navigation }) {
           <Heading fontSize='19' color='#fff' flex={1} textAlign='left' ml={2}>
             {title}
           </Heading>
-
-          <TouchableOpacity activeOpacity={0.4}>
-            <Box mr='4'>
-              <Feather name='send' size={24} color='#ccc' onPress={onShare} />
-            </Box>
-          </TouchableOpacity>
         </HStack>
 
         {(booksLists && booksLists.length !== 0) ||
@@ -241,8 +208,6 @@ export default function BookListDetails({ route, navigation }) {
                         />
                       </Box>
                     </TouchableOpacity>
-
-                    <ActionSheetDetails isOpen={isOpen} onClose={onClose} />
                   </HStack>
                 </Box>
               );

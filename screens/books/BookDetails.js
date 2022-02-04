@@ -13,13 +13,7 @@ import {
   VStack,
 } from 'native-base';
 import { secondaryColor, textColor } from '../../constants/Colors';
-import {
-  AntDesign,
-  Entypo,
-  Feather,
-  Ionicons,
-  MaterialIcons,
-} from '@expo/vector-icons';
+import { AntDesign, Entypo, Ionicons, MaterialIcons } from '@expo/vector-icons';
 import { TouchableOpacity, FlatList } from 'react-native';
 import ActionSheetDetails from '../../components/ActionSheetDetails';
 import BookList from '../../components/bookComponents/BookList';
@@ -50,12 +44,22 @@ export default function BookDetails({ route, navigation }) {
       addBookToFavorite(
         favoriteBook,
         {
-          bookImage: item?.volumeInfo?.imageLinks?.smallThumbnail,
-          bookId: item?.id,
-          bookTitle: item?.volumeInfo?.title,
-          bookAuthor: item?.volumeInfo?.authors
-            ? item?.volumeInfo?.authors[0]
+          bookImage:
+            item?.volumeInfo?.imageLinks?.smallThumbnail || item?.bookImage,
+          bookId: item?.id || item?.bookId,
+          bookTitle: item?.volumeInfo?.title || item?.bookTitle,
+          bookAuthor:
+            item?.volumeInfo?.authors || item?.bookAuthor
+              ? item?.volumeInfo?.authors[0]
+              : '',
+          bookDescription: item?.volumeInfo?.description
+            ? item?.volumeInfo?.description
             : '',
+          bookPublishedDate: item?.volumeInfo?.publishedDate,
+          bookPublisher: item?.volumeInfo?.publisher
+            ? item?.volumeInfo?.publisher
+            : '',
+          bookReadOnline: item?.accessInfo?.webReaderLink,
         },
         userAuth?.userId
       )
@@ -81,7 +85,7 @@ export default function BookDetails({ route, navigation }) {
 
   const checkFavorite = () => {
     const isFavoriteBook = favoriteBooks?.some(
-      (book) => book.bookId === item?.id
+      (book) => book.bookId === item?.id || item?.bookId
     );
     if (isFavoriteBook) {
       setFavoriteBook(true);
@@ -99,6 +103,26 @@ export default function BookDetails({ route, navigation }) {
   const handleNavigate = (item) => {
     if (item.withIcon && item.title === '1.3 Ratings') {
       navigation.navigate('reviews');
+    }
+  };
+
+  const renderBookDescription = () => {
+    if (item?.volumeInfo?.description) {
+      return (
+        <Heading fontSize='16' color='#ccc' textAlign='left' mb={3}>
+          {item?.volumeInfo?.description.length > 250
+            ? `${item?.volumeInfo?.description.slice(0, 250)}.....`
+            : item?.volumeInfo?.description}
+        </Heading>
+      );
+    } else if (item?.bookDescription) {
+      return (
+        <Heading fontSize='16' color='#ccc' textAlign='left' mb={3}>
+          {item?.bookDescription.length > 250
+            ? `${item?.bookDescription.slice(0, 250)}.....`
+            : item?.bookDescription}
+        </Heading>
+      );
     }
   };
 
@@ -224,11 +248,15 @@ export default function BookDetails({ route, navigation }) {
         onClose={onClose}
         addToFavorite={addToFavorite}
         favoriteBook={favoriteBook}
+        bookReadOnline={item?.accessInfo?.webReaderLink || item?.bookReadOnline}
       />
       <ScrollView>
         <Image
           mt={6}
-          source={{ uri: item?.volumeInfo?.imageLinks?.smallThumbnail }}
+          source={{
+            uri:
+              item?.volumeInfo?.imageLinks?.smallThumbnail || item?.bookImage,
+          }}
           size='250'
           alt='bookImage'
           alignSelf='center'
@@ -237,10 +265,11 @@ export default function BookDetails({ route, navigation }) {
         <Heading
           fontSize='22'
           color='#fff'
-          my={item?.volumeInfo?.authors ? 6 : 4}
+          my={item?.volumeInfo?.authors || item?.bookAuthor ? 6 : 4}
           textAlign='center'>
-          {item?.volumeInfo?.title}
+          {item?.volumeInfo?.title || item?.bookTitle}
         </Heading>
+
         <VStack justifyContent='center' space={3} alignItems='center'>
           {item?.volumeInfo?.authors && (
             <Heading fontSize='17' color='#ccc'>
@@ -252,10 +281,11 @@ export default function BookDetails({ route, navigation }) {
                   navigation.navigate('bookListDetails', {
                     author: true,
                     category: false,
-                    authorName: item?.volumeInfo?.authors[0],
+                    authorName:
+                      item?.volumeInfo?.authors[0] || item?.bookAuthor,
                   })
                 }>
-                {item?.volumeInfo?.authors[0]}
+                {item?.volumeInfo?.authors[0] || item?.bookAuthor}
               </Text>
             </Heading>
           )}
@@ -279,26 +309,30 @@ export default function BookDetails({ route, navigation }) {
           keyExtractor={(item) => item.id}
           renderItem={renderBookInfo}
         />
+
         <Divider orientation='horizontal' mt='1' bgColor='#222' />
 
         {/* book description */}
-        <Box mx={3} my={6}>
-          {item?.volumeInfo?.description && (
-            <Heading fontSize='16' color='#ccc' textAlign='left' mb={3}>
-              {item?.volumeInfo?.description.length > 250
-                ? `${item?.volumeInfo?.description.slice(0, 250)}.....`
-                : item?.volumeInfo?.description}
-            </Heading>
-          )}
+        <Box
+          mx={3}
+          my={item?.volumeInfo?.description || item?.bookDescription ? 4 : 2}>
+          {renderBookDescription()}
 
-          <Heading fontSize='14' color='#ccc'>
-            Published Date: {item?.volumeInfo?.publishedDate}
-          </Heading>
-          {item?.volumeInfo?.publisher && (
-            <Heading fontSize='14' color='#ccc'>
-              Publisher &copy; {item?.volumeInfo?.publisher}
-            </Heading>
-          )}
+          {item?.volumeInfo?.publisher ||
+            (item?.bookPublishedDate && (
+              <Heading fontSize='14' color='#ccc'>
+                Published Date:{' '}
+                {item?.volumeInfo?.publishedDate || item?.bookPublishedDate}
+              </Heading>
+            ))}
+
+          {item?.volumeInfo?.publisher ||
+            (item?.bookPublisher && (
+              <Heading fontSize='14' color='#ccc'>
+                Publisher &copy;{' '}
+                {item?.volumeInfo?.publisher || item?.bookPublisher}
+              </Heading>
+            ))}
         </Box>
 
         {/* Book reviews */}
@@ -324,7 +358,7 @@ export default function BookDetails({ route, navigation }) {
         <BookList
           title='Similar titles'
           navigation={navigation}
-          similarBooks={item?.volumeInfo?.title}
+          similarBooks={item?.volumeInfo?.title || item?.bookTitle}
         />
       </ScrollView>
     </Box>

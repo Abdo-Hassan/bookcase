@@ -4,6 +4,7 @@ import { db } from '../../firebase';
 
 export const addBookToFavorite =
   (isFavorite, book, userId) => async (dispatch) => {
+    console.log('~ book', book);
     const userBooksRef = doc(db, 'userBooks', userId);
     const userBooksDocRef = getDoc(userBooksRef);
     const userBooksDocData = (await userBooksDocRef).data()?.favoriteBooks;

@@ -9,7 +9,7 @@ import {
   AntDesign,
   EvilIcons,
 } from '@expo/vector-icons';
-import { TouchableOpacity } from 'react-native';
+import { TouchableOpacity, Share } from 'react-native';
 import Popup from './Popup';
 
 export default function ActionSheetDetails({
@@ -17,10 +17,30 @@ export default function ActionSheetDetails({
   onClose,
   profile,
   favoriteBook,
+  bookReadOnline,
   addToFavorite,
   navigation,
 }) {
   const [modalVisible, setModalVisible] = useState(false);
+
+  const onShare = async () => {
+    try {
+      const result = await Share.share({
+        message: bookReadOnline,
+      });
+      if (result.action === Share.sharedAction) {
+        if (result.activityType) {
+          // shared with activity type of result.activityType
+        } else {
+          // shared
+        }
+      } else if (result.action === Share.dismissedAction) {
+        // dismissed
+      }
+    } catch (error) {
+      alert(error.message);
+    }
+  };
 
   let options;
   if (profile) {
@@ -105,6 +125,8 @@ export default function ActionSheetDetails({
       if (iconId === 1) {
         addToFavorite();
         onClose();
+      } else if (iconId === 8) {
+        onShare();
       }
     }
   };

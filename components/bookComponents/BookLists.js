@@ -8,6 +8,7 @@ import {
   Heading,
   VStack,
   useDisclose,
+  Center,
 } from 'native-base';
 import React from 'react';
 import { TouchableOpacity } from 'react-native';
@@ -17,8 +18,8 @@ import ActionSheetDetails from '../ActionSheetDetails';
 
 const BookLists = ({ navigation }) => {
   const { isOpen, onClose, onOpen } = useDisclose();
-
   const favoriteBooks = useSelector((state) => state.userBooks.favoriteBooks);
+
   return (
     <>
       {favoriteBooks && favoriteBooks.length !== 0 ? (
@@ -57,7 +58,7 @@ const BookLists = ({ navigation }) => {
                             : item?.bookTitle}
                         </Heading>
 
-                        {item?.bookAuthor && (
+                        {item?.bookAuthor !== '' && (
                           <Heading fontSize='15' color={secondaryColor}>
                             By:{' '}
                             {item?.bookAuthor?.length > 21
@@ -80,6 +81,7 @@ const BookLists = ({ navigation }) => {
                   </TouchableOpacity>
 
                   <ActionSheetDetails
+                    bookReadOnline={item?.bookReadOnline}
                     isOpen={isOpen}
                     onClose={onClose}
                     favoriteBook
@@ -88,19 +90,13 @@ const BookLists = ({ navigation }) => {
               </Box>
             );
           }}
-          keyExtractor={(item) => item.id}
         />
       ) : (
-        ['1', '2', '3'].map((skeleton, i) => (
-          <HStack space={8} rounded='md' p='4' key={i}>
-            <Skeleton flex='1' h='70' rounded='lg' />
-            <VStack flex='3' space='4' alignSelf='center'>
-              <Skeleton size='200' h='3' rounded='full' />
-              <Skeleton size='200' h='3' rounded='full' />
-              <Skeleton size='200' h='3' rounded='full' />
-            </VStack>
-          </HStack>
-        ))
+        <Center flex={1}>
+          <Heading fontSize='17' fontWeight='normal'>
+            You favorite books will show here!
+          </Heading>
+        </Center>
       )}
     </>
   );
