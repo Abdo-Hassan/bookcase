@@ -24,6 +24,7 @@ LogBox.ignoreLogs([
   'Setting a timer for a long period of time',
   'Non-serializable values were found in the navigation state',
   "Can't perform a React state update on",
+  '[Unhandled promise rejection: Error: Unable to activate keep awake]',
 ]);
 
 const configGradient = {

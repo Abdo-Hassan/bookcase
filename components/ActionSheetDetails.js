@@ -11,45 +11,16 @@ import {
 } from '@expo/vector-icons';
 import { TouchableOpacity } from 'react-native';
 import Popup from './Popup';
-import { useDispatch, useSelector } from 'react-redux';
-import { addBookToFavorite } from '../redux/actions/booksActions';
 
 export default function ActionSheetDetails({
   isOpen,
   onClose,
   profile,
   favoriteBook,
-  item,
+  addToFavorite,
   navigation,
 }) {
   const [modalVisible, setModalVisible] = useState(false);
-  const userAuth = useSelector((state) => state.auth.userAuth);
-
-  const dispatch = useDispatch();
-
-  const handleClickIcons = (iconName) => {
-    if (profile) {
-      if (iconName === 'logout') {
-        setModalVisible(true);
-      } else if (iconName === 'person-outline') {
-        navigation.navigate('accountSettings');
-      } else if (iconName === 'gear') {
-        navigation.navigate('userSettings');
-      } else if (iconName === 'favorite-border') {
-        dispatch(
-          addBookToFavorite(
-            {
-              bookImage: item?.volumeInfo?.imageLinks?.smallThumbnail,
-              bookId: item?.id,
-              bookTitle: item?.volumeInfo?.title,
-              bookAuthor: item?.volumeInfo?.authors[0],
-            },
-            userAuth?.userId
-          )
-        );
-      }
-    }
-  };
 
   let options;
   if (profile) {
@@ -121,6 +92,23 @@ export default function ActionSheetDetails({
     ];
   }
 
+  const handleClickIcons = (iconName, iconId) => {
+    if (profile) {
+      if (iconName === 'logout') {
+        setModalVisible(true);
+      } else if (iconName === 'person-outline') {
+        navigation.navigate('accountSettings');
+      } else if (iconName === 'gear') {
+        navigation.navigate('userSettings');
+      }
+    } else {
+      if (iconId === 1) {
+        addToFavorite();
+        onClose();
+      }
+    }
+  };
+
   return (
     <>
       <Actionsheet
@@ -145,7 +133,7 @@ export default function ActionSheetDetails({
           <Divider mb={2} bg='#666' />
           {options.map((option) => (
             <Actionsheet.Item
-              onPress={() => handleClickIcons(option.iconName)}
+              onPress={() => handleClickIcons(option.iconName, option.id)}
               key={option.id}
               startIcon={
                 <Icon

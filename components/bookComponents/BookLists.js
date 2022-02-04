@@ -26,6 +26,7 @@ const BookLists = ({ navigation }) => {
           contentContainerStyle={{ flexGrow: 1 }}
           h='400'
           data={favoriteBooks}
+          keyExtractor={(item) => item.bookId}
           renderItem={({ item }) => {
             return (
               <Box pl='4' pr='5' py='2'>
@@ -59,9 +60,9 @@ const BookLists = ({ navigation }) => {
                         {item?.bookAuthor && (
                           <Heading fontSize='15' color={secondaryColor}>
                             By:{' '}
-                            {item?.bookAuthor[0].length > 21
-                              ? `${item?.bookAuthor[0].slice(0, 21)} ...`
-                              : item?.bookAuthor[0]}
+                            {item?.bookAuthor?.length > 21
+                              ? `${item?.bookAuthor?.slice(0, 21)} ...`
+                              : item?.bookAuthor}
                           </Heading>
                         )}
                       </VStack>

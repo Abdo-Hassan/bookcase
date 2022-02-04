@@ -39,15 +39,23 @@ export default function BookDetails({ route, navigation }) {
   const favoriteBooks = useSelector((state) => state.userBooks.favoriteBooks);
 
   const addToFavorite = () => {
-    setFavoriteBook(true);
-    setIconName('favorite');
+    if (!favoriteBook) {
+      setFavoriteBook(true);
+      setIconName('favorite');
+    } else {
+      setFavoriteBook(false);
+      setIconName('favorite-border');
+    }
     dispatch(
       addBookToFavorite(
+        favoriteBook,
         {
           bookImage: item?.volumeInfo?.imageLinks?.smallThumbnail,
           bookId: item?.id,
           bookTitle: item?.volumeInfo?.title,
-          bookAuthor: item?.volumeInfo?.authors[0],
+          bookAuthor: item?.volumeInfo?.authors
+            ? item?.volumeInfo?.authors[0]
+            : '',
         },
         userAuth?.userId
       )
@@ -62,7 +70,9 @@ export default function BookDetails({ route, navigation }) {
             mb={5}
             w='100%'
             _text={{ color: '#000' }}>
-            Your book has been added to favorite!
+            {favoriteBook
+              ? 'Your book has been removed from bookshelf!'
+              : 'Your book has been added to bookshelf!'}
           </Box>
         );
       },
@@ -211,8 +221,8 @@ export default function BookDetails({ route, navigation }) {
       </HStack>
       <ActionSheetDetails
         isOpen={isOpen}
-        item={item}
         onClose={onClose}
+        addToFavorite={addToFavorite}
         favoriteBook={favoriteBook}
       />
       <ScrollView>
@@ -224,25 +234,31 @@ export default function BookDetails({ route, navigation }) {
           alignSelf='center'
           rounded='xl'
         />
-        <Heading fontSize='22' color='#fff' my={6} textAlign='center'>
+        <Heading
+          fontSize='22'
+          color='#fff'
+          my={item?.volumeInfo?.authors ? 6 : 4}
+          textAlign='center'>
           {item?.volumeInfo?.title}
         </Heading>
         <VStack justifyContent='center' space={3} alignItems='center'>
-          <Heading fontSize='17' color='#ccc'>
-            By:{' '}
-            <Text
-              fontSize='17'
-              color={secondaryColor}
-              onPress={() =>
-                navigation.navigate('bookListDetails', {
-                  author: true,
-                  category: false,
-                  authorName: item?.volumeInfo?.authors[0],
-                })
-              }>
-              {item?.volumeInfo?.authors[0]}
-            </Text>
-          </Heading>
+          {item?.volumeInfo?.authors && (
+            <Heading fontSize='17' color='#ccc'>
+              By:{' '}
+              <Text
+                fontSize='17'
+                color={secondaryColor}
+                onPress={() =>
+                  navigation.navigate('bookListDetails', {
+                    author: true,
+                    category: false,
+                    authorName: item?.volumeInfo?.authors[0],
+                  })
+                }>
+                {item?.volumeInfo?.authors[0]}
+              </Text>
+            </Heading>
+          )}
         </VStack>
         <VStack space={4} alignItems='center' justifyContent='center'>
           <HStack space={9} mt={4}>
