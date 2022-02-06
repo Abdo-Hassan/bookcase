@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { HStack, Heading, Badge, Image, Skeleton } from 'native-base';
+import { HStack, Heading, Badge, Image, Skeleton, VStack } from 'native-base';
 import { Ionicons } from '@expo/vector-icons';
 import { FlatList, TouchableOpacity } from 'react-native';
 import axios from 'axios';
@@ -89,13 +89,22 @@ export default function BookList({ term, title, navigation, similarBooks }) {
         </HStack>
       </TouchableOpacity>
 
-      <FlatList
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        data={similarBooks ? similarBooksLists : booksLists}
-        renderItem={renderBookList}
-        keyExtractor={(item) => item.id}
-      />
+      {(similarBooksLists && similarBooksLists.length !== 0) ||
+      (booksLists && booksLists.length !== 0) ? (
+        <FlatList
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          data={similarBooks ? similarBooksLists : booksLists}
+          renderItem={renderBookList}
+          keyExtractor={(item) => item.id}
+        />
+      ) : (
+        <HStack space={4} mx={3} mb={3}>
+          <Skeleton flex='1' h='90' rounded='lg' />
+          <Skeleton flex='1' h='90' rounded='lg' />
+          <Skeleton flex='1' h='90' rounded='lg' />
+        </HStack>
+      )}
     </>
   );
 }
