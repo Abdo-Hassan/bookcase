@@ -85,6 +85,7 @@ const BookLists = ({ navigation }) => {
                     isOpen={isOpen}
                     onClose={onClose}
                     favoriteBook
+                    bookTitle={item?.bookTitle}
                   />
                 </HStack>
               </Box>

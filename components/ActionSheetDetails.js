@@ -20,6 +20,7 @@ export default function ActionSheetDetails({
   bookReadOnline,
   addToFavorite,
   navigation,
+  bookTitle,
 }) {
   const [modalVisible, setModalVisible] = useState(false);
 
@@ -73,12 +74,6 @@ export default function ActionSheetDetails({
         iconType: <MaterialIcons />,
       },
       {
-        id: 2,
-        title: 'Mark as finished',
-        iconName: 'checkmark-sharp',
-        iconType: <Ionicons />,
-      },
-      {
         id: 3,
         title: 'Download',
         iconName: 'download',
@@ -91,22 +86,10 @@ export default function ActionSheetDetails({
         iconType: <SimpleLineIcons />,
       },
       {
-        id: 5,
-        title: 'View narrator',
-        iconName: 'microphone',
-        iconType: <FontAwesome />,
-      },
-      {
         id: 6,
         title: 'Show more titles like this',
         iconName: 'grid',
         iconType: <Feather />,
-      },
-      {
-        id: 7,
-        title: 'Give your friend a free trial',
-        iconName: 'gift',
-        iconType: <AntDesign />,
       },
       { id: 8, title: 'Share', iconName: 'send', iconType: <Feather /> },
     ];
@@ -146,7 +129,7 @@ export default function ActionSheetDetails({
               textAlign='center'
               color='#fff'
               flex={0.9}>
-              {profile ? 'Settings' : 'اسم الكتاب'}
+              {profile ? 'Settings' : bookTitle}
             </Text>
             <TouchableOpacity activeOpacity={0.6} onPress={onClose}>
               <AntDesign name='close' size={20} color='#ccc' />

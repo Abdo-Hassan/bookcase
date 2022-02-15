@@ -11,11 +11,11 @@ import {
   Text,
   Skeleton,
 } from 'native-base';
-import { Entypo, Ionicons, AntDesign } from '@expo/vector-icons';
+import { Entypo, AntDesign } from '@expo/vector-icons';
 import { TouchableOpacity } from 'react-native';
 import { secondaryColor } from '../../constants/Colors';
-import ActionButton from '../../components/ActionButton';
 import axios from 'axios';
+import ActionSheetDetails from '../../components/ActionSheetDetails';
 
 export default function BookListDetails({ route, navigation }) {
   const { isOpen, onClose, onOpen } = useDisclose();
@@ -43,7 +43,7 @@ export default function BookListDetails({ route, navigation }) {
   const fetchAuthorBooks = async () => {
     try {
       const res = await axios.get(
-        `https://www.googleapis.com/books/v1/volumes/?q=${term}+inauthor:${authorName}`
+        `https://www.googleapis.com/books/v1/volumes/?q=${title}+inauthor:${authorName}`
       );
       const authorBooks = res?.data?.items;
       setAuthorBooks(authorBooks);
@@ -53,8 +53,110 @@ export default function BookListDetails({ route, navigation }) {
   };
 
   useEffect(() => {
-    fetchAuthorBooks();
+    if (author) fetchAuthorBooks();
   }, [author]);
+
+  const renderListOfBooks = () => {
+    let listOfBooks;
+
+    if (category) {
+      listOfBooks = bookListCategory;
+    } else if (author) {
+      listOfBooks = authorBooks;
+    } else {
+      listOfBooks = booksLists;
+    }
+
+    if (
+      (booksLists && booksLists?.length !== 0) ||
+      (bookListCategory && bookListCategory?.length !== 0) ||
+      (authorBooks && authorBooks?.length !== 0)
+    ) {
+      return (
+        <FlatList
+          contentContainerStyle={{ flexGrow: 1 }}
+          h='400'
+          data={listOfBooks}
+          renderItem={({ item }) => {
+            return (
+              <Box pl='4' pr='5' py='2'>
+                <HStack space={2}>
+                  <TouchableOpacity
+                    activeOpacity={0.6}
+                    onPress={() =>
+                      navigation.navigate('bookDetails', {
+                        item,
+                      })
+                    }>
+                    <HStack space={3}>
+                      <Image
+                        size='100'
+                        rounded='lg'
+                        source={{
+                          uri: item?.volumeInfo?.imageLinks?.smallThumbnail,
+                        }}
+                        alt='bookDetails'
+                      />
+                      <VStack space={2} alignSelf='center' w='150'>
+                        <Heading
+                          fontSize='15'
+                          color={secondaryColor}
+                          textAlign='left'>
+                          {item?.volumeInfo?.title.length > 25
+                            ? `${item?.volumeInfo?.title.slice(0, 25)}...`
+                            : item?.volumeInfo?.title}
+                        </Heading>
+
+                        {item?.volumeInfo?.authors && (
+                          <Heading fontSize='15' color={secondaryColor}>
+                            By:{' '}
+                            {item?.volumeInfo?.authors[0].length > 21
+                              ? `${item?.volumeInfo?.authors[0].slice(
+                                  0,
+                                  21
+                                )} ...`
+                              : item?.volumeInfo?.authors[0]}
+                          </Heading>
+                        )}
+                      </VStack>
+                    </HStack>
+                  </TouchableOpacity>
+
+                  <TouchableOpacity activeOpacity={0.4} onPress={onOpen}>
+                    <Box mt={7} ml={7}>
+                      <Entypo
+                        name='dots-three-vertical'
+                        size={17}
+                        color='#ccc'
+                      />
+                    </Box>
+                  </TouchableOpacity>
+
+                  <ActionSheetDetails
+                    isOpen={isOpen}
+                    onClose={onClose}
+                    bookTitle={item?.item?.volumeInfo?.title}
+                  />
+                </HStack>
+              </Box>
+            );
+          }}
+          keyExtractor={(item) => item.id}
+        />
+      );
+    } else {
+      ['1', '2', '3'].map((skeleton, i) => (
+        <HStack space={8} rounded='md' p='4' key={i}>
+          <Skeleton flex='1' h='70' rounded='lg' />
+          <VStack flex='3' space='4' alignSelf='center'>
+            <Skeleton size='200' h='3' rounded='full' />
+            <Skeleton size='200' h='3' rounded='full' />
+            <Skeleton size='200' h='3' rounded='full' />
+          </VStack>
+        </HStack>
+      ));
+    }
+  };
 
   return (
     <Box
@@ -102,130 +204,26 @@ export default function BookListDetails({ route, navigation }) {
             )}
           </Avatar>
         )}
-
-        {author && (
-          <Heading
-            fontSize={20}
-            textAlign='center'
-            color='#fff'
-            mt={title ? 20 : author ? 5 : 10}>
-            {authorName}
-          </Heading>
-        )}
-
-        {author && (
-          <Heading fontSize={14} textAlign='center' color='#ccc' mt={3}>
-            Author
-          </Heading>
-        )}
-
         {author && (
           <>
-            <Box alignSelf='center' my={3}>
-              <ActionButton
-                title='Follow'
-                color={secondaryColor}
-                author={true}
-                auth={false}
-              />
-            </Box>
-            <HStack
-              space={1}
-              alignItems='center'
-              justifyContent='center'
-              mb={1}>
-              <Ionicons name='people-sharp' size={15} color='#ccc' />
-              <Text color='#ccc'>131 Followers</Text>
-            </HStack>
+            <Heading
+              fontSize={20}
+              textAlign='center'
+              color='#fff'
+              mt={title ? 20 : author ? 5 : 10}>
+              {authorName}
+            </Heading>
+            <Heading fontSize={14} textAlign='center' color='#ccc' mt={3}>
+              Author
+            </Heading>
           </>
         )}
-
         <HStack space={10} mx={3} my={4}>
           <Heading fontSize='19' color='#fff' flex={1} textAlign='left' ml={2}>
             {title}
           </Heading>
         </HStack>
-
-        {(booksLists && booksLists.length !== 0) ||
-        (bookListCategory && bookListCategory.length !== 0) ? (
-          <FlatList
-            contentContainerStyle={{ flexGrow: 1 }}
-            h='400'
-            data={
-              category ? bookListCategory : author ? authorBooks : booksLists
-            }
-            renderItem={({ item }) => {
-              return (
-                <Box pl='4' pr='5' py='2'>
-                  <HStack space={2}>
-                    <TouchableOpacity
-                      activeOpacity={0.6}
-                      onPress={() =>
-                        navigation.navigate('bookDetails', {
-                          item,
-                        })
-                      }>
-                      <HStack space={3}>
-                        <Image
-                          size='100'
-                          rounded='lg'
-                          source={{
-                            uri: item?.volumeInfo?.imageLinks?.smallThumbnail,
-                          }}
-                          alt='bookDetails'
-                        />
-                        <VStack space={2} alignSelf='center' w='150'>
-                          <Heading
-                            fontSize='15'
-                            color={secondaryColor}
-                            textAlign='left'>
-                            {item?.volumeInfo?.title.length > 25
-                              ? `${item?.volumeInfo?.title.slice(0, 25)}...`
-                              : item?.volumeInfo?.title}
-                          </Heading>
-
-                          {item?.volumeInfo?.authors && (
-                            <Heading fontSize='15' color={secondaryColor}>
-                              By:{' '}
-                              {item?.volumeInfo?.authors[0].length > 21
-                                ? `${item?.volumeInfo?.authors[0].slice(
-                                    0,
-                                    21
-                                  )} ...`
-                                : item?.volumeInfo?.authors[0]}
-                            </Heading>
-                          )}
-                        </VStack>
-                      </HStack>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity activeOpacity={0.4} onPress={onOpen}>
-                      <Box mt={7} ml={7}>
-                        <Entypo
-                          name='dots-three-vertical'
-                          size={17}
-                          color='#ccc'
-                        />
-                      </Box>
-                    </TouchableOpacity>
-                  </HStack>
-                </Box>
-              );
-            }}
-            keyExtractor={(item) => item.id}
-          />
-        ) : (
-          ['1', '2', '3'].map((skeleton, i) => (
-            <HStack space={8} rounded='md' p='4' key={i}>
-              <Skeleton flex='1' h='70' rounded='lg' />
-              <VStack flex='3' space='4' alignSelf='center'>
-                <Skeleton size='200' h='3' rounded='full' />
-                <Skeleton size='200' h='3' rounded='full' />
-                <Skeleton size='200' h='3' rounded='full' />
-              </VStack>
-            </HStack>
-          ))
-        )}
+        {renderListOfBooks()}
       </Box>
     </Box>
   );

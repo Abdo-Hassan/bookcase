@@ -21,6 +21,8 @@ import Reviews from '../../components/reviewsComponents/Reviews';
 import { addBookToFavorite } from '../../redux/actions/booksActions';
 import { useDispatch, useSelector } from 'react-redux';
 import { useState } from 'react';
+import ActionButton from '../../components/ActionButton';
+import { WebView } from 'react-native-webview';
 
 export default function BookDetails({ route, navigation }) {
   const { item } = route.params;
@@ -28,6 +30,7 @@ export default function BookDetails({ route, navigation }) {
   const { isOpen, onClose, onOpen } = useDisclose();
   const dispatch = useDispatch();
   const [iconName, setIconName] = useState('favorite-border');
+  const [openRead, setOpenRead] = useState(false);
   const [favoriteBook, setFavoriteBook] = useState(false);
   const userAuth = useSelector((state) => state.auth.userAuth);
   const favoriteBooks = useSelector((state) => state.userBooks.favoriteBooks);
@@ -60,6 +63,7 @@ export default function BookDetails({ route, navigation }) {
             ? item?.volumeInfo?.publisher
             : '',
           bookReadOnline: item?.accessInfo?.webReaderLink,
+          bookTags: item?.volumeInfo?.categories,
         },
         userAuth?.userId
       )
@@ -153,17 +157,6 @@ export default function BookDetails({ route, navigation }) {
     },
   ];
 
-  const tags = [
-    { id: 1, title: 'Biography' },
-    { id: 2, title: 'Autobiography' },
-    { id: 3, title: 'Success Story' },
-    { id: 4, title: 'Egyptian Slang' },
-    { id: 5, title: 'Celebrity biography' },
-    { id: 6, title: 'Inspiring' },
-    { id: 7, title: 'Heartwarming' },
-    { id: 8, title: 'Inspiring men' },
-  ];
-
   const renderBookInfo = ({ item }) => {
     return (
       <HStack mx={4} my={3} alignItems='center' justifyContent='center'>
@@ -214,11 +207,14 @@ export default function BookDetails({ route, navigation }) {
         mr={1}
         py={2}>
         <Text color='#fff' fontWeight='bold'>
-          #{item.title}
+          #{item}
         </Text>
       </Badge>
     </TouchableOpacity>
   );
+
+  console.log('~ categories', item?.volumeInfo?.categories);
+  console.log('~ bookTags', item?.bookTags);
 
   return (
     <Box
@@ -249,6 +245,7 @@ export default function BookDetails({ route, navigation }) {
         addToFavorite={addToFavorite}
         favoriteBook={favoriteBook}
         bookReadOnline={item?.accessInfo?.webReaderLink || item?.bookReadOnline}
+        bookTitle={item?.volumeInfo?.title || item?.bookTitle}
       />
       <ScrollView>
         <Image
@@ -290,8 +287,27 @@ export default function BookDetails({ route, navigation }) {
             </Heading>
           )}
         </VStack>
+
+        {/* add to favorite */}
         <VStack space={4} alignItems='center' justifyContent='center'>
-          <HStack space={9} mt={4}>
+          <HStack space={9} mt={4} alignItems='center'>
+            <ActionButton
+              title='Read'
+              color={secondaryColor}
+              auth={false}
+              author={true}
+              onClick={() => setOpenRead(true)}
+            />
+
+            {openRead && (
+              <WebView
+                style={{ flex: 1 }}
+                source={{
+                  uri: 'https://play.google.com/books/reader?id=V3N0DgAAQBAJ&pg=GBS.PP1&hl=&printsec=frontcover&source=gbs_api',
+                }}
+              />
+            )}
+
             <TouchableOpacity activeOpacity={0.4} onPress={addToFavorite}>
               <Box bgColor={textColor} rounded='full' p={4}>
                 <MaterialIcons name={iconName} color='#fff' size={22} />
@@ -299,6 +315,7 @@ export default function BookDetails({ route, navigation }) {
             </TouchableOpacity>
           </HStack>
         </VStack>
+
         <Divider orientation='horizontal' mt={4} bgColor='#222' />
 
         {/* render bookInfo */}
@@ -318,42 +335,42 @@ export default function BookDetails({ route, navigation }) {
           my={item?.volumeInfo?.description || item?.bookDescription ? 4 : 2}>
           {renderBookDescription()}
 
-          {item?.volumeInfo?.publisher ||
-            (item?.bookPublishedDate && (
-              <Heading fontSize='14' color='#ccc'>
-                Published Date:{' '}
-                {item?.volumeInfo?.publishedDate || item?.bookPublishedDate}
-              </Heading>
-            ))}
+          {(item?.volumeInfo?.publisher || item?.bookPublishedDate) && (
+            <Heading fontSize='14' color='#ccc'>
+              Published Date:{' '}
+              {item?.volumeInfo?.publishedDate || item?.bookPublishedDate}
+            </Heading>
+          )}
 
-          {item?.volumeInfo?.publisher ||
-            (item?.bookPublisher && (
-              <Heading fontSize='14' color='#ccc'>
-                Publisher &copy;{' '}
-                {item?.volumeInfo?.publisher || item?.bookPublisher}
-              </Heading>
-            ))}
+          {(item?.volumeInfo?.publisher || item?.bookPublisher) && (
+            <Heading fontSize='14' color='#ccc'>
+              Publisher &copy;{' '}
+              {item?.volumeInfo?.publisher || item?.bookPublisher}
+            </Heading>
+          )}
         </Box>
 
         {/* Book reviews */}
         <Reviews navigation={navigation} />
 
-        <Box mx={4} my={5}>
-          <Heading fontSize='17' color='#fff' mb={2}>
-            Tags
-          </Heading>
+        {/* render tags */}
+        {(item?.volumeInfo?.categories || item?.bookTags) && (
+          <Box mx={4} my={5}>
+            <Heading fontSize='17' color='#fff' mb={2}>
+              Tags
+            </Heading>
 
-          {/* render tags */}
-          <FlatList
-            nestedScrollEnabled
-            numColumns={2}
-            vertical
-            data={tags}
-            showsHorizontalScrollIndicator={false}
-            keyExtractor={(item) => item.id}
-            renderItem={renderTags}
-          />
-        </Box>
+            <FlatList
+              nestedScrollEnabled
+              numColumns={2}
+              vertical
+              data={item?.volumeInfo?.categories || item?.bookTags}
+              showsHorizontalScrollIndicator={false}
+              keyExtractor={(item) => item.id}
+              renderItem={renderTags}
+            />
+          </Box>
+        )}
 
         <BookList
           title='Similar titles'
