@@ -9,7 +9,7 @@ export const booksReducer = (state = INIT_STATE, action) => {
     case ADD_FAVORITE_BOOK:
       return {
         ...state,
-        favoriteBooks: [...state.favoriteBooks, action.payload],
+        favoriteBooks: action.payload,
       };
 
     case FAVORITE_BOOKS:

@@ -271,7 +271,7 @@ export default function BookDetails({ route, navigation }) {
         </Heading>
 
         <VStack justifyContent='center' space={3} alignItems='center'>
-          {item?.volumeInfo?.authors && (
+          {(item?.volumeInfo?.authors || item?.bookAuthor) && (
             <Heading fontSize='17' color='#ccc'>
               By:{' '}
               <Text

@@ -4,25 +4,26 @@ import { db } from '../../firebase';
 
 export const addBookToFavorite =
   (isFavorite, book, userId) => async (dispatch) => {
-    console.log('~ book', book);
     const userBooksRef = doc(db, 'userBooks', userId);
     const userBooksDocRef = getDoc(userBooksRef);
     const userBooksDocData = (await userBooksDocRef).data()?.favoriteBooks;
 
     if ((await userBooksDocRef).exists()) {
-      try {
-        let removeBookFromFavorite = userBooksDocData?.filter(
-          (existingBook) => existingBook.bookId !== book.bookId
-        );
+      let removeBookFromFavorite = userBooksDocData?.filter(
+        (existingBook) => existingBook.bookId !== book.bookId
+      );
 
+      const bookPayload = isFavorite
+        ? removeBookFromFavorite
+        : [...userBooksDocData, book];
+
+      try {
         await updateDoc(userBooksRef, {
-          favoriteBooks: isFavorite
-            ? removeBookFromFavorite
-            : [...userBooksDocData, book],
+          favoriteBooks: bookPayload,
         }).then(() => {
           dispatch({
             type: ADD_FAVORITE_BOOK,
-            payload: book,
+            payload: bookPayload,
           });
         });
       } catch (error) {
