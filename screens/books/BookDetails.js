@@ -166,7 +166,7 @@ export default function BookDetails({ route, navigation }) {
             item.withIcon && item.title === '1.3 Ratings' ? 0.4 : 1
           }>
           <VStack space={1}>
-            <Heading fontSize='12' color='#ccc' textAlign='center' color='#ccc'>
+            <Heading fontSize='12' color='#ccc' textAlign='center'>
               {item.title}
             </Heading>
 
@@ -212,9 +212,6 @@ export default function BookDetails({ route, navigation }) {
       </Badge>
     </TouchableOpacity>
   );
-
-  console.log('~ categories', item?.volumeInfo?.categories);
-  console.log('~ bookTags', item?.bookTags);
 
   return (
     <Box
